@@ -2123,7 +2123,7 @@ def get_relevant_database_context(
 
                 ]
 
-    return text
+    return context
 
 
 
