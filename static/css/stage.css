@@ -1,0 +1,949 @@
+/* =========================================
+   GLOBAL
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    background: #f7faff;
+    color: #172033;
+    min-height: 100vh;
+}
+
+
+/* =========================================
+   NAVBAR
+========================================= */
+
+.stage-navbar {
+    width: 100%;
+    height: 72px;
+
+    padding: 0 7%;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-bottom: 1px solid #e8eef7;
+
+    box-shadow: 0 5px 25px rgba(30, 60, 100, 0.05);
+
+    position: sticky;
+    top: 0;
+
+    z-index: 100;
+}
+
+
+.stage-logo {
+    text-decoration: none;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    color: #172033;
+
+    font-size: 20px;
+    font-weight: 700;
+}
+
+
+.stage-logo b {
+    color: #2563eb;
+}
+
+
+.logo-icon {
+    width: 38px;
+    height: 38px;
+
+    border-radius: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+
+    background:
+        linear-gradient(135deg, #2563eb, #7c3aed);
+
+    box-shadow:
+        0 8px 20px rgba(37, 99, 235, 0.25);
+}
+
+
+/* =========================================
+   PROGRESS
+========================================= */
+
+.progress-box {
+    width: 170px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+
+.progress-box span {
+    color: #7b8497;
+
+    font-size: 10px;
+
+    text-align: right;
+}
+
+
+.progress-line {
+    width: 100%;
+    height: 5px;
+
+    background: #e8eef7;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+}
+
+
+.progress-fill {
+    width: 50%;
+    height: 100%;
+
+    background:
+        linear-gradient(90deg, #2563eb, #7c3aed);
+
+    border-radius: 20px;
+}
+
+
+/* =========================================
+   PAGE
+========================================= */
+
+.stage-page {
+    min-height: calc(100vh - 72px);
+
+    padding: 65px 7% 80px;
+
+    position: relative;
+
+    background:
+
+        radial-gradient(
+            circle at 10% 15%,
+            rgba(37, 99, 235, 0.08),
+            transparent 25%
+        ),
+
+        radial-gradient(
+            circle at 90% 80%,
+            rgba(124, 58, 237, 0.07),
+            transparent 25%
+        ),
+
+        #f7faff;
+}
+
+
+/* =========================================
+   HEADING
+========================================= */
+
+.stage-heading {
+    max-width: 760px;
+
+    margin: auto;
+
+    text-align: center;
+}
+
+
+.welcome-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 8px 15px;
+
+    border-radius: 50px;
+
+    color: #2563eb;
+
+    background: #eff6ff;
+
+    border: 1px solid #dbeafe;
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+
+.stage-heading h1 {
+    margin-top: 18px;
+
+    font-size: clamp(32px, 5vw, 52px);
+
+    line-height: 1.15;
+
+    color: #172033;
+}
+
+
+.stage-heading h1 span {
+    display: block;
+
+    background:
+        linear-gradient(
+            90deg,
+            #2563eb,
+            #7c3aed,
+            #06b6d4
+        );
+
+    -webkit-background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+}
+
+
+.stage-heading p {
+    max-width: 650px;
+
+    margin: 18px auto 0;
+
+    color: #657188;
+
+    font-size: 14px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================
+   STAGE GRID
+========================================= */
+
+.stage-grid {
+    max-width: 1150px;
+
+    margin: 50px auto 0;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 18px;
+}
+
+
+/* =========================================
+   CARD
+========================================= */
+
+.stage-card {
+    width: 100%;
+
+    min-height: 105px;
+
+    border: 1px solid #e5ebf4;
+
+    border-radius: 20px;
+
+    background: rgba(255, 255, 255, 0.95);
+
+    padding: 18px 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 17px;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    position: relative;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 8px 25px rgba(30, 60, 100, 0.05);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+}
+
+
+.stage-card::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 4px;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            #2563eb,
+            #7c3aed
+        );
+
+    transform: scaleY(0);
+
+    transform-origin: bottom;
+
+    transition: 0.3s;
+}
+
+
+.stage-card:hover {
+    transform: translateY(-5px);
+
+    border-color: #bfdbfe;
+
+    box-shadow:
+        0 18px 40px rgba(37, 99, 235, 0.12);
+}
+
+
+.stage-card:hover::before {
+    transform: scaleY(1);
+}
+
+
+/* =========================================
+   SELECTED CARD
+========================================= */
+
+.stage-card.selected {
+    border-color: #6366f1;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #f5f7ff
+        );
+
+    box-shadow:
+        0 20px 45px rgba(79, 70, 229, 0.15);
+
+    transform: translateY(-4px);
+}
+
+
+.stage-card.selected::before {
+    transform: scaleY(1);
+}
+
+
+.stage-card.pop {
+    animation: cardPop 0.5s ease;
+}
+
+
+@keyframes cardPop {
+
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.025);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+
+}
+
+
+/* =========================================
+   ICON
+========================================= */
+
+.stage-icon {
+    width: 58px;
+    height: 58px;
+
+    min-width: 58px;
+
+    border-radius: 17px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 23px;
+
+    transition: 0.3s;
+}
+
+
+.stage-card:hover .stage-icon {
+    transform:
+        scale(1.08)
+        rotate(-4deg);
+}
+
+
+/* ICON COLORS */
+
+.blue {
+    color: #2563eb;
+    background: #eff6ff;
+}
+
+.purple {
+    color: #7c3aed;
+    background: #f5f3ff;
+}
+
+.orange {
+    color: #ea580c;
+    background: #fff7ed;
+}
+
+.green {
+    color: #059669;
+    background: #ecfdf5;
+}
+
+.lime {
+    color: #65a30d;
+    background: #f7fee7;
+}
+
+.rose {
+    color: #e11d48;
+    background: #fff1f2;
+}
+
+.pink {
+    color: #db2777;
+    background: #fdf2f8;
+}
+
+.cyan {
+    color: #0891b2;
+    background: #ecfeff;
+}
+
+.violet {
+    color: #8b5cf6;
+    background: #f5f3ff;
+}
+
+.dark-blue {
+    color: #1d4ed8;
+    background: #eff6ff;
+}
+
+
+/* =========================================
+   CARD TEXT
+========================================= */
+
+.stage-info {
+    flex: 1;
+}
+
+
+.stage-info h3 {
+    color: #172033;
+
+    font-size: 15px;
+
+    font-weight: 700;
+}
+
+
+.stage-info p {
+    margin-top: 5px;
+
+    color: #7b8497;
+
+    font-size: 11px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   ARROW
+========================================= */
+
+.select-icon {
+    width: 32px;
+    height: 32px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: #9aa4b5;
+
+    background: #f5f7fb;
+
+    font-size: 11px;
+
+    transition: 0.3s;
+}
+
+
+.stage-card:hover .select-icon,
+.stage-card.selected .select-icon {
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #7c3aed
+        );
+
+    transform: translateX(3px);
+}
+
+
+/* =========================================
+   OTHER INPUT
+========================================= */
+
+.other-input-box {
+    max-width: 750px;
+
+    margin: 25px auto 0;
+
+    padding: 22px;
+
+    background: white;
+
+    border: 1px solid #dbeafe;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 15px 40px rgba(37, 99, 235, 0.08);
+
+    display: none;
+
+    animation: slideDown 0.35s ease;
+}
+
+
+.other-input-box.show {
+    display: block;
+}
+
+
+@keyframes slideDown {
+
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+.other-input-box label {
+    display: block;
+
+    margin-bottom: 10px;
+
+    color: #374151;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+
+.other-input-box label i {
+    color: #2563eb;
+
+    margin-right: 5px;
+}
+
+
+.input-row {
+    display: flex;
+
+    gap: 10px;
+}
+
+
+.input-row input {
+    flex: 1;
+
+    height: 46px;
+
+    border: 1px solid #dbe3ef;
+
+    border-radius: 12px;
+
+    padding: 0 15px;
+
+    outline: none;
+
+    font-family: inherit;
+
+    color: #172033;
+
+    font-size: 12px;
+
+    transition: 0.3s;
+}
+
+
+.input-row input:focus {
+    border-color: #6366f1;
+
+    box-shadow:
+        0 0 0 4px rgba(99, 102, 241, 0.08);
+}
+
+
+.input-row input.error {
+    animation: shake 0.4s ease;
+
+    border-color: #ef4444;
+}
+
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
+
+}
+
+
+#saveOther {
+    border: none;
+
+    border-radius: 12px;
+
+    padding: 0 18px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #7c3aed
+        );
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+
+#saveOther:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(37, 99, 235, 0.2);
+}
+
+
+/* =========================================
+   SELECTION MESSAGE
+========================================= */
+
+.selection-message {
+    max-width: 520px;
+
+    margin: 25px auto 0;
+
+    padding: 13px 17px;
+
+    display: none;
+
+    align-items: center;
+
+    gap: 12px;
+
+    background: #ecfdf5;
+
+    border: 1px solid #bbf7d0;
+
+    border-radius: 15px;
+
+    animation: messageIn 0.4s ease;
+}
+
+
+.selection-message.show {
+    display: flex;
+}
+
+
+@keyframes messageIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+.message-icon {
+    width: 34px;
+    height: 34px;
+
+    min-width: 34px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    color: white;
+
+    background: #10b981;
+
+    font-size: 12px;
+}
+
+
+.selection-message strong {
+    display: block;
+
+    color: #065f46;
+
+    font-size: 12px;
+}
+
+
+.selection-message span {
+    display: block;
+
+    margin-top: 2px;
+
+    color: #047857;
+
+    font-size: 10px;
+}
+
+
+/* =========================================
+   CONTINUE
+========================================= */
+
+.continue-area {
+    text-align: center;
+
+    margin-top: 35px;
+}
+
+
+.continue-btn {
+    border: none;
+
+    padding: 14px 25px;
+
+    border-radius: 13px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #7c3aed
+        );
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 12px 30px rgba(37, 99, 235, 0.18);
+
+    transition: 0.3s;
+}
+
+
+.continue-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 18px 35px rgba(37, 99, 235, 0.25);
+}
+
+
+.continue-btn:disabled {
+    opacity: 0.45;
+
+    cursor: not-allowed;
+
+    box-shadow: none;
+}
+
+
+.continue-btn i {
+    margin-left: 8px;
+}
+
+
+.continue-area p {
+    margin-top: 10px;
+
+    color: #9aa4b5;
+
+    font-size: 10px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 850px) {
+
+    .stage-navbar {
+        padding: 0 5%;
+    }
+
+    .stage-page {
+        padding:
+            50px 5%
+            70px;
+    }
+
+    .stage-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .stage-navbar {
+        height: 65px;
+    }
+
+    .stage-logo {
+        font-size: 16px;
+    }
+
+    .logo-icon {
+        width: 34px;
+        height: 34px;
+    }
+
+    .progress-box {
+        width: 100px;
+    }
+
+    .stage-heading h1 {
+        font-size: 32px;
+    }
+
+    .stage-heading p {
+        font-size: 12px;
+    }
+
+    .stage-card {
+        min-height: 95px;
+
+        padding: 14px;
+    }
+
+    .stage-icon {
+        width: 50px;
+        height: 50px;
+
+        min-width: 50px;
+    }
+
+    .stage-info h3 {
+        font-size: 13px;
+    }
+
+    .stage-info p {
+        font-size: 10px;
+    }
+
+    .input-row {
+        flex-direction: column;
+    }
+
+    #saveOther {
+        height: 44px;
+    }
+
+}

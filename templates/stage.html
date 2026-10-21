@@ -1,0 +1,1678 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title data-en="Citizen Scheme Access | Your Stage" data-ta="குடிமக்கள் திட்ட அணுகல் | உங்கள் நிலை">Citizen Scheme Access | Your Stage</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            min-height: 100vh;
+            color: #151a35;
+            overflow-x: hidden;
+
+            background-image: url("{{ url_for('static', filename='css/images/stagebckgrnd.png') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+
+        /* HEADER */
+
+        .header {
+            width: 100%;
+            padding: 25px 7% 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            text-decoration: none;
+            color: #151a35;
+            font-size: 23px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 39px;
+            height: 39px;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #8b5cf6;
+            color: #ffffff;
+            font-size: 17px;
+            box-shadow: 0 7px 18px rgba(139, 92, 246, 0.20);
+        }
+
+        .progress {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #77718d;
+        }
+
+        .progress-line {
+            width: 90px;
+            height: 6px;
+            border-radius: 20px;
+            background: #e8e1fa;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 50%;
+            height: 100%;
+            border-radius: 20px;
+            background: #8b5cf6;
+        }
+
+
+        /* MAIN */
+
+        .container {
+            width: 86%;
+            max-width: 1120px;
+            margin: 15px auto 50px;
+            text-align: center;
+        }
+
+        .top-icon {
+            width: 52px;
+            height: 52px;
+            margin: 0 auto 15px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eee8ff;
+            color: #7c3aed;
+            font-size: 21px;
+        }
+
+        .heading {
+            font-size: 31px;
+            font-weight: 700;
+            color: #171b38;
+            margin-bottom: 8px;
+        }
+
+        .sub-heading {
+            font-size: 14px;
+            font-weight: 400;
+            color: #77718d;
+            margin-bottom: 32px;
+        }
+
+
+        /* STAGE GRID */
+
+        .stage-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            text-align: left;
+        }
+
+
+        /* STAGE CARD */
+
+        .stage-card {
+            position: relative;
+            width: 100%;
+            min-height: 96px;
+            padding: 18px 17px;
+            border: 1px solid #eeeaf7;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.96);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            overflow: hidden;
+            box-shadow: 0 5px 18px rgba(61, 44, 107, 0.035);
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease,
+                border-color 0.25s ease;
+        }
+
+        .stage-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: #a78bfa;
+            transform: scaleY(0);
+            transform-origin: center;
+            transition: transform 0.25s ease;
+        }
+
+        .stage-card:hover {
+            transform: translateY(-3px);
+            border-color: #ddd3f7;
+            box-shadow: 0 12px 28px rgba(91, 67, 145, 0.10);
+        }
+
+        .stage-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .stage-card.selected {
+            border-color: #d8cdf5;
+            box-shadow: 0 12px 28px rgba(91, 67, 145, 0.10);
+        }
+
+        .stage-card.selected::before {
+            transform: scaleY(1);
+        }
+
+
+        /* ICONS */
+
+        .stage-icon {
+            width: 48px;
+            height: 48px;
+            min-width: 48px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .school {
+            background: #eee9ff;
+            color: #7653e6;
+        }
+
+        .college {
+            background: #e8f0ff;
+            color: #4f75d6;
+        }
+
+        .job {
+            background: #fff0e4;
+            color: #e48a43;
+        }
+
+        .working {
+            background: #e7f8f1;
+            color: #35a67a;
+        }
+
+        .farmer {
+            background: #edf8df;
+            color: #75a941;
+        }
+
+        .senior {
+            background: #f9ebf7;
+            color: #b85ba8;
+        }
+
+        .homemaker {
+            background: #fff0f0;
+            color: #df6b79;
+        }
+
+        .disability {
+            background: #e8f5ff;
+            color: #4d91c7;
+        }
+
+        .entrepreneur {
+            background: #fff5df;
+            color: #d39a38;
+        }
+
+        .family {
+            background: #fff0f6;
+            color: #d85c94;
+        }
+
+        .other {
+            background: #f0ecff;
+            color: #7756d9;
+        }
+
+
+        /* CARD CONTENT */
+
+        .stage-content {
+            flex: 1;
+        }
+
+        .stage-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #20243e;
+            margin-bottom: 4px;
+        }
+
+        .stage-subtitle {
+            font-size: 11.5px;
+            color: #858097;
+            line-height: 1.4;
+        }
+
+
+        /* ARROW */
+
+        .select-icon {
+            width: 30px;
+            height: 30px;
+            min-width: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #aaa3bb;
+
+            transition:
+                background 0.25s ease,
+                color 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        .stage-card:hover .select-icon {
+            background: #f0ebff;
+            color: #7c3aed;
+            transform: translateX(2px);
+        }
+
+
+        /* OTHER INPUT */
+
+        #otherInputBox {
+            display: none;
+            width: 100%;
+            max-width: 650px;
+            margin: 25px auto 0;
+            padding: 24px;
+            background: #ffffff;
+            border: 1px solid #e7e0f5;
+            border-radius: 17px;
+            box-shadow: 0 12px 30px rgba(74, 54, 120, 0.08);
+            text-align: left;
+            animation: slideDown 0.25s ease;
+        }
+
+        @keyframes slideDown {
+
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+        #otherInputBox label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #292641;
+            margin-bottom: 9px;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        #otherStage {
+            flex: 1;
+            height: 46px;
+            padding: 0 15px;
+            border: 1px solid #ddd6ee;
+            border-radius: 11px;
+            outline: none;
+            font-family: "Poppins", sans-serif;
+            font-size: 13px;
+            color: #27223e;
+            background: #fcfbff;
+        }
+
+        #otherStage:focus {
+            border-color: #a78bfa;
+            box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.13);
+        }
+
+        #saveOther {
+            height: 46px;
+            padding: 0 20px;
+            border: none;
+            border-radius: 11px;
+            background: #8b5cf6;
+            color: #ffffff;
+            font-family: "Poppins", sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        #saveOther:hover {
+            background: #7c3aed;
+            transform: translateY(-1px);
+        }
+
+
+        /* ERROR */
+
+        .input-error {
+            display: none;
+            margin-top: 7px;
+            font-size: 11px;
+            color: #dc5b69;
+        }
+
+
+        /* TOAST */
+
+        #selectionMessage {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            width: 475px;
+            max-width: calc(100% - 30px);
+            min-height: 125px;
+            padding: 20px 24px;
+            background: #ffffff;
+            border: 1px solid #e8e1f5;
+            border-radius: 18px;
+            box-shadow: 0 22px 55px rgba(51, 38, 89, 0.18);
+
+            display: flex;
+            align-items: center;
+            gap: 17px;
+
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+
+            transform: translate(-50%, -50%) scale(0.95);
+
+            z-index: 9999;
+
+            transition:
+                opacity 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        #selectionMessage.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .toast-icon {
+            width: 58px;
+            height: 58px;
+            min-width: 58px;
+            border-radius: 15px;
+            background: #eee8ff;
+            color: #7c3aed;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 23px;
+        }
+
+        .toast-content {
+            text-align: left;
+        }
+
+        .toast-heading {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #8b5cf6;
+            margin-bottom: 4px;
+        }
+
+        #selectedTitle {
+            font-size: 17px;
+            font-weight: 700;
+            color: #22233e;
+            margin-bottom: 3px;
+        }
+
+        #selectedMessageText {
+            font-size: 11.5px;
+            color: #858097;
+            line-height: 1.45;
+        }
+
+
+        /* VOICE ASSISTANT */
+
+        #voiceAssistantButton {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            z-index: 10000;
+
+            border: none;
+            border-radius: 50px;
+
+            padding: 13px 18px;
+
+            background: #7c3aed;
+            color: #ffffff;
+
+            font-family: "Poppins", sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            cursor: pointer;
+
+            box-shadow: 0 10px 25px rgba(124, 58, 237, 0.25);
+
+            transition: 0.2s ease;
+        }
+
+        #voiceAssistantButton:hover {
+            transform: translateY(-2px);
+            background: #6d28d9;
+        }
+
+        #voiceAssistantButton.speaking {
+            background: #dc2626;
+        }
+
+
+        /* RESPONSIVE */
+
+        @media (max-width: 900px) {
+
+            .stage-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .container {
+                width: 90%;
+            }
+
+        }
+
+        @media (max-width: 620px) {
+
+            .header {
+                padding: 20px 5% 12px;
+            }
+
+            .logo {
+                font-size: 19px;
+            }
+
+            .logo-icon {
+                width: 35px;
+                height: 35px;
+            }
+
+            .progress-line {
+                width: 60px;
+            }
+
+            .heading {
+                font-size: 25px;
+            }
+
+            .sub-heading {
+                font-size: 12px;
+                padding: 0 10px;
+            }
+
+            .stage-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .input-row {
+                flex-direction: column;
+            }
+
+            #saveOther {
+                width: 100%;
+            }
+
+            #selectionMessage {
+                width: calc(100% - 30px);
+            }
+
+            #voiceAssistantButton {
+                right: 15px;
+                bottom: 15px;
+                padding: 12px 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<header class="header">
+
+    <a href="{{ url_for('home') }}" class="logo">
+
+        <span class="logo-icon">
+            <i class="fa-solid fa-robot"></i>
+        </span>
+
+        <span data-en="Citizen Scheme Access" data-ta="குடிமக்கள் திட்ட அணுகல்">Citizen Scheme Access</span>
+
+    </a>
+
+        
+
+    </div>
+
+</header>
+
+
+<!-- MAIN -->
+
+<main class="container">
+
+    <div class="top-icon">
+        <i class="fa-solid fa-user"></i>
+    </div>
+
+
+    <h1
+        class="heading"
+        data-en="Tell us about your current stage"
+        data-ta="உங்கள் தற்போதைய நிலையைத் தேர்ந்தெடுக்கவும்"
+    >
+        Tell us about your current stage
+    </h1>
+
+
+    <p
+        class="sub-heading"
+        data-en="This helps us show government schemes and benefits that are relevant to you."
+        data-ta="உங்களுக்கு தொடர்புடைய அரசுத் திட்டங்கள் மற்றும் நலன்களை காண இது உதவும்."
+    >
+        This helps us show government schemes and benefits that are relevant to you.
+    </p>
+
+
+    <!-- STAGE GRID -->
+
+    <div class="stage-grid">
+
+
+        <!-- SCHOOL -->
+
+        <button
+            type="button"
+            class="stage-card"
+            data-stage="School Student"
+            data-title-en="School Student"
+            data-title-ta="பள்ளி மாணவர்"
+            data-message-en="We'll show scholarships and educational benefits for school students."
+            data-message-ta="பள்ளி மாணவர்களுக்கான உதவித்தொகைகள் மற்றும் கல்வி நலன்களை காண்பிப்போம்."
+        >
+
+            <div class="stage-icon school">
+                <i class="fa-solid fa-school"></i>
+            </div>
+
+            <div class="stage-content">
+
+                <div
+                    class="stage-title"
+                    data-en="School Student"
+                    data-ta="பள்ளி மாணவர்"
+                >
+                    School Student
+                </div>
+
+                <div
+                    class="stage-subtitle"
+                    data-en="School education & scholarships"
+                    data-ta="பள்ளிக் கல்வி & உதவித்தொகைகள்"
+                >
+                    School education & scholarships
+                </div>
+
+            </div>
+
+            <div class="select-icon">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+
+        </button>
+
+
+        <!-- COLLEGE -->
+
+        <button
+            type="button"
+            class="stage-card"
+            data-stage="College Student"
+            data-title-en="College Student"
+            data-title-ta="கல்லூரி மாணவர்"
+            data-message-en="We'll show scholarships, education schemes and student benefits for you."
+            data-message-ta="உங்களுக்கான உதவித்தொகைகள், கல்வித் திட்டங்கள் மற்றும் மாணவர் நலன்களை காண்பிப்போம்."
+        >
+
+            <div class="stage-icon college">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+
+            <div class="stage-content">
+
+                <div
+                    class="stage-title"
+                    data-en="College Student"
+                    data-ta="கல்லூரி மாணவர்"
+                >
+                    College Student
+                </div>
+
+                <div
+                    class="stage-subtitle"
+                    data-en="Higher education & scholarships"
+                    data-ta="உயர்கல்வி & உதவித்தொகைகள்"
+                >
+                    Higher education & scholarships
+                </div>
+
+            </div>
+
+            <div class="select-icon">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+
+        </button>
+
+
+        <!-- JOB SEEKER -->
+
+        <button
+            type="button"
+            class="stage-card"
+            data-stage="Job Seeker"
+            data-title-en="Job Seeker"
+            data-title-ta="வேலை தேடுபவர்"
+            data-message-en="We'll show employment opportunities, training and job-related government schemes."
+            data-message-ta="வேலைவாய்ப்புகள், பயிற்சிகள் மற்றும் வேலை தொடர்பான அரசுத் திட்டங்களை காண்பிப்போம்."
+        >
+
+            <div class="stage-icon job">
+                <i class="fa-solid fa-briefcase"></i>
+            </div>
+
+            <div class="stage-content">
+
+                <div
+                    class="stage-title"
+                    data-en="Job Seeker"
+                    data-ta="வேலை தேடுபவர்"
+                >
+                    Job Seeker
+                </div>
+
+                <div
+                    class="stage-subtitle"
+                    data-en="Jobs, training & employment"
+                    data-ta="வேலைகள், பயிற்சி & வேலைவாய்ப்பு"
+                >
+                    Jobs, training & employment
+                </div>
+
+            </div>
+
+            <div class="select-icon">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+
+        </button>
+
+
+        <!-- WORKING PROFESSIONAL -->
+
+        <button
+            type="button"
+            class="stage-card"
+            data-stage="Working Professional"
+            data-title-en="Working Professional"
+            data-title-ta="பணிபுரியும் நிபுணர்"
+            data-message-en="We'll show benefits, services and schemes relevant to working professionals."
+            data-message-ta="பணிபுரியும் நபர்களுக்கான நலன்கள், சேவைகள் மற்றும் திட்டங்களை காண்பிப்போம்."
+        >
+
+            <div class="stage-icon working">
+                <i class="fa-solid fa-user-tie"></i>
+            </div>
+
+            <div class="stage-content">
+
+                <div
+                    class="stage-title"
+                    data-en="Working Professional"
+                    data-ta="பணிபுரியும் நிபுணர்"
+                >
+                    Working Professional
+                </div>
+
+                <div
+                    class="stage-subtitle"
+                    data-en="Career & employee benefits"
+                    data-ta="வேலை & பணியாளர் நலன்கள்"
+                >
+                    Career & employee benefits
+                </div>
+
+            </div>
+
+            <div class="select-icon">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+
+        </button>
+
+
+        <!-- ENTREPRENEUR -->
+
+        <button
+            type="button"
+            class="stage-card"
+            data-stage="Entrepreneur"
+            data-title-en="Entrepreneur"
+            data-title-ta="தொழில்முனைவோர்"
+            data-message-en="We'll show startup support, business schemes and financial assistance."
+            data-message-ta="தொழில் தொடக்கம், வணிகத் திட்டங்கள் மற்றும் நிதி உதவிகளை காண்பிப்போம்."
+        >
+
+            <div class="stage-icon entrepreneur">
+                <i class="fa-solid fa-lightbulb"></i>
+            </div>
+
+            <div class="stage-content">
+
+                <div
+                    class="stage-title"
+                    data-en="Entrepreneur"
+                    data-ta="தொழில்முனைவோர்"
+                >
+                    Entrepreneur
+                </div>
+
+                <div
+                    class="stage-subtitle"
+                    data-en="Business & startup support"
+                    data-ta="வணிகம் & தொடக்க நிறுவன ஆதரவு"
+                >
+                    Business & startup support
+                </div>
+
+            </div>
+
+            <div class="select-icon">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+
+        </button>
+
+
+        <!-- FARMER -->
+
+        <button
+            type="button"
+            class="stage-card"
+            data-stage="Farmer"
+            data-title-en="Farmer"
+            data-title-ta="விவசாயி"
+            data-message-en="We'll show agricultural schemes, subsidies and farmer welfare benefits."
+            data-message-ta="விவசாயத் திட்டங்கள், மானியங்கள் மற்றும் விவசாயி நலன்களை காண்பிப்போம்."
+        >
+
+            <div class="stage-icon farmer">
+                <i class="fa-solid fa-seedling"></i>
+            </div>
+
+            <div class="stage-content">
+
+                <div
+                    class="stage-title"
+                    data-en="Farmer"
+                    data-ta="விவசாயி"
+                >
+                    Farmer
+                </div>
+
+                <div
+                    class="stage-subtitle"
+                    data-en="Agriculture & farming benefits"
+                    data-ta="விவசாயம் & விவசாய நலன்கள்"
+                >
+                    Agriculture & farming benefits
+                </div>
+
+            </div>
+
+            <div class="select-icon">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+
+        </button>
+
+
+        <!-- HOMEMAKER -->
+
+        <button
+            type="button"
+            class="stage-card"
+            data-stage="Homemaker"
+            data-title-en="Homemaker"
+            data-title-ta="குடும்பத் தலைவர்"
+            data-message-en="We'll show women welfare, family support and household-related schemes."
+            data-message-ta="பெண்கள் நலன், குடும்ப ஆதரவு மற்றும் குடும்பத் தொடர்பான திட்டங்களை காண்பிப்போம்."
+        >
+
+            <div class="stage-icon homemaker">
+                <i class="fa-solid fa-house"></i>
+            </div>
+
+            <div class="stage-content">
+
+                <div
+                    class="stage-title"
+                    data-en="Homemaker"
+                    data-ta="குடும்பத் தலைவர்"
+                >
+                    Homemaker
+                </div>
+
+                <div
+                    class="stage-subtitle"
+                    data-en="Family & women welfare"
+                    data-ta="குடும்பம் & பெண்கள் நலன்"
+                >
+                    Family & women welfare
+                </div>
+
+            </div>
+
+            <div class="select-icon">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+
+        </button>
+
+
+        <!-- SENIOR CITIZEN -->
+
+        <button
+            type="button"
+            class="stage-card"
+            data-stage="Senior Citizen"
+            data-title-en="Senior Citizen"
+            data-title-ta="மூத்த குடிமகன்"
+            data-message-en="We'll show pension, healthcare and welfare schemes for senior citizens."
+            data-message-ta="மூத்த குடிமக்களுக்கான ஓய்வூதியம், சுகாதாரம் மற்றும் நலத்திட்டங்களை காண்பிப்போம்."
+        >
+
+            <div class="stage-icon senior">
+                <i class="fa-solid fa-person-cane"></i>
+            </div>
+
+            <div class="stage-content">
+
+                <div
+                    class="stage-title"
+                    data-en="Senior Citizen"
+                    data-ta="மூத்த குடிமகன்"
+                >
+                    Senior Citizen
+                </div>
+
+                <div
+                    class="stage-subtitle"
+                    data-en="Pension, healthcare & welfare"
+                    data-ta="ஓய்வூதியம், சுகாதாரம் & நலன்"
+                >
+                    Pension, healthcare & welfare
+                </div>
+
+            </div>
+
+            <div class="select-icon">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+
+        </button>
+
+
+        <!-- PERSON WITH DISABILITY -->
+
+        <button
+            type="button"
+            class="stage-card"
+            data-stage="Person with Disability"
+            data-title-en="Person with Disability"
+            data-title-ta="மாற்றுத்திறனாளி"
+            data-message-en="We'll show disability support, accessibility and welfare schemes."
+            data-message-ta="மாற்றுத்திறனாளிகளுக்கான ஆதரவு, அணுகல் மற்றும் நலத்திட்டங்களை காண்பிப்போம்."
+        >
+
+            <div class="stage-icon disability">
+                <i class="fa-solid fa-wheelchair"></i>
+            </div>
+
+            <div class="stage-content">
+
+                <div
+                    class="stage-title"
+                    data-en="Person with Disability"
+                    data-ta="மாற்றுத்திறனாளி"
+                >
+                    Person with Disability
+                </div>
+
+                <div
+                    class="stage-subtitle"
+                    data-en="Disability support & benefits"
+                    data-ta="மாற்றுத்திறனாளர் ஆதரவு & நலன்கள்"
+                >
+                    Disability support & benefits
+                </div>
+
+            </div>
+
+            <div class="select-icon">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+
+        </button>
+
+
+        <!-- PARENT / FAMILY -->
+
+        <button
+            type="button"
+            class="stage-card"
+            data-stage="Parent / Family"
+            data-title-en="Parent / Family"
+            data-title-ta="பெற்றோர் / குடும்பம்"
+            data-message-en="We'll show family support, certificates and welfare services relevant to your family."
+            data-message-ta="உங்கள் குடும்பத்திற்குத் தொடர்புடைய குடும்ப ஆதரவு, சான்றிதழ்கள் மற்றும் நலச் சேவைகளை காண்பிப்போம்."
+        >
+
+            <div class="stage-icon family">
+                <i class="fa-solid fa-people-roof"></i>
+            </div>
+
+            <div class="stage-content">
+
+                <div
+                    class="stage-title"
+                    data-en="Parent / Family"
+                    data-ta="பெற்றோர் / குடும்பம்"
+                >
+                    Parent / Family
+                </div>
+
+                <div
+                    class="stage-subtitle"
+                    data-en="Family support & services"
+                    data-ta="குடும்ப ஆதரவு & சேவைகள்"
+                >
+                    Family support & services
+                </div>
+
+            </div>
+
+            <div class="select-icon">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+
+        </button>
+
+
+        <!-- OTHER -->
+
+        <button
+            type="button"
+            class="stage-card"
+            id="otherCard"
+        >
+
+            <div class="stage-icon other">
+                <i class="fa-solid fa-ellipsis"></i>
+            </div>
+
+            <div class="stage-content">
+
+                <div
+                    class="stage-title"
+                    data-en="Other"
+                    data-ta="மற்றவை"
+                >
+                    Other
+                </div>
+
+                <div
+                    class="stage-subtitle"
+                    data-en="Tell us your current stage"
+                    data-ta="உங்கள் தற்போதைய நிலையை உள்ளிடுங்கள்"
+                >
+                    Tell us your current stage
+                </div>
+
+            </div>
+
+            <div class="select-icon">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+
+        </button>
+
+    </div>
+
+
+    <!-- OTHER INPUT -->
+
+    <div id="otherInputBox">
+
+        <label
+            for="otherStage"
+            data-en="Please enter your current stage"
+            data-ta="உங்கள் தற்போதைய நிலையை உள்ளிடுங்கள்"
+        >
+            Please enter your current stage
+        </label>
+
+        <div class="input-row">
+
+            <input
+                type="text"
+                id="otherStage"
+                placeholder="Example: New Parent"
+                data-placeholder-en="Example: New Parent"
+                data-placeholder-ta="உதாரணம்: புதிய பெற்றோர்"
+                autocomplete="off"
+            >
+
+            <button
+                type="button"
+                id="saveOther"
+                data-en="Continue →"
+                data-ta="தொடரவும் →"
+            >
+                Continue →
+            </button>
+
+        </div>
+
+        <div
+            class="input-error"
+            id="inputError"
+            data-en="Please enter your current stage."
+            data-ta="உங்கள் தற்போதைய நிலையை உள்ளிடுங்கள்."
+        >
+            Please enter your current stage.
+        </div>
+
+    </div>
+
+
+    <!-- TOAST -->
+
+    <div id="selectionMessage">
+
+        <div class="toast-icon">
+            <i class="fa-solid fa-check"></i>
+        </div>
+
+        <div class="toast-content">
+
+            <div
+                class="toast-heading"
+                data-en="GREAT CHOICE!"
+                data-ta="சிறந்த தேர்வு!"
+            >
+                GREAT CHOICE!
+            </div>
+
+            <div id="selectedTitle"></div>
+
+            <div id="selectedMessageText"></div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- VOICE ASSISTANT -->
+
+<button
+    type="button"
+    id="voiceAssistantButton"
+    aria-label="Voice Assistant"
+    title="Voice Assistant"
+>
+
+    <i class="fa-solid fa-microphone"></i>
+
+    <span id="voiceAssistantText">
+        Voice
+    </span>
+
+</button>
+
+
+<script>
+
+/* =========================
+   LANGUAGE
+========================= */
+
+let currentLanguage =
+    localStorage.getItem("citizenLanguage") || "en";
+
+
+function applyLanguage() {
+
+    document.documentElement.lang =
+        currentLanguage === "ta" ? "ta" : "en";
+
+
+    document
+        .querySelectorAll("[data-en][data-ta]")
+        .forEach(function(element) {
+
+            element.textContent =
+                currentLanguage === "ta"
+                    ? element.getAttribute("data-ta")
+                    : element.getAttribute("data-en");
+
+        });
+
+
+    document
+        .querySelectorAll("[data-placeholder-en]")
+        .forEach(function(input) {
+
+            input.placeholder =
+                currentLanguage === "ta"
+                    ? input.getAttribute("data-placeholder-ta")
+                    : input.getAttribute("data-placeholder-en");
+
+        });
+
+}
+
+
+applyLanguage();
+
+
+/* =========================
+   STAGE ELEMENTS
+========================= */
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    const stageCards =
+        document.querySelectorAll(".stage-card");
+
+    const otherCard =
+        document.getElementById("otherCard");
+
+    const otherInputBox =
+        document.getElementById("otherInputBox");
+
+    const otherStage =
+        document.getElementById("otherStage");
+
+    const saveOther =
+        document.getElementById("saveOther");
+
+    const inputError =
+        document.getElementById("inputError");
+
+    const selectionMessage =
+        document.getElementById("selectionMessage");
+
+    const selectedTitle =
+        document.getElementById("selectedTitle");
+
+    const selectedMessageText =
+        document.getElementById("selectedMessageText");
+
+
+    let redirectTimer = null;
+
+
+    function hideToast() {
+        selectionMessage.classList.remove("show");
+    }
+
+
+    /* =========================
+       NORMAL STAGE
+    ========================= */
+
+    stageCards.forEach(function(card) {
+
+        card.addEventListener("click", function() {
+
+            if (card === otherCard) {
+                return;
+            }
+
+
+            clearTimeout(redirectTimer);
+
+            otherInputBox.style.display = "none";
+
+
+            stageCards.forEach(function(item) {
+                item.classList.remove("selected");
+            });
+
+
+            card.classList.add("selected");
+
+
+            const stage =
+                card.getAttribute("data-stage");
+
+            const title =
+                currentLanguage === "ta"
+                    ? card.getAttribute("data-title-ta")
+                    : card.getAttribute("data-title-en");
+
+            const message =
+                currentLanguage === "ta"
+                    ? card.getAttribute("data-message-ta")
+                    : card.getAttribute("data-message-en");
+
+
+            localStorage.setItem(
+                "citizenStage",
+                stage
+            );
+
+
+            selectedTitle.textContent =
+                title;
+
+            selectedMessageText.textContent =
+                message;
+
+
+            hideToast();
+
+            selectionMessage.classList.add("show");
+
+
+            redirectTimer = setTimeout(function() {
+
+                hideToast();
+
+
+                const form =
+                    document.createElement("form");
+
+                form.method = "POST";
+
+                form.action =
+                    "{{ url_for('stage') }}";
+
+
+                const input =
+                    document.createElement("input");
+
+                input.type = "hidden";
+
+                input.name = "stage";
+
+                input.value = stage;
+
+
+                form.appendChild(input);
+
+                document.body.appendChild(form);
+
+                form.submit();
+
+            }, 900);
+
+        });
+
+    });
+
+
+    /* =========================
+       OTHER
+    ========================= */
+
+    otherCard.addEventListener("click", function() {
+
+        clearTimeout(redirectTimer);
+
+        hideToast();
+
+
+        stageCards.forEach(function(item) {
+            item.classList.remove("selected");
+        });
+
+
+        otherCard.classList.add("selected");
+
+
+        otherInputBox.style.display =
+            "block";
+
+
+        otherStage.value = "";
+
+        inputError.style.display =
+            "none";
+
+
+        setTimeout(function() {
+            otherStage.focus();
+        }, 100);
+
+    });
+
+
+    /* =========================
+       SAVE OTHER
+    ========================= */
+
+    function saveOtherStage() {
+
+        const value =
+            otherStage.value.trim();
+
+
+        if (value === "") {
+
+            inputError.style.display =
+                "block";
+
+            return;
+
+        }
+
+
+        inputError.style.display =
+            "none";
+
+
+        localStorage.setItem(
+            "citizenStage",
+            value
+        );
+
+
+        /*
+           "Other" is mapped to the
+           database stage named "Other".
+        */
+
+        const form =
+            document.createElement("form");
+
+        form.method = "POST";
+
+        form.action =
+            "{{ url_for('stage') }}";
+
+
+        const input =
+            document.createElement("input");
+
+        input.type = "hidden";
+
+        input.name = "stage";
+
+        input.value = "Other";
+
+
+        form.appendChild(input);
+
+        document.body.appendChild(form);
+
+        form.submit();
+
+    }
+
+
+    saveOther.addEventListener(
+        "click",
+        saveOtherStage
+    );
+
+
+    otherStage.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (event.key === "Enter") {
+
+                event.preventDefault();
+
+                saveOtherStage();
+
+            }
+
+        }
+    );
+
+
+    hideToast();
+
+});
+
+
+/* =========================
+   VOICE ASSISTANT
+========================= */
+
+const voiceButton =
+    document.getElementById("voiceAssistantButton");
+
+const voiceText =
+    document.getElementById("voiceAssistantText");
+
+let isSpeaking = false;
+
+
+function getStageVoiceText() {
+
+    const elements =
+        document.querySelectorAll("[data-en][data-ta]");
+
+    let text = "";
+
+    elements.forEach(function(element) {
+
+        const value =
+            currentLanguage === "ta"
+                ? element.getAttribute("data-ta")
+                : element.getAttribute("data-en");
+
+        if (value) {
+            text += value + ". ";
+        }
+
+    });
+
+    return text;
+}
+
+
+voiceButton.addEventListener("click", function() {
+
+    if (!("speechSynthesis" in window)) {
+        return;
+    }
+
+
+    /* SECOND CLICK = STOP */
+
+    if (isSpeaking) {
+
+        speechSynthesis.cancel();
+
+        isSpeaking = false;
+
+        voiceButton.classList.remove("speaking");
+
+        voiceText.textContent =
+            currentLanguage === "ta"
+                ? "குரல்"
+                : "Voice";
+
+        return;
+
+    }
+
+
+    const text =
+        getStageVoiceText();
+
+
+    if (!text.trim()) {
+        return;
+    }
+
+
+    const speech =
+        new SpeechSynthesisUtterance(text);
+
+
+    speech.lang =
+        currentLanguage === "ta"
+            ? "ta-IN"
+            : "en-IN";
+
+
+    speech.rate = 0.9;
+
+    speech.pitch = 1;
+
+
+    speech.onstart = function() {
+
+        isSpeaking = true;
+
+        voiceButton.classList.add("speaking");
+
+        voiceText.textContent =
+            currentLanguage === "ta"
+                ? "நிறுத்து"
+                : "Stop";
+
+    };
+
+
+    speech.onend = function() {
+
+        isSpeaking = false;
+
+        voiceButton.classList.remove("speaking");
+
+        voiceText.textContent =
+            currentLanguage === "ta"
+                ? "குரல்"
+                : "Voice";
+
+    };
+
+
+    speech.onerror = function() {
+
+        isSpeaking = false;
+
+        voiceButton.classList.remove("speaking");
+
+        voiceText.textContent =
+            currentLanguage === "ta"
+                ? "குரல்"
+                : "Voice";
+
+    };
+
+
+    speechSynthesis.cancel();
+
+    speechSynthesis.speak(speech);
+
+});
+
+</script>
+
+</body>
+</html>

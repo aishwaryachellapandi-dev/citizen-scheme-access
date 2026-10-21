@@ -1,0 +1,1575 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <title>Citizen Scheme Access</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar">
+
+    <a href="#home" class="logo">
+        <span class="logo-icon">
+            <i class="fa-solid fa-robot"></i>
+        </span>
+
+        <span class="logo-text">
+            Citizen Scheme Access        
+        </span>
+    </a>
+
+    <div class="nav-links">
+
+        <a href="#home" class="active"
+           data-en="Home" data-ta="முகப்பு">Home</a>
+
+        <a href="#features"
+           data-en="Features" data-ta="அம்சங்கள்">Features</a>
+
+        <a href="#how-it-works"
+           data-en="How It Works"
+           data-ta="எப்படி செயல்படுகிறது">How It Works</a>
+
+        
+
+    </div>
+
+    <div class="nav-right">
+
+        <div class="language-selector">
+
+            <button type="button"
+                    class="language-btn"
+                    id="languageBtn">
+
+                <i class="fa-solid fa-globe"></i>
+
+                <span id="selectedLanguage">English</span>
+
+                <i class="fa-solid fa-chevron-down"></i>
+
+            </button>
+
+            <div class="language-menu" id="languageMenu">
+
+                <button type="button"
+                        data-language="English"
+                        data-code="en">
+                    🇬🇧 English
+                </button>
+
+                <button type="button"
+                        data-language="தமிழ்"
+                        data-code="ta">
+                    🇮🇳 தமிழ்
+                </button>
+
+            </div>
+
+        </div>
+
+        <a href="{{ url_for('login') }}"
+           class="nav-button"
+           data-en="Get Started"
+           data-ta="தொடங்குங்கள்">
+            Get Started
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero" id="home">
+
+    <img
+        src="{{ url_for('static', filename='css/images/government.png') }}"
+        class="hero-background-image"
+        alt="Citizen Scheme Access">
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+
+        <div class="hero-badge">
+
+        </div>
+
+        <h1>
+
+            <span class="hero-title-first"
+                  data-en="Your Gateway to"
+                  data-ta="அரசு உதவிகளையும் வாய்ப்புகளையும்">
+                Your Smart Guide to
+            </span>
+
+            <span data-en="Government Support and Opportunity"
+                  data-ta="அறிந்துகொள்ளும் உங்கள் நுழைவாயில்">
+                Government Benefits
+            </span>
+
+        </h1>
+
+        <p
+            data-en="Find the right schemes, career guidance, documents and much more — all in one place."
+            data-ta="உங்களுக்கு தேவையான திட்டங்கள், வேலைவாய்ப்பு வழிகாட்டுதல், ஆவணங்கள் மற்றும் பலவற்றை ஒரே இடத்தில் கண்டறியுங்கள்.">
+            Find the right schemes, career guidance, documents and much more — all in one place.
+        </p>
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="heroSearch"
+                data-placeholder-en="Ask me anything..."
+                data-placeholder-ta="எதையும் கேளுங்கள்..."
+                placeholder="Ask me anything..."
+                autocomplete="off">
+
+            <button type="button"
+                    id="askAiButton"
+                    title="Ask AI">
+
+                <i class="fa-solid fa-paper-plane"></i>
+
+            </button>
+
+        </div>
+
+        <div class="popular-searches">
+
+            <span data-en="Popular Searches"
+                  data-ta="பிரபலமான தேடல்கள்">
+                Popular Searches
+            </span>
+
+            <button type="button"
+                    class="popular-tag"
+                    data-query-en="Scholarships"
+                    data-query-ta="உதவித்தொகைகள்"
+                    data-en="Scholarships"
+                    data-ta="உதவித்தொகைகள்">
+                Scholarships
+            </button>
+
+            <button type="button"
+                    class="popular-tag"
+                    data-query-en="Ration Card"
+                    data-query-ta="ரேஷன் கார்டு"
+                    data-en="Ration Card"
+                    data-ta="ரேஷன் கார்டு">
+                Ration Card
+            </button>
+
+            <button type="button"
+                    class="popular-tag"
+                    data-query-en="PM Kisan"
+                    data-query-ta="PM Kisan"
+                    data-en="PM Kisan"
+                    data-ta="PM Kisan">
+                PM Kisan
+            </button>
+
+            <button type="button"
+                    class="popular-tag"
+                    data-query-en="Jobs"
+                    data-query-ta="வேலைவாய்ப்புகள்"
+                    data-en="Jobs"
+                    data-ta="வேலைவாய்ப்புகள்">
+                Jobs
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FEATURES ================= -->
+
+<section class="features-section" id="features">
+
+    <div class="section-title">
+
+        <div class="title-line"></div>
+
+        <h2 data-en="Explore Our Key Areas"
+            data-ta="எங்கள் முக்கிய அம்சங்களை பாருங்கள்">
+            Explore Our Key Areas
+        </h2>
+
+        <div class="title-line"></div>
+
+    </div>
+
+    <div class="feature-grid">
+
+        <div class="feature-card green-card">
+
+            <div class="feature-icon">
+                <i class="fa-solid fa-seedling"></i>
+            </div>
+
+            <h3 data-en="Government Schemes"
+                data-ta="அரசு நலத்திட்டங்கள்">
+                Government Schemes
+            </h3>
+
+            <p data-en="Discover schemes that match your needs"
+               data-ta="உங்களுக்கு பொருத்தமான அரசு திட்டங்களை கண்டறியுங்கள்">
+                Discover schemes that match your needs
+            </p>
+
+            <button type="button"
+                    class="feature-action"
+                    data-feature="schemes">
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+        </div>
+
+        <div class="feature-card blue-card">
+
+            <div class="feature-icon">
+                <i class="fa-solid fa-briefcase"></i>
+            </div>
+
+            <h3 data-en="Career Guidance"
+                data-ta="வேலைவாய்ப்பு வழிகாட்டுதல்">
+                Career Guidance
+            </h3>
+
+            <p data-en="Explore jobs, exams and skills"
+               data-ta="வேலைகள், தேர்வுகள் மற்றும் திறன்களை அறியுங்கள்">
+                Explore jobs, exams and skills
+            </p>
+
+            <button type="button"
+                    class="feature-action"
+                    data-feature="career">
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+        </div>
+
+        <div class="feature-card purple-card">
+
+            <div class="feature-icon">
+                <i class="fa-solid fa-gift"></i>
+            </div>
+
+            <h3 data-en="Benefits & Subsidies"
+                data-ta="நலன்கள் மற்றும் மானியங்கள்">
+                Benefits & Subsidies
+            </h3>
+
+            <p data-en="Check eligibility and benefits you deserve"
+               data-ta="தகுதி மற்றும் கிடைக்கும் நலன்களை சரிபார்க்கவும்">
+                Check eligibility and benefits you deserve
+            </p>
+
+            <button type="button"
+                    class="feature-action"
+                    data-feature="benefits">
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+        </div>
+
+        <div class="feature-card orange-card">
+
+            <div class="feature-icon">
+                <i class="fa-solid fa-file-lines"></i>
+            </div>
+
+            <h3 data-en="Important Documents"
+                data-ta="முக்கிய ஆவணங்கள்">
+                Important Documents
+            </h3>
+
+            <p data-en="Apply for certificates and IDs online"
+               data-ta="சான்றிதழ்கள் மற்றும் அடையாள ஆவணங்களுக்கு ஆன்லைனில் விண்ணப்பிக்கவும்">
+                Apply for certificates and IDs online
+            </p>
+
+            <button type="button"
+                    class="feature-action"
+                    data-feature="documents">
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+        </div>
+
+        <div class="feature-card pink-card">
+
+            <div class="feature-icon">
+                <i class="fa-solid fa-comments"></i>
+            </div>
+
+            <h3 data-en="AI Assistant"
+                data-ta="AI உதவியாளர்">
+                AI Assistant
+            </h3>
+
+            <p data-en="Ask anything. Get instant answers"
+               data-ta="எதையும் கேளுங்கள். உடனடி பதில்களை பெறுங்கள்">
+                Ask anything. Get instant answers
+            </p>
+
+            <button type="button"
+                    class="feature-action"
+                    data-feature="ai">
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+        </div>
+
+        <div class="feature-card cyan-card">
+
+            <div class="feature-icon">
+                <i class="fa-solid fa-globe"></i>
+            </div>
+
+            <h3 data-en="Multi Language"
+                data-ta="பல மொழி வசதி">
+                Multi Language
+            </h3>
+
+            <p data-en="Use in your language. We support many"
+               data-ta="உங்கள் மொழியில் பயன்படுத்துங்கள்">
+                Use in your language. We support many
+            </p>
+
+            <button type="button"
+                    class="feature-action"
+                    data-feature="language">
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= VIDEO ================= -->
+
+<section class="video-guide-section" id="how-it-works">
+
+    <div class="section-title">
+
+        <div class="title-line"></div>
+
+        <div>
+
+            <span class="video-label"
+                  data-en="QUICK VIDEO GUIDE"
+                  data-ta="விரைவு வீடியோ வழிகாட்டி">
+                QUICK VIDEO GUIDE
+            </span>
+
+            <h2>
+
+                <span data-en="From"
+                      data-ta="தொடக்கம் முதல்">
+                    From
+                </span>
+
+                <span data-en="Get Started"
+                      data-ta="தொடங்குவது">
+                    Get Started
+                </span>
+
+                <span data-en="to How to Apply"
+                      data-ta="முதல் விண்ணப்பிப்பது வரை">
+                    to How to Apply
+                </span>
+
+            </h2>
+
+        </div>
+
+        <div class="title-line"></div>
+
+    </div>
+
+    <div class="video-container">
+
+        <video controls preload="metadata">
+
+            <source
+                src="{{ url_for('static', filename='videos/guide.mp4') }}"
+                type="video/mp4">
+
+            Your browser does not support the video tag.
+
+        </video>
+
+    </div>
+
+</section>
+
+
+<!-- ================= STATS ================= -->
+
+<section class="stats-section">
+
+    <div class="stat-item">
+
+        <div class="stat-icon green">
+            <i class="fa-solid fa-people-group"></i>
+        </div>
+
+        <div>
+            <strong>450+</strong>
+
+            <span data-en="Government Schemes"
+                  data-ta="அரசு நலத்திட்டங்கள்">
+                Government Schemes
+            </span>
+        </div>
+
+    </div>
+
+    <div class="stat-item">
+
+        <div class="stat-icon blue">
+            <i class="fa-solid fa-briefcase"></i>
+        </div>
+
+        <div>
+            <strong>10K+</strong>
+
+            <span data-en="Career Opportunities"
+                  data-ta="வேலைவாய்ப்புகள்">
+                Career Opportunities
+            </span>
+        </div>
+
+    </div>
+
+    <div class="stat-item">
+
+        <div class="stat-icon purple">
+            <i class="fa-solid fa-users"></i>
+        </div>
+
+        <div>
+            <strong>50M+</strong>
+
+            <span data-en="Citizens Benefited"
+                  data-ta="பயனடைந்த குடிமக்கள்">
+                Citizens Benefited
+            </span>
+        </div>
+
+    </div>
+
+    <div class="stat-item">
+
+        <div class="stat-icon orange">
+            <i class="fa-solid fa-file-lines"></i>
+        </div>
+
+        <div>
+            <strong>1000+</strong>
+
+            <span data-en="Documents Available"
+                  data-ta="ஆவணங்கள்">
+                Documents Available
+            </span>
+        </div>
+
+    </div>
+
+    <div class="stat-item">
+
+        <div class="stat-icon pink">
+            <i class="fa-solid fa-globe"></i>
+        </div>
+
+        <div>
+            <strong>2</strong>
+
+            <span data-en="Languages Supported"
+                  data-ta="ஆதரிக்கப்படும் மொழிகள்">
+                Languages Supported
+            </span>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="footer-logo">
+
+        <i class="fa-solid fa-robot"></i>
+
+        Citizen Scheme Access
+
+    </div>
+
+    <p data-en="Your Guide to the Government Support You Need"
+       data-ta="உங்களுக்குத் தேவையான அரசு உதவிகளைப் பெறுவதற்கான வழிகாட்டி">
+        
+    </p>
+
+    <span>© 2026 Citizen Scheme Access</span>
+
+</footer>
+
+
+<!-- ================= COMMON VOICE ASSISTANT ================= -->
+
+<button
+    type="button"
+    id="voiceAssistantButton"
+    aria-label="Voice Assistant"
+    title="Voice Assistant">
+
+    <i class="fa-solid fa-microphone"></i>
+
+    <span id="voiceAssistantText">Voice</span>
+
+</button>
+
+
+<!-- ================= AI CHAT ================= -->
+
+<div class="ai-chat-overlay" id="aiChatOverlay">
+
+    <div class="ai-chat-box">
+
+        <div class="ai-chat-header">
+
+            <div class="ai-chat-title">
+
+                <div class="ai-chat-icon">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+
+                <div>
+                    <strong>Citizen Scheme Access</strong>
+
+                    <span id="aiStatus">
+                        Online
+                    </span>
+                </div>
+
+            </div>
+
+            <button type="button"
+                    id="closeAiChat"
+                    class="close-chat">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+        <div class="ai-chat-messages"
+             id="aiChatMessages">
+
+            <div class="ai-message">
+
+                <div class="message-icon">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+
+                <div class="message-content">
+
+                    <span class="message-name"
+                          data-en="AI Guide"
+                          data-ta="AI வழிகாட்டி">
+                        AI Guide
+                    </span>
+
+                    <p
+                        data-en="Hi! 👋 I’m Citizen Scheme Access. Ask me about government schemes, scholarships, documents, services or career guidance."
+                        data-ta="வணக்கம்! 👋 நான் Citizen Scheme Access. அரசு திட்டங்கள், உதவித்தொகைகள், ஆவணங்கள், சேவைகள் அல்லது வேலைவாய்ப்பு பற்றி கேளுங்கள்.">
+                        Hi! 👋 I’m Citizen Scheme Access. Ask me about government schemes, scholarships, documents, services or career guidance.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="ai-chat-input-area">
+
+            <input
+                type="text"
+                id="aiChatInput"
+                placeholder="Type your question..."
+                data-placeholder-en="Type your question..."
+                data-placeholder-ta="உங்கள் கேள்வியை எழுதுங்கள்..."
+                autocomplete="off">
+
+            <button type="button"
+                    id="sendAiMessage">
+
+                <i class="fa-solid fa-paper-plane"></i>
+
+            </button>
+
+        </div>
+
+        <div class="ai-chat-note">
+
+            <i class="fa-solid fa-circle-info"></i>
+
+            <span
+                data-en="AI responses will be connected to verified government information."
+                data-ta="AI பதில்கள் சரிபார்க்கப்பட்ட அரசு தகவல்களுடன் இணைக்கப்படும்.">
+                AI responses will be connected to verified government information.
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    /* ==========================================
+       LANGUAGE
+       SAME KEY USED ACROSS ALL PAGES
+    ========================================== */
+
+    const LANGUAGE_KEY = "citizenLanguage";
+
+    const languageBtn =
+        document.getElementById("languageBtn");
+
+    const languageMenu =
+        document.getElementById("languageMenu");
+
+    const selectedLanguage =
+        document.getElementById("selectedLanguage");
+
+    const languageOptions =
+        document.querySelectorAll(
+            "#languageMenu button"
+        );
+
+    let currentLanguage =
+        localStorage.getItem(LANGUAGE_KEY) || "en";
+
+
+    function applyLanguage(language) {
+
+        currentLanguage = language;
+
+        document.documentElement.lang =
+            language === "ta" ? "ta" : "en";
+
+
+        document.querySelectorAll(
+            "[data-en][data-ta]"
+        ).forEach(function (element) {
+
+            const text =
+                element.getAttribute(
+                    language === "ta"
+                        ? "data-ta"
+                        : "data-en"
+                );
+
+            if (text !== null) {
+                element.textContent = text;
+            }
+
+        });
+
+
+        const heroSearch =
+            document.getElementById("heroSearch");
+
+        if (heroSearch) {
+
+            heroSearch.placeholder =
+                heroSearch.getAttribute(
+                    language === "ta"
+                        ? "data-placeholder-ta"
+                        : "data-placeholder-en"
+                );
+
+        }
+
+
+        const aiChatInput =
+            document.getElementById("aiChatInput");
+
+        if (aiChatInput) {
+
+            aiChatInput.placeholder =
+                aiChatInput.getAttribute(
+                    language === "ta"
+                        ? "data-placeholder-ta"
+                        : "data-placeholder-en"
+                );
+
+        }
+
+
+        selectedLanguage.textContent =
+            language === "ta"
+                ? "தமிழ்"
+                : "English";
+
+
+        /* IMPORTANT:
+           SAME LANGUAGE VALUE FOR ALL PAGES */
+
+        localStorage.setItem(
+            LANGUAGE_KEY,
+            language
+        );
+
+    }
+
+
+    applyLanguage(currentLanguage);
+
+
+    languageBtn.addEventListener(
+        "click",
+        function (event) {
+
+            event.stopPropagation();
+
+            languageMenu.classList.toggle("show");
+
+        }
+    );
+
+
+    languageOptions.forEach(
+        function (option) {
+
+            option.addEventListener(
+                "click",
+                function () {
+
+                    const language =
+                        this.getAttribute("data-code");
+
+                    applyLanguage(language);
+
+                    languageMenu.classList.remove(
+                        "show"
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+    document.addEventListener(
+        "click",
+        function () {
+
+            languageMenu.classList.remove(
+                "show"
+            );
+
+        }
+    );
+
+
+    /* ==========================================
+       COMMON VOICE ASSISTANT
+    ========================================== */
+
+    const voiceButton =
+        document.getElementById(
+            "voiceAssistantButton"
+        );
+
+    const voiceText =
+        document.getElementById(
+            "voiceAssistantText"
+        );
+
+    let isSpeaking = false;
+
+
+    function getPageText() {
+
+        const mainContent =
+            document.querySelector("main") ||
+            document.body;
+
+        let text =
+            mainContent.innerText || "";
+
+        text = text
+            .replace(/\s+/g, " ")
+            .trim();
+
+        return text;
+
+    }
+
+
+    function stopVoice() {
+
+        if (
+            "speechSynthesis" in window
+        ) {
+
+            window.speechSynthesis.cancel();
+
+        }
+
+        isSpeaking = false;
+
+        voiceButton.classList.remove(
+            "voice-speaking"
+        );
+
+        voiceText.textContent =
+            currentLanguage === "ta"
+                ? "குரல்"
+                : "Voice";
+
+    }
+
+
+    function startVoice() {
+
+        if (
+            !("speechSynthesis" in window)
+        ) {
+
+            alert(
+                currentLanguage === "ta"
+                    ? "இந்த browser-ல் Voice Assistant support இல்லை."
+                    : "Voice Assistant is not supported in this browser."
+            );
+
+            return;
+
+        }
+
+
+        const text =
+            getPageText();
+
+
+        if (!text) {
+            return;
+        }
+
+
+        window.speechSynthesis.cancel();
+
+
+        const speech =
+            new SpeechSynthesisUtterance(text);
+
+
+        speech.lang =
+            currentLanguage === "ta"
+                ? "ta-IN"
+                : "en-IN";
+
+
+        speech.rate = 0.95;
+        speech.pitch = 1;
+
+
+        speech.onstart = function () {
+
+            isSpeaking = true;
+
+            voiceButton.classList.add(
+                "voice-speaking"
+            );
+
+            voiceText.textContent =
+                currentLanguage === "ta"
+                    ? "நிறுத்து"
+                    : "Stop";
+
+        };
+
+
+        speech.onend = function () {
+
+            isSpeaking = false;
+
+            voiceButton.classList.remove(
+                "voice-speaking"
+            );
+
+            voiceText.textContent =
+                currentLanguage === "ta"
+                    ? "குரல்"
+                    : "Voice";
+
+        };
+
+
+        speech.onerror = function () {
+
+            isSpeaking = false;
+
+            voiceButton.classList.remove(
+                "voice-speaking"
+            );
+
+            voiceText.textContent =
+                currentLanguage === "ta"
+                    ? "குரல்"
+                    : "Voice";
+
+        };
+
+
+        window.speechSynthesis.speak(
+            speech
+        );
+
+    }
+
+
+    voiceButton.addEventListener(
+        "click",
+        function () {
+
+            if (isSpeaking) {
+
+                stopVoice();
+
+            } else {
+
+                startVoice();
+
+            }
+
+        }
+    );
+
+
+    /* ==========================================
+       AI CHAT
+    ========================================== */
+
+    const aiChatOverlay =
+        document.getElementById("aiChatOverlay");
+
+    const askAiButton =
+        document.getElementById("askAiButton");
+
+    const closeAiChat =
+        document.getElementById("closeAiChat");
+
+    const heroSearch =
+        document.getElementById("heroSearch");
+
+    const aiChatInput =
+        document.getElementById("aiChatInput");
+
+    const sendAiMessage =
+        document.getElementById("sendAiMessage");
+
+    const aiChatMessages =
+        document.getElementById("aiChatMessages");
+
+
+    function openAiChat(question = "") {
+
+        aiChatOverlay.classList.add("show");
+
+        document.body.classList.add(
+            "chat-open"
+        );
+
+
+        if (question.trim() !== "") {
+
+            aiChatInput.value =
+                question.trim();
+
+            setTimeout(
+                function () {
+                    sendMessage();
+                },
+                200
+            );
+
+        } else {
+
+            setTimeout(
+                function () {
+                    aiChatInput.focus();
+                },
+                200
+            );
+
+        }
+
+    }
+
+
+    function closeChat() {
+
+        aiChatOverlay.classList.remove(
+            "show"
+        );
+
+        document.body.classList.remove(
+            "chat-open"
+        );
+
+    }
+
+
+    askAiButton.addEventListener(
+        "click",
+        function () {
+
+            openAiChat(
+                heroSearch.value
+            );
+
+        }
+    );
+
+
+    heroSearch.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (event.key === "Enter") {
+
+                event.preventDefault();
+
+                openAiChat(
+                    heroSearch.value
+                );
+
+            }
+
+        }
+    );
+
+
+    closeAiChat.addEventListener(
+        "click",
+        closeChat
+    );
+
+
+    aiChatOverlay.addEventListener(
+        "click",
+        function (event) {
+
+            if (
+                event.target === aiChatOverlay
+            ) {
+
+                closeChat();
+
+            }
+
+        }
+    );
+
+
+    /* ==========================================
+       USER MESSAGE
+    ========================================== */
+
+    function addUserMessage(message) {
+
+        const wrapper =
+            document.createElement("div");
+
+        wrapper.className =
+            "user-message";
+
+
+        wrapper.innerHTML = `
+
+            <div class="message-content">
+
+                <span class="message-name">
+                    You
+                </span>
+
+                <p></p>
+
+            </div>
+
+        `;
+
+
+        wrapper.querySelector("p")
+            .textContent = message;
+
+
+        aiChatMessages.appendChild(
+            wrapper
+        );
+
+
+        aiChatMessages.scrollTop =
+            aiChatMessages.scrollHeight;
+
+    }
+
+
+    /* ==========================================
+       LOADING
+    ========================================== */
+
+    function addLoadingMessage() {
+
+        const wrapper =
+            document.createElement("div");
+
+        wrapper.className =
+            "ai-message loading-message";
+
+
+        wrapper.innerHTML = `
+
+            <div class="message-icon">
+                <i class="fa-solid fa-robot"></i>
+            </div>
+
+            <div class="message-content">
+
+                <span class="message-name">
+                    AI Guide
+                </span>
+
+                <p class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </p>
+
+            </div>
+
+        `;
+
+
+        aiChatMessages.appendChild(
+            wrapper
+        );
+
+
+        aiChatMessages.scrollTop =
+            aiChatMessages.scrollHeight;
+
+
+        return wrapper;
+
+    }
+
+
+    /* ==========================================
+       SEND MESSAGE
+    ========================================== */
+
+    async function sendMessage() {
+
+        const message =
+            aiChatInput.value.trim();
+
+
+        if (!message) {
+            return;
+        }
+
+
+        addUserMessage(message);
+
+        aiChatInput.value = "";
+
+
+        const loadingMessage =
+            addLoadingMessage();
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/chat",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            message: message,
+
+                            language:
+                                currentLanguage
+
+                        })
+
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            loadingMessage.remove();
+
+
+            if (
+                data &&
+                data.reply
+            ) {
+
+                addAiMessage(
+                    data.reply
+                );
+
+            } else {
+
+                addAiMessage(
+                    currentLanguage === "ta"
+                        ? "மன்னிக்கவும், தற்போது பதில் கிடைக்கவில்லை."
+                        : "Sorry, I couldn't get a response right now."
+                );
+
+            }
+
+        } catch (error) {
+
+            loadingMessage.remove();
+
+
+            addAiMessage(
+                currentLanguage === "ta"
+                    ? "AI service தற்போது இணைக்கப்படவில்லை."
+                    : "AI service is not connected yet."
+            );
+
+        }
+
+    }
+
+
+    /* ==========================================
+       AI MESSAGE
+    ========================================== */
+
+    function addAiMessage(message) {
+
+        const wrapper =
+            document.createElement("div");
+
+        wrapper.className =
+            "ai-message";
+
+
+        wrapper.innerHTML = `
+
+            <div class="message-icon">
+                <i class="fa-solid fa-robot"></i>
+            </div>
+
+            <div class="message-content">
+
+                <span class="message-name">
+                    AI Guide
+                </span>
+
+                <p></p>
+
+            </div>
+
+        `;
+
+
+        wrapper.querySelector("p")
+            .textContent = message;
+
+
+        aiChatMessages.appendChild(
+            wrapper
+        );
+
+
+        aiChatMessages.scrollTop =
+            aiChatMessages.scrollHeight;
+
+    }
+
+
+    sendAiMessage.addEventListener(
+        "click",
+        sendMessage
+    );
+
+
+    aiChatInput.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (event.key === "Enter") {
+
+                event.preventDefault();
+
+                sendMessage();
+
+            }
+
+        }
+    );
+
+
+    /* ==========================================
+       POPULAR SEARCHES
+    ========================================== */
+
+    document.querySelectorAll(
+        ".popular-tag"
+    ).forEach(
+        function (tag) {
+
+            tag.addEventListener(
+                "click",
+                function () {
+
+                    const query =
+                        this.getAttribute(
+                            currentLanguage === "ta"
+                                ? "data-query-ta"
+                                : "data-query-en"
+                        );
+
+                    heroSearch.value =
+                        query;
+
+                    openAiChat(query);
+
+                }
+            );
+
+        }
+    );
+
+
+    /* ==========================================
+       FEATURE CARDS
+    ========================================== */
+
+    document.querySelectorAll(
+        ".feature-action"
+    ).forEach(
+        function (button) {
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    const feature =
+                        this.getAttribute(
+                            "data-feature"
+                        );
+
+
+                    const questions = {
+
+                        schemes: {
+                            en: "What government schemes are available for me?",
+                            ta: "எனக்கு பொருத்தமான அரசு நலத்திட்டங்கள் என்ன?"
+                        },
+
+                        career: {
+                            en: "What career and job opportunities are available?",
+                            ta: "என்ன வேலைவாய்ப்பு மற்றும் career opportunities உள்ளன?"
+                        },
+
+                        benefits: {
+                            en: "What government benefits and subsidies can I get?",
+                            ta: "என்ன அரசு நலன்கள் மற்றும் மானியங்கள் எனக்கு கிடைக்கும்?"
+                        },
+
+                        documents: {
+                            en: "What important government documents and certificates can I apply for?",
+                            ta: "எந்த முக்கிய அரசு ஆவணங்கள் மற்றும் சான்றிதழ்களுக்கு விண்ணப்பிக்கலாம்?"
+                        },
+
+                        ai: {
+                            en: "",
+                            ta: ""
+                        },
+
+                        language: {
+                            en: "Can I use Citizen Scheme Access in Tamil?",
+                            ta: "Citizen Scheme Access-ஐ தமிழில் பயன்படுத்த முடியுமா?"
+                        }
+
+                    };
+
+
+                    if (feature === "ai") {
+
+                        openAiChat("");
+
+                        return;
+
+                    }
+
+
+                    const question =
+                        questions[feature][
+                            currentLanguage
+                        ];
+
+
+                    openAiChat(
+                        question
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+    /* ==========================================
+       ESC
+    ========================================== */
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key === "Escape" &&
+                aiChatOverlay.classList.contains(
+                    "show"
+                )
+            ) {
+
+                closeChat();
+
+            }
+
+        }
+    );
+
+});
+
+</script>
+
+
+<!-- ================= VOICE BUTTON STYLE ================= -->
+
+<style>
+
+#voiceAssistantButton {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 9999;
+
+    border: none;
+    border-radius: 50px;
+
+    padding: 13px 18px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    background: #ffffff;
+    color: #3157d5;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+}
+
+#voiceAssistantButton:hover {
+    transform: translateY(-3px);
+}
+
+#voiceAssistantButton.voice-speaking {
+    background: #3157d5;
+    color: #ffffff;
+}
+
+#voiceAssistantButton i {
+    font-size: 16px;
+}
+
+@media (max-width: 600px) {
+
+    #voiceAssistantButton {
+        right: 15px;
+        bottom: 15px;
+        padding: 13px 16px;
+    }
+
+}
+
+</style>
+
+</body>
+</html>

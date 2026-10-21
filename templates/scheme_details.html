@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Citizen Scheme Access</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --blue: #315eea;
+            --purple: #7657ff;
+            --pink: #ff4fa3;
+            --green: #08a878;
+            --dark: #172033;
+            --muted: #52627a;
+            --border: rgba(72, 94, 145, 0.16);
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            color: var(--dark);
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 5% 10%, rgba(0,191,233,.10), transparent 25%),
+                radial-gradient(circle at 95% 15%, rgba(118,87,255,.10), transparent 27%),
+                #f8fbff;
+        }
+
+        .topbar {
+            width: 100%;
+            padding: 15px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255,255,255,.94);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 8px 30px rgba(40,60,110,.07);
+        }
+
+        .brand {
+            text-decoration: none;
+            color: var(--dark);
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .brand span {
+            background: linear-gradient(135deg,var(--blue),var(--purple),var(--pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .nav-btn,
+        .language-btn {
+            border: 1px solid var(--border);
+            background: #fff;
+            color: var(--blue);
+            padding: 10px 16px;
+            border-radius: 13px;
+            text-decoration: none;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .25s ease;
+        }
+
+        .nav-btn:hover,
+        .language-btn:hover {
+            color: white;
+            border-color: transparent;
+            background: linear-gradient(135deg,var(--blue),var(--purple));
+            transform: translateY(-2px);
+        }
+
+        .language-selector {
+            position: relative;
+        }
+
+        .language-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 50px;
+            min-width: 145px;
+            padding: 7px;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            box-shadow: 0 20px 45px rgba(40,60,110,.17);
+        }
+
+        .language-menu.show {
+            display: block;
+        }
+
+        .language-menu button {
+            width: 100%;
+            padding: 10px 11px;
+            border: 0;
+            background: transparent;
+            text-align: left;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .language-menu button:hover {
+            background: #eef3ff;
+            color: var(--blue);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1150px;
+            margin: auto;
+            padding: 48px 0 85px;
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            color: white;
+            border-radius: 30px;
+            padding: 50px 45px;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg,#315eea 0%,#6955ed 48%,#a64ce9 100%);
+            box-shadow: 0 25px 65px rgba(76,82,214,.25);
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            width: 240px;
+            height: 240px;
+            right: -70px;
+            top: -100px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.13);
+        }
+
+        .hero small,
+        .hero h1,
+        .hero p {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero small {
+            display: inline-flex;
+            padding: 8px 14px;
+            border-radius: 30px;
+            background: rgba(255,255,255,.16);
+            border: 1px solid rgba(255,255,255,.25);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+        }
+
+        .hero h1 {
+            margin-top: 18px;
+            max-width: 900px;
+            font-size: 38px;
+            line-height: 1.3;
+            font-weight: 800;
+        }
+
+        .hero p {
+            max-width: 900px;
+            margin-top: 17px;
+            font-size: 16px;
+            line-height: 1.85;
+            font-weight: 600;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2,minmax(0,1fr));
+            gap: 24px;
+            align-items: start;
+        }
+
+        .card {
+            position: relative;
+            overflow: hidden;
+            background: rgba(255,255,255,.97);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 18px 50px rgba(50,79,145,.10);
+            transition: transform .3s ease, box-shadow .3s ease;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg,var(--blue),var(--purple),var(--pink));
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 25px 55px rgba(50,79,145,.15);
+        }
+
+        .card h2 {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            font-size: 23px;
+            font-weight: 800;
+            color: #101a31;
+            margin-bottom: 22px;
+        }
+
+        .card h2::before {
+            content: "";
+            width: 10px;
+            height: 10px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: linear-gradient(135deg,var(--blue),var(--purple));
+            box-shadow: 0 0 0 6px rgba(49,94,234,.10);
+        }
+
+        .card h3 {
+            margin-top: 23px;
+            margin-bottom: 9px;
+            font-size: 17px;
+            font-weight: 800;
+            background: linear-gradient(90deg,var(--blue),var(--purple),var(--pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card h3:first-of-type {
+            margin-top: 5px;
+        }
+
+        .card p {
+            font-size: 15px;
+            line-height: 1.9;
+            color: #263653;
+            font-weight: 600;
+            overflow-wrap: anywhere;
+        }
+
+        .documents,
+        .process {
+            white-space: pre-line;
+            padding: 17px 18px;
+            margin-top: 8px;
+            border-radius: 15px;
+            background: linear-gradient(135deg,#f1f5ff,#faf5ff);
+            border: 1px solid rgba(49,94,234,.12);
+            border-left: 5px solid var(--purple);
+            color: #1d2b45 !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+        }
+
+        .step-list {
+            padding-left: 22px;
+            margin-top: 8px;
+        }
+
+        .step-list li {
+            margin-bottom: 13px;
+            padding-left: 4px;
+            color: #263653;
+            font-size: 14px;
+            line-height: 1.8;
+            font-weight: 500;
+        }
+
+        .note {
+            margin-top: 15px;
+            padding: 14px 16px;
+            border-radius: 13px;
+            background: #fff8e8;
+            border: 1px solid #f3dfad;
+            color: #674b12;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .apply-btn,
+        .guide-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            margin-top: 18px;
+            margin-right: 7px;
+            padding: 13px 19px;
+            border-radius: 13px;
+            background: linear-gradient(135deg,var(--blue),var(--purple),var(--pink));
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 800;
+            box-shadow: 0 11px 28px rgba(49,94,234,.22);
+            transition: .25s ease;
+        }
+
+        .guide-btn {
+            background: linear-gradient(135deg,#087f5b,#08a878);
+            box-shadow: 0 11px 28px rgba(8,168,120,.20);
+        }
+
+        .apply-btn:hover,
+        .guide-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .offline-item {
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(72,94,145,.11);
+        }
+
+        .offline-item:last-child {
+            border-bottom: 0;
+        }
+
+        .offline-item strong {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--green);
+        }
+
+        .offline-item p {
+            padding: 14px;
+            border-radius: 12px;
+            background: #f5f8ff;
+            color: #1d2b45 !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+        }
+
+        .voice-btn {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            z-index: 1100;
+            border: 0;
+            border-radius: 50px;
+            padding: 14px 21px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg,var(--blue),var(--purple),var(--pink));
+            color: white;
+            box-shadow: 0 15px 38px rgba(49,94,234,.32);
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        @media (max-width: 850px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding: 40px 30px;
+            }
+
+            .hero h1 {
+                font-size: 30px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .topbar {
+                padding: 13px 4%;
+            }
+
+            .brand {
+                font-size: 17px;
+            }
+
+            .nav-right {
+                gap: 6px;
+            }
+
+            .nav-btn {
+                display: none;
+            }
+
+            .language-btn {
+                padding: 9px 12px;
+                font-size: 12px;
+            }
+
+            .container {
+                width: 92%;
+                padding-top: 30px;
+            }
+
+            .hero {
+                padding: 32px 23px;
+                border-radius: 22px;
+            }
+
+            .hero h1 {
+                font-size: 25px;
+            }
+
+            .hero p {
+                font-size: 14px;
+            }
+
+            .card {
+                padding: 23px;
+                border-radius: 20px;
+            }
+
+            .card h2 {
+                font-size: 20px;
+            }
+
+            .card h3 {
+                font-size: 16px;
+            }
+
+            .voice-btn {
+                right: 15px;
+                bottom: 15px;
+                padding: 12px 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+{% set scheme_name_lower = (scheme.scheme_name or '')|lower|replace('_', ' ')|replace('-', ' ') %}
+{% set scheme_category = (scheme.category or '')|lower %}
+{% set scheme_department = (scheme.department or '')|lower %}
+
+{% set is_pudhumai = 'pudhumai penn' in scheme_name_lower %}
+{% set is_tamil_pudhalvan = 'tamil pudhalvan' in scheme_name_lower or 'tamizh pudhalvan' in scheme_name_lower %}
+{% set is_student_scheme = is_pudhumai or is_tamil_pudhalvan %}
+
+{% set is_pension_scheme = 'pension' in scheme_name_lower or 'pension' in scheme_category or 'social security' in scheme_category %}
+{% set is_farmer_scheme = 'farmer' in scheme_category or 'agriculture' in scheme_category or 'kisan' in scheme_name_lower or 'fasal bima' in scheme_name_lower or 'ujavar' in scheme_name_lower %}
+{% set is_rural_employment = 'employment guarantee' in scheme_name_lower or 'nrega' in scheme_name_lower %}
+{% set is_rural_housing = 'awas yojana - gramin' in scheme_name_lower or 'pmay-g' in scheme_name_lower %}
+{% set is_urban_housing = 'awas yojana - urban' in scheme_name_lower or 'pmay-u' in scheme_name_lower %}
+{% set is_disability_scheme = 'differently abled' in scheme_name_lower or 'disability' in scheme_category or 'disabled persons' in scheme_name_lower or 'intellectually disabled' in scheme_name_lower %}
+{% set is_bank_scheme = 'bank' in scheme_category or 'insurance' in scheme_category or 'pension' in scheme_category or 'jan-dhan' in scheme_name_lower or 'mudra' in scheme_name_lower or 'stand up india' in scheme_name_lower %}
+{% set is_business_scheme = 'entrepreneurship' in scheme_category or 'business' in scheme_category or 'pmegp' in scheme_name_lower or 'startup india' in scheme_name_lower or 'vishwakarma' in scheme_name_lower or 'svanidhi' in scheme_name_lower %}
+{% set is_health_scheme = 'health' in scheme_category or 'health' in scheme_name_lower or 'matru vandana' in scheme_name_lower or 'janani suraksha' in scheme_name_lower or 'indradhanush' in scheme_name_lower %}
+{% set is_women_scheme = 'women' in scheme_category or 'girl child' in scheme_category or 'ujjwala' in scheme_name_lower or 'sukanya' in scheme_name_lower or 'beti bachao' in scheme_name_lower %}
+{% set is_rural_scheme = 'rural' in scheme_category or 'rural' in scheme_name_lower or 'gramin' in scheme_name_lower or 'nrlm' in scheme_name_lower %}
+{% set is_water_scheme = 'water' in scheme_category or 'jal jeevan' in scheme_name_lower %}
+{% set is_energy_scheme = 'energy' in scheme_category or 'surya ghar' in scheme_name_lower %}
+{% set is_tribal_scheme = 'tribal' in scheme_category or 'janman' in scheme_name_lower %}
+{% set is_education_scheme = 'education' in scheme_category or 'scholarship' in scheme_name_lower %}
+
+{% set official_umis_url = 'https://umisdashboard.tnega.org/home' %}
+
+{% set official_url = scheme.application_url or '' %}
+
+{% if not official_url %}
+    {% if is_pension_scheme %}
+        {% set official_url = 'https://oap.tn.gov.in/' %}
+    {% elif is_farmer_scheme %}
+        {% set official_url = 'https://pmkisan.gov.in/' %}
+    {% elif is_health_scheme %}
+        {% set official_url = 'https://pmjay.gov.in/' %}
+    {% elif is_student_scheme %}
+        {% set official_url = official_umis_url %}
+    {% else %}
+        {% set official_url = 'https://www.india.gov.in/' %}
+    {% endif %}
+{% endif %}
+
+<nav class="topbar">
+
+    <a href="{{ url_for('dashboard') }}" class="brand">
+        Citizen Scheme <span>Access</span>
+    </a>
+
+    <div class="nav-right">
+
+        <div class="language-selector">
+
+            <button type="button" class="language-btn" id="languageBtn">
+                <i class="fa-solid fa-globe"></i>
+                <span id="languageText">English</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+
+            <div class="language-menu" id="languageMenu">
+                <button type="button" data-language="en">🇬🇧 English</button>
+                <button type="button" data-language="ta">🇮🇳 தமிழ்</button>
+            </div>
+
+        </div>
+
+        <a href="{{ url_for('dashboard') }}"
+           class="nav-btn"
+           data-en="Dashboard"
+           data-ta="டாஷ்போர்டு">
+            Dashboard
+        </a>
+
+    </div>
+
+</nav>
+
+
+<main class="container">
+
+    <section class="hero">
+
+        <small data-en="GOVERNMENT SCHEME"
+               data-ta="அரசு நலத்திட்டம்">
+            GOVERNMENT SCHEME
+        </small>
+
+        <h1 data-en="{{ scheme.scheme_name or '' }}"
+            data-ta="{{ scheme.scheme_name_ta or '' }}"
+            data-empty-en="Scheme name unavailable"
+            data-empty-ta="திட்டத்தின் பெயர் கிடைக்கவில்லை">
+            {{ scheme.scheme_name or "Scheme name unavailable" }}
+        </h1>
+
+        <p data-en="{{ scheme.description or '' }}"
+           data-ta="{{ scheme.description_ta or '' }}"
+           data-empty-en="Description is not provided in the scheme record."
+           data-empty-ta="திட்டத்தின் விளக்கம் பதிவில் வழங்கப்படவில்லை.">
+            {{ scheme.description or "Description is not provided in the scheme record." }}
+        </p>
+
+    </section>
+
+
+    <!-- SCHEME DETAILS -->
+
+    <section class="card">
+
+        <h2 data-en="Scheme Details"
+            data-ta="திட்ட விவரங்கள்">
+            Scheme Details
+        </h2>
+
+        <h3 data-en="Eligibility"
+            data-ta="தகுதி">
+            Eligibility
+        </h3>
+
+        <p data-en="{{ scheme.eligibility or '' }}"
+           data-ta="{{ scheme.eligibility_ta or '' }}"
+           data-empty-en="Check the eligibility conditions on the official scheme portal."
+           data-empty-ta="அதிகாரப்பூர்வ திட்ட இணையதளத்தில் தகுதி நிபந்தனைகளைச் சரிபார்க்கவும்.">
+            {{ scheme.eligibility or "Check the eligibility conditions on the official scheme portal." }}
+        </p>
+
+        <h3 data-en="Benefits"
+            data-ta="நன்மைகள்">
+            Benefits
+        </h3>
+
+        <p data-en="{{ scheme.benefits or '' }}"
+           data-ta="{{ scheme.benefits_ta or '' }}"
+           data-empty-en="Check the official scheme guidelines for the applicable benefits."
+           data-empty-ta="பொருந்தும் நன்மைகளுக்கு அதிகாரப்பூர்வ திட்ட வழிகாட்டுதல்களைப் பார்க்கவும்.">
+            {{ scheme.benefits or "Check the official scheme guidelines for the applicable benefits." }}
+        </p>
+
+        <h3 data-en="Required Documents"
+            data-ta="தேவையான ஆவணங்கள்">
+            Required Documents
+        </h3>
+
+        {% if is_student_scheme %}
+
+            <p class="documents"
+               data-en="1. School study certificate / school records for Classes 6–12\n2. Community Certificate\n3. Income Certificate\n4. Student's bank passbook\n5. Aadhaar Card\n6. College admission proof"
+               data-ta="1. 6 முதல் 12ஆம் வகுப்பு வரையிலான பள்ளிப் படிப்புச் சான்றிதழ் / பள்ளிப் பதிவுகள்\n2. சமூகச் சான்றிதழ்\n3. வருமானச் சான்றிதழ்\n4. மாணவரின் வங்கிக் கணக்குப் புத்தகம்\n5. ஆதார் அட்டை\n6. கல்லூரிச் சேர்க்கைச் சான்று">
+                1. School study certificate / school records for Classes 6–12
+                2. Community Certificate
+                3. Income Certificate
+                4. Student's bank passbook
+                5. Aadhaar Card
+                6. College admission proof
+            </p>
+
+        {% elif scheme.required_documents %}
+
+            <p class="documents"
+               data-en="{{ scheme.required_documents }}"
+               data-ta="{{ scheme.required_documents_ta or '' }}"
+               data-empty-ta="அதிகாரப்பூர்வ இணையதளத்தில் ஆவணப் பட்டியலைச் சரிபார்க்கவும்.">
+                {{ scheme.required_documents }}
+            </p>
+
+        {% else %}
+
+            <p class="documents"
+               data-en="Keep your identity proof, address proof, bank details and scheme-specific supporting records ready, as applicable. The exact document list depends on this scheme and will be shown by the official portal or the concerned department."
+               data-ta="பொருந்தும் வகையில் அடையாளச் சான்று, முகவரிச் சான்று, வங்கி விவரங்கள் மற்றும் திட்டத்திற்கான ஆதார ஆவணங்களைத் தயாராக வைத்திருக்கவும். சரியான ஆவணப் பட்டியல் திட்டத்தைப் பொறுத்தது; அதிகாரப்பூர்வ இணையதளம் அல்லது சம்பந்தப்பட்ட துறை அதை உறுதிப்படுத்தும்.">
+                Keep your identity proof, address proof, bank details and scheme-specific supporting records ready, as applicable. The exact document list depends on this scheme and will be shown by the official portal or the concerned department.
+            </p>
+
+        {% endif %}
+
+    </section>
+
+
+    <!-- ONLINE AND OFFLINE APPLICATIONS -->
+
+    <div class="grid" style="margin-top: 24px;">
+
+        <!-- ONLINE APPLICATION -->
+
+        <section class="card">
+
+            <h2 data-en="Online Application"
+                data-ta="ஆன்லைன் விண்ணப்பம்">
+                Online Application
+            </h2>
+
+            <h3 data-en="How to Apply"
+                data-ta="எப்படி விண்ணப்பிப்பது">
+                How to Apply
+            </h3>
+
+            {% if is_student_scheme %}
+
+                <ol class="step-list">
+
+                    <li data-en="Open the official UMIS portal using the button below."
+                        data-ta="கீழே உள்ள பொத்தானைப் பயன்படுத்தி அதிகாரப்பூர்வ UMIS இணையதளத்தைத் திறக்கவும்.">
+                        Open the official UMIS portal using the button below.
+                    </li>
+
+                    <li data-en="Sign in using the student login details provided by your institution."
+                        data-ta="உங்கள் கல்வி நிறுவனம் வழங்கிய மாணவர் உள்நுழைவு விவரங்களைப் பயன்படுத்தி உள்நுழையவும்.">
+                        Sign in using the student login details provided by your institution.
+                    </li>
+
+                    <li data-en="Open the scheme/application section and choose the relevant scheme if it is available in your account."
+                        data-ta="திட்டம் / விண்ணப்பப் பகுதிக்குச் சென்று, உங்கள் கணக்கில் தொடர்புடைய திட்டம் இருந்தால் அதைத் தேர்ந்தெடுக்கவும்.">
+                        Open the scheme/application section and choose the relevant scheme.
+                    </li>
+
+                    <li data-en="Check your personal, school and college details. Contact your college if any detail is incorrect."
+                        data-ta="உங்கள் தனிப்பட்ட, பள்ளி மற்றும் கல்லூரி விவரங்களைச் சரிபார்க்கவும். தவறுகள் இருந்தால் கல்லூரியைத் தொடர்புகொள்ளவும்.">
+                        Check your personal, school and college details.
+                    </li>
+
+                    <li data-en="Complete the application and upload the documents requested by the portal."
+                        data-ta="விண்ணப்பத்தைப் பூர்த்தி செய்து, இணையதளம் கேட்கும் ஆவணங்களைப் பதிவேற்றவும்.">
+                        Complete the application and upload the requested documents.
+                    </li>
+
+                    <li data-en="Review the details and submit the application using the option shown on the portal."
+                        data-ta="விவரங்களைச் சரிபார்த்து, இணையதளத்தில் காட்டப்படும் விருப்பத்தின் மூலம் விண்ணப்பத்தைச் சமர்ப்பிக்கவும்.">
+                        Review and submit the application.
+                    </li>
+
+                    <li data-en="Save the acknowledgement or reference number, if provided, and follow up with your institution for verification."
+                        data-ta="ஒப்புகை அல்லது குறிப்பு எண் வழங்கப்பட்டால் சேமிக்கவும். சரிபார்ப்புக்காக உங்கள் கல்வி நிறுவனத்தைத் தொடர்புகொள்ளவும்.">
+                        Save the acknowledgement and follow up for verification.
+                    </li>
+
+                </ol>
+
+            {% elif is_farmer_scheme %}
+
+                <ol class="step-list">
+
+                    <li data-en="Open the official scheme portal using the button below."
+                        data-ta="கீழே உள்ள பொத்தானைப் பயன்படுத்தி அதிகாரப்பூர்வ திட்ட இணையதளத்தைத் திறக்கவும்.">
+                        Open the official scheme portal.
+                    </li>
+
+                    <li data-en="Choose the registration, application, enrolment or beneficiary-status option relevant to your scheme."
+                        data-ta="உங்கள் திட்டத்திற்குப் பொருந்தும் பதிவு, விண்ணப்பம் அல்லது பயனாளர் நிலை விருப்பத்தைத் தேர்ந்தெடுக்கவும்.">
+                        Choose the relevant registration or application option.
+                    </li>
+
+                    <li data-en="Enter the requested farmer, identity, land, bank and contact details."
+                        data-ta="கேட்கப்படும் விவசாயி, அடையாளம், நிலம், வங்கி மற்றும் தொடர்பு விவரங்களை உள்ளிடவும்.">
+                        Enter the requested farmer and supporting details.
+                    </li>
+
+                    <li data-en="Upload or submit the documents requested by the portal or the notified implementing office."
+                        data-ta="இணையதளம் அல்லது அறிவிக்கப்பட்ட செயல்பாட்டு அலுவலகம் கேட்கும் ஆவணங்களைப் பதிவேற்றவும் அல்லது சமர்ப்பிக்கவும்.">
+                        Submit the required supporting documents.
+                    </li>
+
+                    <li data-en="Review and submit the application. Keep the acknowledgement or registration number."
+                        data-ta="விவரங்களைச் சரிபார்த்து விண்ணப்பத்தைச் சமர்ப்பிக்கவும். ஒப்புகை அல்லது பதிவு எண்ணைச் சேமிக்கவும்.">
+                        Submit the application and save the reference number.
+                    </li>
+
+                    <li data-en="Check the application or beneficiary status through the official portal."
+                        data-ta="அதிகாரப்பூர்வ இணையதளம் மூலம் விண்ணப்பம் அல்லது பயனாளர் நிலையைச் சரிபார்க்கவும்.">
+                        Check the application status.
+                    </li>
+
+                </ol>
+
+            {% elif is_pension_scheme %}
+
+                <ol class="step-list">
+
+                    <li data-en="Open the official pension portal using the button below."
+                        data-ta="கீழே உள்ள பொத்தானைப் பயன்படுத்தி அதிகாரப்பூர்வ ஓய்வூதிய இணையதளத்தைத் திறக்கவும்.">
+                        Open the official pension portal.
+                    </li>
+
+                    <li data-en="Find the relevant pension scheme and read its eligibility conditions."
+                        data-ta="தொடர்புடைய ஓய்வூதியத் திட்டத்தைக் கண்டறிந்து தகுதி நிபந்தனைகளைப் படிக்கவும்.">
+                        Find the relevant pension scheme.
+                    </li>
+
+                    <li data-en="Follow the application or status-check process available on the portal."
+                        data-ta="இணையதளத்தில் உள்ள விண்ணப்பம் அல்லது நிலை சரிபார்ப்பு நடைமுறையைப் பின்பற்றவும்.">
+                        Follow the application process shown on the portal.
+                    </li>
+
+                    <li data-en="Provide the requested identity, age, address, income, bank and scheme-specific details."
+                        data-ta="கேட்கப்படும் அடையாளம், வயது, முகவரி, வருமானம், வங்கி மற்றும் திட்டத்திற்கான விவரங்களை வழங்கவும்.">
+                        Provide the requested supporting details.
+                    </li>
+
+                    <li data-en="Submit the application if online submission is available. Save the acknowledgement number."
+                        data-ta="ஆன்லைன் விண்ணப்ப வசதி இருந்தால் விண்ணப்பத்தைச் சமர்ப்பித்து ஒப்புகை எண்ணைச் சேமிக்கவும்.">
+                        Submit and save the acknowledgement.
+                    </li>
+
+                </ol>
+
+            {% elif is_bank_scheme %}
+
+                <ol class="step-list">
+
+                    <li data-en="Open the official scheme website using the button below and read the eligibility conditions."
+                        data-ta="கீழே உள்ள பொத்தானைப் பயன்படுத்தி அதிகாரப்பூர்வ திட்ட இணையதளத்தைத் திறந்து தகுதி நிபந்தனைகளைப் படிக்கவும்.">
+                        Open the official scheme website.
+                    </li>
+
+                    <li data-en="Check whether the scheme requires enrolment through a bank, financial institution or online portal."
+                        data-ta="வங்கியிலா, நிதி நிறுவனத்திலா அல்லது இணையதளத்திலா பதிவு செய்ய வேண்டும் என்பதைச் சரிபார்க்கவும்.">
+                        Check the available enrolment method.
+                    </li>
+
+                    <li data-en="Keep the requested identity, bank account and scheme-specific documents ready."
+                        data-ta="கேட்கப்படும் அடையாளம், வங்கிக் கணக்கு மற்றும் திட்டத்திற்கான ஆவணங்களைத் தயாராக வைத்திருக்கவும்.">
+                        Prepare the required documents.
+                    </li>
+
+                    <li data-en="Complete the application or enrolment through the official channel and review the details."
+                        data-ta="அதிகாரப்பூர்வ வழி மூலம் விண்ணப்பம் அல்லது பதிவை முடித்து விவரங்களைச் சரிபார்க்கவும்.">
+                        Complete the application or enrolment.
+                    </li>
+
+                    <li data-en="Keep the acknowledgement and contact the participating bank or institution for follow-up."
+                        data-ta="ஒப்புகையைச் சேமித்து, தொடர்ந்த நடவடிக்கைகளுக்கு சம்பந்தப்பட்ட வங்கி அல்லது நிறுவனத்தைத் தொடர்புகொள்ளவும்.">
+                        Save the acknowledgement and follow up.
+                    </li>
+
+                </ol>
+
+            {% elif is_business_scheme %}
+
+                <ol class="step-list">
+
+                    <li data-en="Open the official scheme portal using the button below."
+                        data-ta="கீழே உள்ள பொத்தானைப் பயன்படுத்தி அதிகாரப்பூர்வ திட்ட இணையதளத்தைத் திறக்கவும்.">
+                        Open the official scheme portal.
+                    </li>
+
+                    <li data-en="Read the eligibility rules, applicant category, project requirements and application instructions."
+                        data-ta="தகுதி விதிகள், விண்ணப்பதாரர் பிரிவு, திட்டத் தேவைகள் மற்றும் விண்ணப்ப வழிமுறைகளைப் படிக்கவும்.">
+                        Read the eligibility and application instructions.
+                    </li>
+
+                    <li data-en="Register or sign in if the portal requires an account."
+                        data-ta="இணையதளம் கணக்கைக் கோரினால் பதிவு செய்து உள்நுழையவும்.">
+                        Register or sign in if required.
+                    </li>
+
+                    <li data-en="Complete the application with the requested personal, business, project and financial details."
+                        data-ta="கேட்கப்படும் தனிப்பட்ட, வணிக, திட்டம் மற்றும் நிதி விவரங்களுடன் விண்ணப்பத்தைப் பூர்த்தி செய்யவும்.">
+                        Complete the application.
+                    </li>
+
+                    <li data-en="Upload the documents requested by the portal and submit the application."
+                        data-ta="இணையதளம் கேட்கும் ஆவணங்களைப் பதிவேற்றி விண்ணப்பத்தைச் சமர்ப்பிக்கவும்.">
+                        Upload documents and submit.
+                    </li>
+
+                    <li data-en="Save the reference number and follow the portal's instructions for verification or bank processing."
+                        data-ta="குறிப்பு எண்ணைச் சேமித்து, சரிபார்ப்பு அல்லது வங்கி செயல்முறைக்கான இணையதள வழிமுறைகளைப் பின்பற்றவும்.">
+                        Save the reference number and follow up.
+                    </li>
+
+                </ol>
+
+            {% elif is_rural_employment %}
+
+                <ol class="step-list">
+
+                    <li data-en="Check the official MGNREGA portal for the applicable job-card and work-request process."
+                        data-ta="பொருந்தும் வேலை அட்டை மற்றும் வேலை கோரிக்கை நடைமுறைக்கு அதிகாரப்பூர்வ MGNREGA இணையதளத்தைப் பார்க்கவும்.">
+                        Check the official MGNREGA process.
+                    </li>
+
+                    <li data-en="If you do not have a job card, contact your Gram Panchayat to ask about registration."
+                        data-ta="வேலை அட்டை இல்லையெனில் பதிவுக்கு உங்கள் கிராம ஊராட்சியைத் தொடர்புகொள்ளவும்.">
+                        Contact the Gram Panchayat about registration.
+                    </li>
+
+                    <li data-en="Submit the required household and identity details through the prescribed local process."
+                        data-ta="குறிப்பிட்ட உள்ளூர் நடைமுறை மூலம் தேவையான குடும்ப மற்றும் அடையாள விவரங்களைச் சமர்ப்பிக்கவும்.">
+                        Submit the required details.
+                    </li>
+
+                    <li data-en="Request work through the prescribed process and keep any acknowledgement or receipt."
+                        data-ta="குறிப்பிட்ட நடைமுறைப்படி வேலையைக் கோரி, ஒப்புகை அல்லது ரசீது இருந்தால் வைத்திருக்கவும்.">
+                        Request work and keep the acknowledgement.
+                    </li>
+
+                    <li data-en="Use the official portal or Gram Panchayat to check the relevant status."
+                        data-ta="தொடர்புடைய நிலையை அதிகாரப்பூர்வ இணையதளம் அல்லது கிராம ஊராட்சி மூலம் சரிபார்க்கவும்.">
+                        Check the application or work status.
+                    </li>
+
+                </ol>
+
+            {% elif is_rural_housing or is_urban_housing %}
+
+                <ol class="step-list">
+
+                    <li data-en="Open the official housing scheme portal using the button below."
+                        data-ta="கீழே உள்ள பொத்தானைப் பயன்படுத்தி அதிகாரப்பூர்வ வீட்டு வசதித் திட்ட இணையதளத்தைத் திறக்கவும்.">
+                        Open the official housing scheme portal.
+                    </li>
+
+                    <li data-en="Check the current eligibility rules and the application or beneficiary-list process."
+                        data-ta="தற்போதைய தகுதி விதிகள் மற்றும் விண்ணப்பம் அல்லது பயனாளர் பட்டியல் நடைமுறையைச் சரிபார்க்கவும்.">
+                        Check eligibility and the application process.
+                    </li>
+
+                    <li data-en="Keep identity, household, address, income and property-related records ready as required."
+                        data-ta="தேவைக்கேற்ப அடையாளம், குடும்பம், முகவரி, வருமானம் மற்றும் சொத்து தொடர்பான ஆவணங்களைத் தயாராக வைத்திருக்கவும்.">
+                        Prepare the required supporting records.
+                    </li>
+
+                    <li data-en="Follow the portal or local implementing authority's instructions for application and verification."
+                        data-ta="விண்ணப்பம் மற்றும் சரிபார்ப்புக்கு இணையதளம் அல்லது உள்ளூர் செயல்பாட்டு அதிகாரியின் வழிமுறைகளைப் பின்பற்றவும்.">
+                        Follow the application and verification process.
+                    </li>
+
+                    <li data-en="Save the reference number or acknowledgement and check the status through the official channel."
+                        data-ta="குறிப்பு எண் அல்லது ஒப்புகையைச் சேமித்து அதிகாரப்பூர்வ வழி மூலம் நிலையைச் சரிபார்க்கவும்.">
+                        Save the reference and check status.
+                    </li>
+
+                </ol>
+
+            {% else %}
+
+                <ol class="step-list">
+
+                    <li data-en="Open the official scheme website using the button below."
+                        data-ta="கீழே உள்ள பொத்தானைப் பயன்படுத்தி அதிகாரப்பூர்வ திட்ட இணையதளத்தைத் திறக்கவும்.">
+                        Open the official scheme website.
+                    </li>
+
+                    <li data-en="Find this scheme on the website and read the latest eligibility, benefits and application instructions."
+                        data-ta="இணையதளத்தில் இந்தத் திட்டத்தைக் கண்டறிந்து சமீபத்திய தகுதி, நன்மைகள் மற்றும் விண்ணப்ப வழிமுறைகளைப் படிக்கவும்.">
+                        Find the scheme and read its instructions.
+                    </li>
+
+                    <li data-en="Register or sign in if required, then complete the application using the details requested."
+                        data-ta="தேவைப்பட்டால் பதிவு செய்து உள்நுழைந்து, கேட்கப்படும் விவரங்களுடன் விண்ணப்பத்தைப் பூர்த்தி செய்யவும்.">
+                        Complete the application.
+                    </li>
+
+                    <li data-en="Upload or submit the documents listed by the official portal or department."
+                        data-ta="அதிகாரப்பூர்வ இணையதளம் அல்லது துறை குறிப்பிடும் ஆவணங்களைப் பதிவேற்றவும் அல்லது சமர்ப்பிக்கவும்.">
+                        Submit the requested documents.
+                    </li>
+
+                    <li data-en="Review the information, submit the application if available, and save the acknowledgement."
+                        data-ta="விவரங்களைச் சரிபார்த்து, விண்ணப்ப வசதி இருந்தால் சமர்ப்பித்து ஒப்புகையைச் சேமிக்கவும்.">
+                        Submit and save the acknowledgement.
+                    </li>
+
+                    <li data-en="Check the application status using the official portal or the concerned department."
+                        data-ta="அதிகாரப்பூர்வ இணையதளம் அல்லது சம்பந்தப்பட்ட துறை மூலம் விண்ணப்ப நிலையைச் சரிபார்க்கவும்.">
+                        Check the application status.
+                    </li>
+
+                </ol>
+
+            {% endif %}
+
+
+            <div class="note"
+                 data-en="Important: The exact application fields, required documents and submission options are controlled by the official scheme portal. Follow the current instructions shown there. Never share your password or OTP."
+                 data-ta="முக்கியம்: விண்ணப்ப விவரங்கள், தேவையான ஆவணங்கள் மற்றும் சமர்ப்பிக்கும் விருப்பங்கள் அதிகாரப்பூர்வ திட்ட இணையதளத்தால் நிர்ணயிக்கப்படுகின்றன. அங்கு காட்டப்படும் தற்போதைய வழிமுறைகளைப் பின்பற்றவும். கடவுச்சொல் அல்லது OTP-ஐ யாரிடமும் பகிர வேண்டாம்.">
+                Important: Follow the current instructions shown on the official scheme portal.
+            </div>
+
+
+            <a href="{{ official_url }}"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="apply-btn">
+
+                <span data-en="Open Official Scheme Website"
+                      data-ta="அதிகாரப்பூர்வ திட்ட இணையதளத்தைத் திறக்கவும்">
+                    Open Official Scheme Website
+                </span>
+
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+
+
+            {% if is_student_scheme %}
+
+                <a href="{{ url_for('static', filename='pdfs/Pudhumai_Penn_Tamil_Pudhalvan_UMIS_Guide-1.pdf') }}"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="guide-btn">
+
+                    <i class="fa-solid fa-file-pdf"></i>
+
+                    <span data-en="View Application Guide PDF"
+                          data-ta="விண்ணப்ப வழிகாட்டி PDF">
+                        View Application Guide PDF
+                    </span>
+                </a>
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- OFFLINE APPLICATION -->
+
+        <section class="card">
+
+            <h2 data-en="Offline Application"
+                data-ta="நேரடி விண்ணப்பம்">
+                Offline Application
+            </h2>
+
+
+            <div class="offline-item">
+
+                <strong data-en="Where to Go"
+                        data-ta="எங்கு செல்ல வேண்டும்">
+                    Where to Go
+                </strong>
+
+                {% if is_student_scheme %}
+
+                    <p data-en="Visit your college or institution's Academic Section / student welfare office. Ask which staff member handles this scheme's UMIS applications."
+                       data-ta="உங்கள் கல்லூரி அல்லது கல்வி நிறுவனத்தின் Academic Section / மாணவர் நல அலுவலகத்திற்குச் செல்லவும். இந்தத் திட்டத்தின் UMIS விண்ணப்பங்களைக் கையாளும் பணியாளரிடம் கேட்கவும்.">
+                        Visit your college or institution's Academic Section / student welfare office.
+                    </p>
+
+                {% elif is_farmer_scheme %}
+
+                    <p data-en="Contact your local Agriculture Department office or the scheme's notified implementing office. For Tamil Nadu farmer welfare matters, the local Agriculture / Revenue office can direct you to the responsible scheme office."
+                       data-ta="உங்கள் உள்ளூர் வேளாண்மைத் துறை அலுவலகம் அல்லது திட்டத்திற்காக அறிவிக்கப்பட்ட செயல்பாட்டு அலுவலகத்தைத் தொடர்புகொள்ளவும். தமிழ்நாடு விவசாயிகள் நலத் திட்டங்களுக்கு, பொறுப்பான அலுவலகத்தை உள்ளூர் வேளாண்மை / வருவாய் அலுவலகம் வழிகாட்டும்.">
+                        Contact the local Agriculture Department or notified implementing office.
+                    </p>
+
+                {% elif is_pension_scheme %}
+
+                    <p data-en="For Tamil Nadu social-security pension schemes, contact your Taluk Office / Revenue Department service counter or the notified e-Sevai centre. Ask where this specific pension application is received."
+                       data-ta="தமிழ்நாடு சமூகப் பாதுகாப்பு ஓய்வூதியத் திட்டங்களுக்கு, உங்கள் வட்டாட்சியர் அலுவலகம் / வருவாய்த் துறை சேவைப் பிரிவு அல்லது அறிவிக்கப்பட்ட இ-சேவை மையத்தைத் தொடர்புகொள்ளவும். இந்த ஓய்வூதிய விண்ணப்பம் பெறப்படும் இடத்தைக் கேட்கவும்.">
+                        Contact the Taluk Office / Revenue Department service counter or notified e-Sevai centre.
+                    </p>
+
+                {% elif is_disability_scheme %}
+
+                    <p data-en="Contact the District Differently Abled Welfare Office. Ask whether the application must be submitted there or through the Employment Exchange / another notified channel."
+                       data-ta="மாவட்ட மாற்றுத்திறனாளிகள் நல அலுவலகத்தைத் தொடர்புகொள்ளவும். விண்ணப்பத்தை அங்கு சமர்ப்பிக்க வேண்டுமா அல்லது வேலைவாய்ப்பு அலுவலகம் / அறிவிக்கப்பட்ட வேறு வழி மூலம் சமர்ப்பிக்க வேண்டுமா என்று கேட்கவும்.">
+                        Contact the District Differently Abled Welfare Office.
+                    </p>
+
+                {% elif is_rural_employment %}
+
+                    <p data-en="Visit your Gram Panchayat office and ask about the job-card, work-request or grievance process under MGNREGA."
+                       data-ta="உங்கள் கிராம ஊராட்சி அலுவலகத்திற்குச் சென்று MGNREGA வேலை அட்டை, வேலை கோரிக்கை அல்லது குறைதீர்ப்பு நடைமுறையைப் பற்றி கேட்கவும்.">
+                        Visit your Gram Panchayat office.
+                    </p>
+
+                {% elif is_rural_housing %}
+
+                    <p data-en="Contact your Gram Panchayat or Block Development Office and ask which office handles this housing scheme's beneficiary verification and application process."
+                       data-ta="உங்கள் கிராம ஊராட்சி அல்லது வட்டார வளர்ச்சி அலுவலகத்தைத் தொடர்புகொண்டு, இந்த வீட்டு வசதித் திட்டத்தின் பயனாளர் சரிபார்ப்பு மற்றும் விண்ணப்பத்தை எந்த அலுவலகம் கையாளுகிறது என்று கேட்கவும்.">
+                        Contact your Gram Panchayat or Block Development Office.
+                    </p>
+
+                {% elif is_urban_housing %}
+
+                    <p data-en="Contact your Urban Local Body / Municipality / Corporation housing section or the implementing authority listed on the official PMAY-U portal."
+                       data-ta="நகர்ப்புற உள்ளாட்சி அமைப்பு / நகராட்சி / மாநகராட்சியின் வீட்டு வசதிப் பிரிவு அல்லது அதிகாரப்பூர்வ PMAY-U இணையதளத்தில் குறிப்பிடப்பட்ட செயல்பாட்டு அதிகாரியைத் தொடர்புகொள்ளவும்.">
+                        Contact your Urban Local Body or the listed implementing authority.
+                    </p>
+
+                {% elif is_bank_scheme %}
+
+                    <p data-en="Visit a participating bank branch or the financial institution specified by the scheme. Ask whether the scheme enrolment or application is handled at that branch."
+                       data-ta="திட்டத்தில் பங்கேற்கும் வங்கிக் கிளை அல்லது திட்டத்தில் குறிப்பிடப்பட்ட நிதி நிறுவனத்திற்குச் செல்லவும். அந்தக் கிளையில் திட்டப் பதிவு அல்லது விண்ணப்பம் பெறப்படுகிறதா என்று கேட்கவும்.">
+                        Visit a participating bank branch or the specified financial institution.
+                    </p>
+
+                {% elif is_business_scheme %}
+
+                    <p data-en="Contact the implementing agency or District Industries Centre (DIC) listed for the scheme. The official scheme portal identifies the applicable agency and application route."
+                       data-ta="திட்டத்திற்காக குறிப்பிடப்பட்ட செயல்பாட்டு நிறுவனம் அல்லது மாவட்டத் தொழில் மையத்தை (DIC) தொடர்புகொள்ளவும். பொருந்தும் நிறுவனம் மற்றும் விண்ணப்ப வழியை அதிகாரப்பூர்வ இணையதளம் குறிப்பிடும்.">
+                        Contact the scheme's implementing agency or District Industries Centre.
+                    </p>
+
+                {% elif is_health_scheme %}
+
+                    <p data-en="Contact the relevant government health facility or the district health authority. For hospital coverage schemes, check the official portal for the empanelled hospital or designated help desk."
+                       data-ta="சம்பந்தப்பட்ட அரசு சுகாதார நிலையம் அல்லது மாவட்ட சுகாதார அதிகாரியைத் தொடர்புகொள்ளவும். மருத்துவமனை காப்பீட்டுத் திட்டங்களுக்கு, அங்கீகரிக்கப்பட்ட மருத்துவமனை அல்லது உதவி மையத்தை அதிகாரப்பூர்வ இணையதளத்தில் சரிபார்க்கவும்.">
+                        Contact the relevant government health facility or district health authority.
+                    </p>
+
+                {% elif is_tribal_scheme %}
+
+                    <p data-en="Contact the District Tribal Welfare Office or the implementing department listed for the scheme. Ask which local office accepts applications or verifies beneficiaries."
+                       data-ta="மாவட்ட பழங்குடியினர் நல அலுவலகம் அல்லது திட்டத்திற்காக குறிப்பிடப்பட்ட செயல்பாட்டுத் துறையைத் தொடர்புகொள்ளவும். விண்ணப்பங்களைப் பெறும் அல்லது பயனாளிகளைச் சரிபார்க்கும் உள்ளூர் அலுவலகம் எது என்று கேட்கவும்.">
+                        Contact the District Tribal Welfare Office or the implementing department.
+                    </p>
+
+                {% elif is_water_scheme %}
+
+                    <p data-en="Contact your Gram Panchayat / local water-supply authority or the district-level implementing office for the scheme."
+                       data-ta="உங்கள் கிராம ஊராட்சி / உள்ளூர் குடிநீர் வழங்கல் அதிகாரம் அல்லது திட்டத்தின் மாவட்டச் செயல்பாட்டு அலுவலகத்தைத் தொடர்புகொள்ளவும்.">
+                        Contact the local water-supply authority or implementing office.
+                    </p>
+
+                {% elif is_energy_scheme %}
+
+                    <p data-en="Contact your electricity distribution company (DISCOM) or the authorised vendor listed on the official scheme portal."
+                       data-ta="உங்கள் மின்விநியோக நிறுவனத்தை (DISCOM) அல்லது அதிகாரப்பூர்வ திட்ட இணையதளத்தில் குறிப்பிடப்பட்ட அங்கீகரிக்கப்பட்ட விற்பனையாளரைத் தொடர்புகொள்ளவும்.">
+                        Contact your electricity distribution company or authorised vendor.
+                    </p>
+
+                {% elif is_women_scheme %}
+
+                    <p data-en="Contact the department or authorised service centre named on the official scheme portal. For Tamil Nadu state welfare schemes, ask the local Social Welfare Department office which office accepts the application."
+                       data-ta="அதிகாரப்பூர்வ திட்ட இணையதளத்தில் குறிப்பிடப்பட்ட துறை அல்லது அங்கீகரிக்கப்பட்ட சேவை மையத்தைத் தொடர்புகொள்ளவும். தமிழ்நாடு மாநில நலத்திட்டங்களுக்கு, விண்ணப்பம் பெறும் அலுவலகத்தை உள்ளூர் சமூக நலத்துறையிடம் கேட்கவும்.">
+                        Contact the department or authorised service centre listed for the scheme.
+                    </p>
+
+                {% elif is_education_scheme %}
+
+                    <p data-en="Contact your educational institution's scholarship / student welfare section or the department named on the official scheme portal."
+                       data-ta="உங்கள் கல்வி நிறுவனத்தின் உதவித்தொகை / மாணவர் நலப் பிரிவு அல்லது அதிகாரப்பூர்வ திட்ட இணையதளத்தில் குறிப்பிடப்பட்ட துறையைத் தொடர்புகொள்ளவும்.">
+                        Contact your institution's scholarship / student welfare section.
+                    </p>
+
+                {% elif 'rural development' in scheme_category or 'rural development' in scheme_department %}
+
+                    <p data-en="Contact your Block Development Office or the department / implementing agency named on the official scheme website."
+                       data-ta="உங்கள் வட்டார வளர்ச்சி அலுவலகம் அல்லது அதிகாரப்பூர்வ திட்ட இணையதளத்தில் குறிப்பிடப்பட்ட துறை / செயல்பாட்டு நிறுவனத்தைத் தொடர்புகொள்ளவும்.">
+                        Contact your Block Development Office or implementing agency.
+                    </p>
+
+                {% else %}
+
+                    <p data-en="{{ scheme.offline_office or '' }}"
+                       data-ta="{{ scheme.offline_office_ta or '' }}"
+                       data-empty-en="Contact the department listed for this scheme. Use the official scheme website to identify the designated local office before visiting."
+                       data-empty-ta="இந்தத் திட்டத்திற்காகக் குறிப்பிடப்பட்ட துறையைத் தொடர்புகொள்ளவும். நேரில் செல்வதற்கு முன் அதிகாரப்பூர்வ இணையதளத்தில் நியமிக்கப்பட்ட உள்ளூர் அலுவலகத்தைச் சரிபார்க்கவும்.">
+                        {{ scheme.offline_office or "Contact the department listed for this scheme. Use the official scheme website to identify the designated local office before visiting." }}
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="offline-item">
+
+                <strong data-en="Whom to Contact"
+                        data-ta="யாரை தொடர்பு கொள்ள வேண்டும்">
+                    Whom to Contact
+                </strong>
+
+                {% if is_student_scheme %}
+
+                    <p data-en="College UMIS Nodal Officer, Academic Section or the staff member designated to handle the scheme applications."
+                       data-ta="கல்லூரி UMIS Nodal Officer, Academic Section அல்லது திட்ட விண்ணப்பங்களைக் கையாள நியமிக்கப்பட்ட பணியாளரை அணுகவும்.">
+                        College UMIS Nodal Officer or the designated scheme staff member.
+                    </p>
+
+                {% elif is_farmer_scheme %}
+
+                    <p data-en="Ask for the officer responsible for this scheme at the local Agriculture Department / notified implementing office. For PM-KISAN, ask the local scheme verification or nodal officer."
+                       data-ta="உள்ளூர் வேளாண்மைத் துறை / அறிவிக்கப்பட்ட செயல்பாட்டு அலுவலகத்தில் இந்தத் திட்டத்திற்குப் பொறுப்பான அதிகாரியைக் கேட்கவும். PM-KISAN-க்கு உள்ளூர் திட்டச் சரிபார்ப்பு அல்லது Nodal Officer-ஐ அணுகவும்.">
+                        Contact the officer responsible for the scheme at the local Agriculture Department.
+                    </p>
+
+                {% elif is_pension_scheme %}
+
+                    <p data-en="Ask for the Revenue Department officer handling the relevant pension application at your Taluk Office or the designated pension scheme officer."
+                       data-ta="உங்கள் வட்டாட்சியர் அலுவலகத்தில் தொடர்புடைய ஓய்வூதிய விண்ணப்பத்தைக் கையாளும் வருவாய்த் துறை அதிகாரி அல்லது நியமிக்கப்பட்ட ஓய்வூதியத் திட்ட அதிகாரியைக் கேட்கவும்.">
+                        Contact the Revenue Department officer handling the pension application.
+                    </p>
+
+                {% elif is_disability_scheme %}
+
+                    <p data-en="District Differently Abled Welfare Officer or the officer designated for this particular scheme."
+                       data-ta="மாவட்ட மாற்றுத்திறனாளிகள் நல அலுவலர் அல்லது இந்தத் திட்டத்திற்காக நியமிக்கப்பட்ட அதிகாரியை அணுகவும்.">
+                        Contact the District Differently Abled Welfare Officer.
+                    </p>
+
+                {% elif is_rural_employment %}
+
+                    <p data-en="Ask the Gram Panchayat Secretary or the designated MGNREGA functionary about the applicable process."
+                       data-ta="பொருந்தும் நடைமுறையைப் பற்றி கிராம ஊராட்சி செயலாளர் அல்லது நியமிக்கப்பட்ட MGNREGA பணியாளரிடம் கேட்கவும்.">
+                        Contact the Gram Panchayat Secretary or designated MGNREGA functionary.
+                    </p>
+
+                {% elif is_rural_housing or is_urban_housing %}
+
+                    <p data-en="Ask the scheme's designated beneficiary-verification or housing officer at the implementing local body."
+                       data-ta="செயல்படுத்தும் உள்ளாட்சி அமைப்பில் திட்டத்திற்காக நியமிக்கப்பட்ட பயனாளர் சரிபார்ப்பு அல்லது வீட்டு வசதி அதிகாரியைக் கேட்கவும்.">
+                        Contact the designated housing or beneficiary-verification officer.
+                    </p>
+
+                {% elif is_bank_scheme %}
+
+                    <p data-en="Bank Manager or the scheme's designated officer at the participating bank / financial institution."
+                       data-ta="பங்கேற்கும் வங்கி / நிதி நிறுவனத்தின் வங்கி மேலாளர் அல்லது திட்டத்திற்காக நியமிக்கப்பட்ட அதிகாரியை அணுகவும்.">
+                        Contact the Bank Manager or the scheme's designated officer.
+                    </p>
+
+                {% elif is_business_scheme %}
+
+                    <p data-en="Ask the scheme's designated officer at the implementing agency or District Industries Centre."
+                       data-ta="செயல்பாட்டு நிறுவனம் அல்லது மாவட்டத் தொழில் மையத்தில் திட்டத்திற்காக நியமிக்கப்பட்ட அதிகாரியைக் கேட்கவும்.">
+                        Contact the scheme's designated officer at the implementing agency.
+                    </p>
+
+                {% elif is_health_scheme %}
+
+                    <p data-en="Contact the designated scheme help desk, Medical Officer or district health official, depending on the service."
+                       data-ta="சேவையைப் பொறுத்து திட்ட உதவி மையம், மருத்துவ அலுவலர் அல்லது மாவட்ட சுகாதார அதிகாரியைத் தொடர்புகொள்ளவும்.">
+                        Contact the designated scheme help desk or health official.
+                    </p>
+
+                {% elif is_tribal_scheme %}
+
+                    <p data-en="District Tribal Welfare Officer or the officer designated by the implementing department."
+                       data-ta="மாவட்ட பழங்குடியினர் நல அலுவலர் அல்லது செயல்பாட்டுத் துறையால் நியமிக்கப்பட்ட அதிகாரியை அணுகவும்.">
+                        Contact the District Tribal Welfare Officer.
+                    </p>
+
+                {% elif is_water_scheme %}
+
+                    <p data-en="Ask for the local water-supply scheme officer or the officer designated by the implementing department."
+                       data-ta="உள்ளூர் குடிநீர் திட்ட அதிகாரி அல்லது செயல்பாட்டுத் துறையால் நியமிக்கப்பட்ட அதிகாரியைக் கேட்கவும்.">
+                        Contact the local water-supply scheme officer.
+                    </p>
+
+                {% elif is_energy_scheme %}
+
+                    <p data-en="DISCOM's designated rooftop-solar / scheme officer or the authorised vendor listed by the portal."
+                       data-ta="DISCOM-இன் கூரை சூரிய மின்சாரம் / திட்ட அதிகாரி அல்லது இணையதளத்தில் குறிப்பிடப்பட்ட அங்கீகரிக்கப்பட்ட விற்பனையாளரை அணுகவும்.">
+                        Contact the DISCOM's designated scheme officer or authorised vendor.
+                    </p>
+
+                {% elif is_women_scheme %}
+
+                    <p data-en="Ask for the officer responsible for the scheme at the relevant Social Welfare / Women and Child Development office or authorised service centre."
+                       data-ta="சம்பந்தப்பட்ட சமூக நல / பெண்கள் மற்றும் குழந்தைகள் மேம்பாட்டு அலுவலகம் அல்லது அங்கீகரிக்கப்பட்ட சேவை மையத்தில் திட்டத்திற்குப் பொறுப்பான அதிகாரியைக் கேட்கவும்.">
+                        Contact the officer responsible for the scheme at the relevant department.
+                    </p>
+
+                {% elif is_education_scheme %}
+
+                    <p data-en="Institution scholarship officer, student welfare officer or the designated officer named in the scheme guidelines."
+                       data-ta="கல்வி நிறுவன உதவித்தொகை அலுவலர், மாணவர் நல அலுவலர் அல்லது திட்ட வழிகாட்டுதலில் குறிப்பிடப்பட்ட அதிகாரியை அணுகவும்.">
+                        Contact the institution scholarship officer or designated scheme officer.
+                    </p>
+
+                {% else %}
+
+                    <p data-en="{{ scheme.offline_officer or '' }}"
+                       data-ta="{{ scheme.offline_officer_ta or '' }}"
+                       data-empty-en="Ask the department listed for this scheme to identify the designated scheme officer before submitting documents."
+                       data-empty-ta="ஆவணங்களைச் சமர்ப்பிப்பதற்கு முன், இந்தத் திட்டத்திற்காக நியமிக்கப்பட்ட அதிகாரியை சம்பந்தப்பட்ட துறையிடம் கேட்டறியவும்.">
+                        {{ scheme.offline_officer or "Ask the department listed for this scheme to identify the designated scheme officer before submitting documents." }}
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="offline-item">
+
+                <strong data-en="Documents to Carry"
+                        data-ta="எடுத்துச் செல்ல வேண்டிய ஆவணங்கள்">
+                    Documents to Carry
+                </strong>
+
+                {% if scheme.offline_documents %}
+
+                    <p data-en="{{ scheme.offline_documents }}"
+                       data-ta="{{ scheme.offline_documents_ta or '' }}"
+                       data-empty-ta="செல்லும் முன் சம்பந்தப்பட்ட அலுவலகத்தில் ஆவணப் பட்டியலை உறுதிப்படுத்தவும்.">
+                        {{ scheme.offline_documents }}
+                    </p>
+
+                {% elif is_student_scheme %}
+
+                    <p data-en="Carry copies of the school study certificate / records (Classes 6–12), Community Certificate, Income Certificate, student bank passbook, Aadhaar Card and college admission proof. Confirm whether originals are required."
+                       data-ta="பள்ளிப் படிப்புச் சான்றிதழ் / பதிவுகள் (6–12ஆம் வகுப்பு), சமூகச் சான்றிதழ், வருமானச் சான்றிதழ், மாணவர் வங்கிப் புத்தகம், ஆதார் அட்டை மற்றும் கல்லூரிச் சேர்க்கைச் சான்றின் நகல்களை எடுத்துச் செல்லவும். அசல் ஆவணங்கள் தேவையா என்பதை உறுதிப்படுத்தவும்.">
+                        Carry copies of the listed student scheme documents.
+                    </p>
+
+                {% elif is_pension_scheme %}
+
+                    <p data-en="Carry the documents requested for the specific pension scheme. These may include identity, age, address, bank and scheme-specific supporting records. Confirm the final checklist with the receiving office."
+                       data-ta="குறிப்பிட்ட ஓய்வூதியத் திட்டத்திற்குக் கேட்கப்படும் ஆவணங்களை எடுத்துச் செல்லவும். அடையாளம், வயது, முகவரி, வங்கி மற்றும் திட்டத்திற்கான ஆதார ஆவணங்கள் தேவைப்படலாம். இறுதிப் பட்டியலை விண்ணப்பம் பெறும் அலுவலகத்தில் உறுதிப்படுத்தவும்.">
+                        Carry the documents required for the specific pension scheme.
+                    </p>
+
+                {% elif is_farmer_scheme %}
+
+                    <p data-en="Carry the scheme-specific farmer, identity, land, bank and registration records requested by the implementing office. Confirm the exact list before visiting."
+                       data-ta="செயல்பாட்டு அலுவலகம் கேட்கும் திட்டத்திற்கான விவசாயி, அடையாளம், நிலம், வங்கி மற்றும் பதிவு ஆவணங்களை எடுத்துச் செல்லவும். வருவதற்கு முன் சரியான பட்டியலை உறுதிப்படுத்தவும்.">
+                        Carry the farmer, identity, land and bank records required for this scheme.
+                    </p>
+
+                {% else %}
+
+                    <p data-en="Carry the identity, address, bank and scheme-specific supporting documents listed by the official scheme portal or receiving office. Confirm the exact checklist before visiting."
+                       data-ta="அதிகாரப்பூர்வ திட்ட இணையதளம் அல்லது விண்ணப்பம் பெறும் அலுவலகம் குறிப்பிடும் அடையாளம், முகவரி, வங்கி மற்றும் திட்டத்திற்கான ஆதார ஆவணங்களை எடுத்துச் செல்லவும். வருவதற்கு முன் சரியான பட்டியலை உறுதிப்படுத்தவும்.">
+                        Carry the documents listed by the official scheme portal or receiving office.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+
+            {% if scheme.offline_process %}
+
+                <div class="offline-item">
+
+                    <strong data-en="Offline Process"
+                            data-ta="நேரடி விண்ணப்ப நடைமுறை">
+                        Offline Process
+                    </strong>
+
+                    <p data-en="{{ scheme.offline_process }}"
+                       data-ta="{{ scheme.offline_process_ta or '' }}"
+                       data-empty-ta="நேரடி விண்ணப்ப நடைமுறையை சம்பந்தப்பட்ட அலுவலகத்தில் உறுதிப்படுத்தவும்.">
+                        {{ scheme.offline_process }}
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+    </div>
+
+</main>
+
+
+<button class="voice-btn" id="voiceBtn">
+
+    <i class="fa-solid fa-microphone"></i>
+
+    <span data-en="Ask AI"
+          data-ta="AI-யிடம் கேள்">
+        Ask AI
+    </span>
+
+</button>
+
+
+<script>
+    let currentLanguage =
+        localStorage.getItem("citizenLanguage") || "en";
+
+    const languageBtn =
+        document.getElementById("languageBtn");
+
+    const languageMenu =
+        document.getElementById("languageMenu");
+
+    const languageText =
+        document.getElementById("languageText");
+
+
+    function applyLanguage(language) {
+
+        currentLanguage = language;
+
+        localStorage.setItem("citizenLanguage", language);
+
+        document.documentElement.lang =
+            language === "ta" ? "ta" : "en";
+
+        languageText.textContent =
+            language === "ta" ? "தமிழ்" : "English";
+
+
+        document.querySelectorAll("[data-en][data-ta]")
+            .forEach(function(element) {
+
+                const selectedText =
+                    language === "ta"
+                        ? element.dataset.ta
+                        : element.dataset.en;
+
+                const fallbackText =
+                    language === "ta"
+                        ? (
+                            element.dataset.emptyTa ||
+                            "இந்த மொழியில் தகவல் கிடைக்கவில்லை."
+                        )
+                        : (
+                            element.dataset.emptyEn ||
+                            "Information is not available in this language."
+                        );
+
+                if (selectedText && selectedText.trim() !== "") {
+                    element.textContent = selectedText;
+                } else {
+                    element.textContent = fallbackText;
+                }
+
+            });
+
+    }
+
+
+    languageBtn.addEventListener("click", function(event) {
+
+        event.stopPropagation();
+
+        languageMenu.classList.toggle("show");
+
+    });
+
+
+    languageMenu.querySelectorAll("button")
+        .forEach(function(button) {
+
+            button.addEventListener("click", function() {
+
+                applyLanguage(this.dataset.language);
+
+                languageMenu.classList.remove("show");
+
+            });
+
+        });
+
+
+    document.addEventListener("click", function() {
+
+        languageMenu.classList.remove("show");
+
+    });
+
+
+    applyLanguage(currentLanguage);
+
+
+    /* VOICE ASSISTANT */
+
+    document.getElementById("voiceBtn")
+        .addEventListener("click", function() {
+
+            const SpeechRecognition =
+                window.SpeechRecognition ||
+                window.webkitSpeechRecognition;
+
+            if (!SpeechRecognition) {
+
+                alert(
+                    currentLanguage === "ta"
+                        ? "இந்த உலாவியில் குரல் வசதி இல்லை."
+                        : "Voice recognition is not supported in this browser."
+                );
+
+                return;
+            }
+
+            const recognition = new SpeechRecognition();
+
+            recognition.lang =
+                currentLanguage === "ta" ? "ta-IN" : "en-IN";
+
+            recognition.continuous = false;
+            recognition.interimResults = false;
+
+
+            recognition.onresult = async function(event) {
+
+                const message =
+                    event.results[0][0].transcript;
+
+                try {
+
+                    const response = await fetch("/api/chat", {
+
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            message: message,
+
+                            language: currentLanguage,
+
+                            context: {{ scheme.scheme_name | tojson }}
+
+                        })
+
+                    });
+
+                    const data = await response.json();
+
+                    if (data.reply) {
+
+                        alert(data.reply);
+
+                        const speech =
+                            new SpeechSynthesisUtterance(data.reply);
+
+                        speech.lang =
+                            currentLanguage === "ta"
+                                ? "ta-IN"
+                                : "en-IN";
+
+                        speechSynthesis.speak(speech);
+
+                    }
+
+                } catch (error) {
+
+                    alert(
+                        currentLanguage === "ta"
+                            ? "AI சேவையை இப்போது அணுக முடியவில்லை."
+                            : "AI service is temporarily unavailable."
+                    );
+
+                }
+
+            };
+
+            recognition.start();
+
+        });
+</script>
+
+</body>
+</html>

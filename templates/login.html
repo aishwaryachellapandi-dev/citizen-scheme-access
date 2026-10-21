@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-en="Login | Citizen Scheme Access" data-ta="உள்நுழைவு | குடிமக்கள் திட்ட அணுகல்">Login | Citizen Scheme Access</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+
+<body>
+
+<div class="login-page">
+
+    <div class="login-left">
+
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="fa-solid fa-robot"></i>
+            </div>
+            <span data-en="Citizen Scheme Access" data-ta="குடிமக்கள் திட்ட அணுகல்">Citizen Scheme Access</span>
+        </div>
+
+        <div class="left-content">
+
+            <h1>
+                <span data-en="Your Smart" data-ta="உங்கள் சிறந்த">
+                    Your Smart
+                </span>
+
+                <span data-en="Citizen Journey" data-ta="குடிமகன் பயணம்">
+                    Citizen Journey
+                </span>
+
+                <span data-en="Starts Here." data-ta="இங்கே தொடங்குகிறது.">
+                    Starts Here.
+                </span>
+            </h1>
+
+            <p data-en="Access government schemes, scholarships, career guidance and citizen benefits through one intelligent platform."
+               data-ta="அரசுத் திட்டங்கள், உதவித்தொகைகள், வேலைவாய்ப்பு வழிகாட்டுதல் மற்றும் குடிமக்கள் நலன்களை ஒரே தளத்தில் எளிதாகப் பெறுங்கள்.">
+                Access government schemes, scholarships,
+                career guidance and citizen benefits through
+                one intelligent platform.
+            </p>
+
+        </div>
+
+        <div class="left-bottom">
+            <span>
+                <i class="fa-solid fa-shield-heart"></i>
+
+                <span data-en="Simple • Smart • Citizen Friendly"
+                      data-ta="எளிமையானது • சிறந்தது • குடிமக்களுக்கு ஏற்றது">
+                    Simple • Smart • Citizen Friendly
+                </span>
+            </span>
+        </div>
+
+    </div>
+
+
+    <div class="login-right">
+
+        <div class="login-card">
+
+            <div class="card-top">
+                <div class="mini-logo">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+
+                <span data-en="Citizen Scheme Access" data-ta="குடிமக்கள் திட்ட அணுகல்">Citizen Scheme Access</span>
+            </div>
+
+
+            <div class="login-heading">
+
+                <h2 data-en="Welcome Back! 👋"
+                    data-ta="மீண்டும் வரவேற்கிறோம்! 👋">
+                    Welcome Back! 👋
+                </h2>
+
+                <p data-en="Login to continue your smart citizen journey."
+                   data-ta="உங்கள் சிறந்த குடிமகன் பயணத்தைத் தொடர உள்நுழையுங்கள்.">
+                    Login to continue your smart citizen journey.
+                </p>
+
+            </div>
+
+
+            <form method="POST" action="{{ url_for('login') }}">
+
+                <div class="form-group">
+
+                    <label for="username"
+                           data-en="Username"
+                           data-ta="பயனர் பெயர்">
+                        Username
+                    </label>
+
+                    <div class="input-box">
+
+                        <i class="fa-solid fa-user"></i>
+
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Enter your username"
+                            data-placeholder-en="Enter your username"
+                            data-placeholder-ta="உங்கள் பயனர் பெயரை உள்ளிடுங்கள்"
+                            autocomplete="username"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+<div class="form-group">
+
+    <label for="email"
+           data-en="Email"
+           data-ta="மின்னஞ்சல்">
+        Email
+    </label>
+
+    <div class="input-box">
+
+        <i class="fa-solid fa-envelope"></i>
+
+        <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email"
+            data-placeholder-en="Enter your email"
+            data-placeholder-ta="உங்கள் மின்னஞ்சலை உள்ளிடுங்கள்"
+            autocomplete="email"
+            required
+        >
+
+    </div>
+
+</div>
+
+                <div class="form-group">
+
+                    <label for="password"
+                           data-en="Password"
+                           data-ta="கடவுச்சொல்">
+                        Password
+                    </label>
+
+                    <div class="input-box">
+
+                        <i class="fa-solid fa-lock"></i>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            data-placeholder-en="Enter your password"
+                            data-placeholder-ta="உங்கள் கடவுச்சொல்லை உள்ளிடுங்கள்"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            onclick="togglePassword()"
+                            aria-label="Show password"
+                        >
+                            <i id="eyeIcon" class="fa-solid fa-eye"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="login-options">
+
+                    <label class="remember">
+
+                        <input type="checkbox">
+
+                        <span data-en="Remember me"
+                              data-ta="என்னை நினைவில் வைத்துக்கொள்">
+                            Remember me
+                        </span>
+
+                    </label>
+
+
+                    <a href="#"
+                       onclick="return false;"
+                       data-en="Forgot password?"
+                       data-ta="கடவுச்சொல் மறந்துவிட்டதா?">
+                        Forgot password?
+                    </a>
+
+                </div>
+
+
+                <button type="submit" class="login-button">
+
+                    <span data-en="Login"
+                          data-ta="உள்நுழை">
+                        Login
+                    </span>
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </button>
+
+            </form>
+
+
+            <div class="divider">
+
+                <span data-en="Secure Citizen Access"
+                      data-ta="பாதுகாப்பான குடிமக்கள் அணுகல்">
+                    Secure Citizen Access
+                </span>
+
+            </div>
+
+
+            <div class="secure-note">
+
+                <i class="fa-solid fa-shield-halved"></i>
+
+                <span data-en="Your information is handled securely."
+                      data-ta="உங்கள் தகவல்கள் பாதுகாப்பாக கையாளப்படுகின்றன.">
+                    Your information is handled securely.
+                </span>
+
+            </div>
+
+
+            <a href="{{ url_for('home') }}" class="back-home">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                <span data-en="Back to Home"
+                      data-ta="முகப்புப் பக்கத்திற்குச் செல்லுங்கள்">
+                    Back to Home
+                </span>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- VOICE ASSISTANT -->
+<button type="button"
+        id="voiceAssistantButton"
+        aria-label="Voice Assistant"
+        title="Voice Assistant">
+
+    <i class="fa-solid fa-microphone"></i>
+    <span id="voiceAssistantText">Voice</span>
+
+</button>
+
+
+<style>
+#voiceAssistantButton {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 9999;
+    border: none;
+    border-radius: 50px;
+    padding: 13px 18px;
+    background: #7c3aed;
+    color: #ffffff;
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(124, 58, 237, 0.25);
+    transition: 0.2s ease;
+}
+
+#voiceAssistantButton:hover {
+    transform: translateY(-2px);
+    background: #6d28d9;
+}
+
+#voiceAssistantButton.speaking {
+    background: #dc2626;
+}
+
+@media (max-width: 600px) {
+    #voiceAssistantButton {
+        right: 15px;
+        bottom: 15px;
+        padding: 12px 15px;
+    }
+}
+</style>
+
+
+<script>
+
+/* =========================
+   LANGUAGE
+========================= */
+
+let currentLanguage =
+    localStorage.getItem("citizenLanguage") || "en";
+
+
+function applyLanguage() {
+
+    document.documentElement.lang =
+        currentLanguage === "ta" ? "ta" : "en";
+
+    document.querySelectorAll("[data-en][data-ta]").forEach(function(element) {
+
+        element.textContent =
+            currentLanguage === "ta"
+                ? element.getAttribute("data-ta")
+                : element.getAttribute("data-en");
+
+    });
+
+
+    document.querySelectorAll("input[data-placeholder-en]").forEach(function(input) {
+
+        input.placeholder =
+            currentLanguage === "ta"
+                ? input.getAttribute("data-placeholder-ta")
+                : input.getAttribute("data-placeholder-en");
+
+    });
+
+}
+
+
+applyLanguage();
+
+
+/* =========================
+   PASSWORD SHOW / HIDE
+========================= */
+
+function togglePassword() {
+
+    const password = document.getElementById("password");
+    const eyeIcon = document.getElementById("eyeIcon");
+
+    if (password.type === "password") {
+
+        password.type = "text";
+
+        eyeIcon.classList.remove("fa-eye");
+        eyeIcon.classList.add("fa-eye-slash");
+
+    } else {
+
+        password.type = "password";
+
+        eyeIcon.classList.remove("fa-eye-slash");
+        eyeIcon.classList.add("fa-eye");
+
+    }
+
+}
+
+
+/* =========================
+   VOICE ASSISTANT
+========================= */
+
+const voiceButton =
+    document.getElementById("voiceAssistantButton");
+
+const voiceText =
+    document.getElementById("voiceAssistantText");
+
+let isSpeaking = false;
+
+
+function getVoiceText() {
+
+    const elements =
+        document.querySelectorAll("[data-en][data-ta]");
+
+    let text = "";
+
+    elements.forEach(function(element) {
+
+        const value =
+            currentLanguage === "ta"
+                ? element.getAttribute("data-ta")
+                : element.getAttribute("data-en");
+
+        if (value) {
+            text += value + ". ";
+        }
+
+    });
+
+    return text;
+}
+
+
+voiceButton.addEventListener("click", function() {
+
+    if (!("speechSynthesis" in window)) {
+        return;
+    }
+
+    if (isSpeaking) {
+
+        speechSynthesis.cancel();
+
+        isSpeaking = false;
+
+        voiceButton.classList.remove("speaking");
+
+        voiceText.textContent =
+            currentLanguage === "ta"
+                ? "குரல்"
+                : "Voice";
+
+        return;
+    }
+
+
+    const text = getVoiceText();
+
+    if (!text.trim()) {
+        return;
+    }
+
+
+    const speech =
+        new SpeechSynthesisUtterance(text);
+
+    speech.lang =
+        currentLanguage === "ta"
+            ? "ta-IN"
+            : "en-IN";
+
+    speech.rate = 0.9;
+    speech.pitch = 1;
+
+
+    speech.onstart = function() {
+
+        isSpeaking = true;
+
+        voiceButton.classList.add("speaking");
+
+        voiceText.textContent =
+            currentLanguage === "ta"
+                ? "நிறுத்து"
+                : "Stop";
+
+    };
+
+
+    speech.onend = function() {
+
+        isSpeaking = false;
+
+        voiceButton.classList.remove("speaking");
+
+        voiceText.textContent =
+            currentLanguage === "ta"
+                ? "குரல்"
+                : "Voice";
+
+    };
+
+
+    speech.onerror = function() {
+
+        isSpeaking = false;
+
+        voiceButton.classList.remove("speaking");
+
+        voiceText.textContent =
+            currentLanguage === "ta"
+                ? "குரல்"
+                : "Voice";
+
+    };
+
+
+    speechSynthesis.cancel();
+
+    speechSynthesis.speak(speech);
+
+});
+
+</script>
+
+</body>
+</html>

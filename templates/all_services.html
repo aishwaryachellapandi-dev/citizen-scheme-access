@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title id="pageTitle">
+        Government Services - Citizen Scheme Access
+    </title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+
+    <style>
+
+        :root {
+            --blue: #315eea;
+            --purple: #7657ff;
+            --pink: #ff4fa3;
+            --cyan: #00bfe9;
+            --green: #08a878;
+            --orange: #f47b20;
+
+            --dark: #172033;
+            --dark2: #263653;
+            --muted: #52627a;
+
+            --white: #ffffff;
+            --page: #f7faff;
+
+            --border: rgba(72, 94, 145, .15);
+        }
+
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+            font-family: "Poppins", sans-serif;
+            background:
+                radial-gradient(circle at 5% 10%,
+                    rgba(49,94,234,.10),
+                    transparent 28%),
+                radial-gradient(circle at 95% 15%,
+                    rgba(255,79,163,.09),
+                    transparent 28%),
+                radial-gradient(circle at 50% 100%,
+                    rgba(0,191,233,.08),
+                    transparent 30%),
+                var(--page);
+
+            color: var(--dark);
+            min-height: 100vh;
+        }
+
+
+        /* ================= NAVBAR ================= */
+
+        .top {
+            padding: 17px 6%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            background: rgba(255,255,255,.88);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+
+            border-bottom: 1px solid rgba(72,94,145,.12);
+
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            text-decoration: none;
+
+            color: var(--dark);
+
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+
+        .brand i {
+            font-size: 23px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--green),
+                    var(--cyan),
+                    var(--blue)
+                );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+            animation: robotFloat 3s ease-in-out infinite;
+        }
+
+
+        @keyframes robotFloat {
+            0%,100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+
+
+        .right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+
+        .language-selector {
+            position: relative;
+        }
+
+
+        .language-btn,
+        .dashboard-btn {
+
+            border: 1px solid var(--border);
+
+            background: rgba(255,255,255,.92);
+
+            color: var(--blue);
+
+            padding: 10px 15px;
+
+            border-radius: 12px;
+
+            font-family: inherit;
+
+            font-weight: 700;
+
+            font-size: 13px;
+
+            cursor: pointer;
+
+            text-decoration: none;
+
+            transition: .25s ease;
+        }
+
+
+        .language-btn:hover,
+        .dashboard-btn:hover {
+
+            color: white;
+
+            border-color: transparent;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--blue),
+                    var(--purple)
+                );
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 10px 25px rgba(49,94,234,.22);
+        }
+
+
+        .language-menu {
+
+            position: absolute;
+
+            right: 0;
+            top: 50px;
+
+            background: rgba(255,255,255,.97);
+
+            border: 1px solid var(--border);
+
+            border-radius: 15px;
+
+            padding: 7px;
+
+            min-width: 140px;
+
+            display: none;
+
+            box-shadow:
+                0 18px 45px rgba(30,55,100,.16);
+
+            z-index: 2000;
+
+            animation: menuDrop .2s ease;
+        }
+
+
+        @keyframes menuDrop {
+
+            from {
+                opacity: 0;
+                transform: translateY(-7px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        .language-menu.show {
+            display: block;
+        }
+
+
+        .language-menu button {
+
+            width: 100%;
+
+            border: 0;
+
+            background: transparent;
+
+            padding: 10px;
+
+            border-radius: 9px;
+
+            text-align: left;
+
+            cursor: pointer;
+
+            font-family: inherit;
+
+            font-weight: 600;
+
+            transition: .2s;
+        }
+
+
+        .language-menu button:hover {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(49,94,234,.10),
+                    rgba(118,87,255,.10)
+                );
+
+            color: var(--blue);
+        }
+
+
+        /* ================= MAIN ================= */
+
+        .container {
+
+            width: 88%;
+
+            max-width: 1200px;
+
+            margin: 48px auto 70px;
+        }
+
+
+        .heading {
+
+            margin-bottom: 32px;
+        }
+
+
+        .heading span {
+
+            display: inline-block;
+
+            color: var(--green);
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            letter-spacing: 1.5px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .heading h1 {
+
+            font-size: 36px;
+
+            font-weight: 800;
+
+            color: var(--dark);
+
+            margin: 5px 0 8px;
+
+            letter-spacing: -.5px;
+        }
+
+
+        .heading p {
+
+            color: var(--muted);
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            line-height: 1.8;
+
+            max-width: 760px;
+        }
+
+
+        /* ================= LIST ================= */
+
+        .list {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 24px;
+        }
+
+
+        /* ================= CARD ================= */
+
+        .card {
+
+            position: relative;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.98),
+                    rgba(250,252,255,.95)
+                );
+
+            border-radius: 22px;
+
+            padding: 27px;
+
+            border: 1px solid var(--border);
+
+            box-shadow:
+                0 10px 30px rgba(45,65,110,.07);
+
+            display: flex;
+
+            flex-direction: column;
+
+            min-height: 325px;
+
+            transition:
+                transform .35s ease,
+                box-shadow .35s ease,
+                border-color .35s ease;
+        }
+
+
+        .card::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: 0;
+            right: 0;
+
+            height: 4px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--green),
+                    var(--cyan),
+                    var(--blue),
+                    var(--purple)
+                );
+
+            background-size: 200% 100%;
+
+            animation:
+                gradientMove 4s linear infinite;
+        }
+
+
+        @keyframes gradientMove {
+
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 200% 50%;
+            }
+        }
+
+
+        .card::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 130px;
+            height: 130px;
+
+            border-radius: 50%;
+
+            right: -70px;
+            top: -70px;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(0,191,233,.13),
+                    transparent 68%
+                );
+
+            pointer-events: none;
+        }
+
+
+        .card:hover {
+
+            transform: translateY(-9px);
+
+            border-color:
+                rgba(49,94,234,.25);
+
+            box-shadow:
+                0 22px 50px rgba(49,94,234,.14);
+        }
+
+
+        /* ================= ICON ================= */
+
+        .icon {
+
+            position: relative;
+
+            width: 58px;
+            height: 58px;
+
+            border-radius: 17px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 19px;
+
+            font-size: 22px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--green),
+                    var(--cyan),
+                    var(--blue)
+                );
+
+            box-shadow:
+                0 10px 24px rgba(8,168,120,.22);
+
+            transition:
+                transform .35s ease,
+                box-shadow .35s ease;
+        }
+
+
+        .icon::before {
+
+            content: "";
+
+            position: absolute;
+
+            inset: -4px;
+
+            border-radius: 20px;
+
+            border: 1px solid
+                rgba(0,191,233,.25);
+
+            opacity: 0;
+
+            transition: .3s;
+        }
+
+
+        .card:hover .icon {
+
+            transform:
+                translateY(-3px)
+                rotate(-3deg)
+                scale(1.06);
+
+            box-shadow:
+                0 14px 30px rgba(49,94,234,.25);
+        }
+
+
+        .card:hover .icon::before {
+            opacity: 1;
+        }
+
+
+        /* ================= CARD TEXT ================= */
+
+        .card h2 {
+
+            font-size: 20px;
+
+            line-height: 1.5;
+
+            font-weight: 800;
+
+            color: var(--dark);
+
+            margin-bottom: 11px;
+        }
+
+
+        .card p {
+
+            color: var(--dark2);
+
+            font-size: 14px;
+
+            line-height: 1.8;
+
+            font-weight: 600;
+
+            margin-bottom: 15px;
+        }
+
+
+        /* ================= DEPARTMENT ================= */
+
+        .department {
+
+            color: var(--dark2);
+
+            font-size: 13px;
+
+            line-height: 1.7;
+
+            font-weight: 600;
+
+            margin-bottom: 18px;
+
+            padding: 10px 12px;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(8,168,120,.07),
+                    rgba(49,94,234,.06)
+                );
+
+            border: 1px solid
+                rgba(49,94,234,.09);
+        }
+
+
+        .department i {
+
+            color: var(--green);
+
+            margin-right: 6px;
+        }
+
+
+        .department strong {
+
+            color: var(--blue);
+
+            font-weight: 800;
+        }
+
+
+        /* ================= BUTTON ================= */
+
+        .btn {
+
+            position: relative;
+
+            overflow: hidden;
+
+            margin-top: auto;
+
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 9px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--green),
+                    var(--cyan),
+                    var(--blue)
+                );
+
+            background-size: 180% 180%;
+
+            color: #fff;
+
+            text-decoration: none;
+
+            padding: 12px 17px;
+
+            border-radius: 12px;
+
+            font-size: 13px;
+
+            font-weight: 800;
+
+            box-shadow:
+                0 8px 22px rgba(49,94,234,.18);
+
+            transition:
+                transform .25s ease,
+                box-shadow .25s ease,
+                background-position .35s ease;
+        }
+
+
+        .btn::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: -120%;
+
+            width: 80%;
+
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255,255,255,.35),
+                    transparent
+                );
+
+            transform: skewX(-20deg);
+
+            transition: .55s;
+        }
+
+
+        .btn:hover {
+
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 14px 30px rgba(49,94,234,.28);
+
+            background-position: 100% 50%;
+        }
+
+
+        .btn:hover::before {
+            left: 130%;
+        }
+
+
+        .btn i {
+
+            transition: transform .25s ease;
+        }
+
+
+        .btn:hover i {
+            transform: translateX(4px);
+        }
+
+
+        /* ================= EMPTY ================= */
+
+        .empty {
+
+            background: rgba(255,255,255,.92);
+
+            padding: 55px 30px;
+
+            border-radius: 20px;
+
+            text-align: center;
+
+            color: var(--muted);
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            border: 1px solid var(--border);
+
+            box-shadow:
+                0 12px 35px rgba(45,65,110,.06);
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media(max-width:900px) {
+
+            .list {
+                grid-template-columns: repeat(2,1fr);
+            }
+
+        }
+
+
+        @media(max-width:600px) {
+
+            .top {
+                padding: 15px 5%;
+            }
+
+            .brand {
+                font-size: 18px;
+            }
+
+            .dashboard-btn {
+                display: none;
+            }
+
+            .container {
+
+                width: 92%;
+
+                margin:
+                    32px auto
+                    55px;
+            }
+
+            .heading h1 {
+                font-size: 29px;
+            }
+
+            .heading p {
+                font-size: 14px;
+            }
+
+            .list {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                min-height: 300px;
+            }
+
+        }
+
+
+        @media(prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<header class="top">
+
+    <a href="{{ url_for('dashboard') }}"
+       class="brand">
+
+        <i class="fa-solid fa-robot"></i>
+
+        <span data-en="Citizen Scheme Access"
+              data-ta=" குடிமக்கள் திட்ட அணுகல்">
+            Citizen Scheme Access
+        </span>
+
+    </a>
+
+
+    <div class="right">
+
+        <div class="language-selector">
+
+            <button type="button"
+                    class="language-btn"
+                    id="languageBtn">
+
+                <i class="fa-solid fa-globe"></i>
+
+                <span id="languageText">
+                    English
+                </span>
+
+                <i class="fa-solid fa-chevron-down"></i>
+
+            </button>
+
+
+            <div class="language-menu"
+                 id="languageMenu">
+
+                <button type="button"
+                        data-language="en">
+                    English
+                </button>
+
+                <button type="button"
+                        data-language="ta">
+                    தமிழ்
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <a href="{{ url_for('dashboard') }}"
+           class="dashboard-btn">
+
+            <i class="fa-solid fa-house"></i>
+
+            <span data-en="Dashboard"
+                  data-ta="டாஷ்போர்டு">
+                Dashboard
+            </span>
+
+        </a>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <div class="heading">
+
+        <span data-en="CITIZEN SERVICES"
+              data-ta="குடிமக்கள் சேவைகள்">
+            CITIZEN SERVICES
+        </span>
+
+
+        <h1 data-en="Government Services"
+            data-ta="அரசு சேவைகள்">
+            Government Services
+        </h1>
+
+
+        <p data-en="Explore government services, eligibility, required documents and application guidance."
+           data-ta="அரசு சேவைகள், தகுதி, தேவையான ஆவணங்கள் மற்றும் விண்ணப்ப வழிகாட்டுதல்களை அறிந்து கொள்ளுங்கள்.">
+            Explore government services, eligibility, required documents and application guidance.
+        </p>
+
+    </div>
+
+
+    {% if services %}
+
+    <div class="list">
+
+        {% for service in services %}
+
+        <article class="card">
+
+            <div class="icon">
+
+                <i class="fa-solid fa-handshake"></i>
+
+            </div>
+
+
+            <h2 class="dynamic-db"
+                data-en="{{ service.service_name }}"
+                data-ta="{{ service.service_name_ta or 'தமிழ் தகவல் கிடைக்கவில்லை' }}">
+
+                {{ service.service_name }}
+
+            </h2>
+
+
+            {% if service.description %}
+
+            <p class="dynamic-db"
+               data-en="{{ service.description }}"
+               data-ta="{{ service.description_ta or 'தமிழ் விளக்கம் கிடைக்கவில்லை' }}">
+
+                {{ service.description }}
+
+            </p>
+
+            {% endif %}
+
+
+            {% if service.department %}
+
+            <div class="department">
+
+                <i class="fa-solid fa-building"></i>
+
+                <strong data-en="Department:"
+                        data-ta="துறை:">
+                    Department:
+                </strong>
+
+                <span class="department-db"
+                      data-en="{{ service.department }}">
+
+                    {{ service.department }}
+
+                </span>
+
+            </div>
+
+            {% endif %}
+
+
+            <a href="{{ url_for(
+                    'service_details',
+                    service_id=service.service_id
+                ) }}"
+               class="btn">
+
+                <span data-en="Explore Service"
+                      data-ta="சேவையைப் பார்க்க">
+                    Explore Service
+                </span>
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+            </a>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="empty">
+
+        <span data-en="No government services are available for your current stage."
+              data-ta="உங்கள் தற்போதைய நிலைக்கு அரசு சேவைகள் எதுவும் கிடைக்கவில்லை.">
+
+            No government services are available for your current stage.
+
+        </span>
+
+    </div>
+
+    {% endif %}
+
+</main>
+
+
+<script>
+
+const departmentTamil = {
+
+    "Revenue Administration":
+        "வருவாய் நிர்வாகம்",
+
+    "Revenue Administration, Government of Tamil Nadu":
+        "தமிழ்நாடு அரசு, வருவாய் நிர்வாகம்",
+
+    "Government Department":
+        "அரசுத் துறை",
+
+    "Tamil Nadu Government":
+        "தமிழ்நாடு அரசு",
+
+    "Government of India":
+        "இந்திய அரசு",
+
+    "National Health Authority":
+        "தேசிய சுகாதார ஆணையம்",
+
+    "Ministry of Food Processing Industries":
+        "உணவு பதப்படுத்தும் தொழில்கள் அமைச்சகம்",
+
+    "Ministry of Women and Child Development":
+        "பெண்கள் மற்றும் குழந்தைகள் மேம்பாட்டு அமைச்சகம்",
+
+    "Ministry of Health and Family Welfare":
+        "சுகாதாரம் மற்றும் குடும்ப நல அமைச்சகம்",
+
+    "Ministry of Education":
+        "கல்வி அமைச்சகம்",
+
+    "Ministry of Agriculture and Farmers Welfare":
+        "வேளாண்மை மற்றும் விவசாயிகள் நல அமைச்சகம்",
+
+    "Ministry of Labour and Employment":
+        "தொழிலாளர் மற்றும் வேலைவாய்ப்பு அமைச்சகம்",
+
+    "Ministry of Social Justice and Empowerment":
+        "சமூக நீதி மற்றும் அதிகாரமளித்தல் அமைச்சகம்"
+
+};
+
+
+function applyLanguage(language) {
+
+    localStorage.setItem(
+        "citizenLanguage",
+        language
+    );
+
+
+    document.documentElement.lang =
+        language === "ta" ? "ta" : "en";
+
+
+    document.querySelectorAll(
+        "[data-en][data-ta]"
+    ).forEach(element => {
+
+        element.textContent =
+            language === "ta"
+                ? element.dataset.ta
+                : element.dataset.en;
+
+    });
+
+
+    document.querySelectorAll(
+        ".dynamic-db"
+    ).forEach(element => {
+
+        element.textContent =
+            language === "ta"
+                ? element.dataset.ta
+                : element.dataset.en;
+
+    });
+
+
+    document.querySelectorAll(
+        ".department-db"
+    ).forEach(element => {
+
+        const english =
+            element.dataset.en || "";
+
+        element.textContent =
+            language === "ta"
+                ? (
+                    departmentTamil[english]
+                    || "துறை"
+                )
+                : english;
+
+    });
+
+
+    document.getElementById(
+        "languageText"
+    ).textContent =
+        language === "ta"
+            ? "தமிழ்"
+            : "English";
+
+
+    document.getElementById(
+        "pageTitle"
+    ).textContent =
+        language === "ta"
+            ? "அரசு சேவைகள் - சிட்டிசன் கைடு"
+            : "Government Services - Citizen Scheme Access";
+
+}
+
+
+const languageBtn =
+    document.getElementById("languageBtn");
+
+const languageMenu =
+    document.getElementById("languageMenu");
+
+
+languageBtn.addEventListener(
+    "click",
+    event => {
+
+        event.stopPropagation();
+
+        languageMenu.classList.toggle("show");
+
+    }
+);
+
+
+document.querySelectorAll(
+    ".language-menu button"
+).forEach(button => {
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            applyLanguage(
+                button.dataset.language
+            );
+
+            languageMenu.classList.remove("show");
+
+        }
+    );
+
+});
+
+
+document.addEventListener(
+    "click",
+    () => {
+
+        languageMenu.classList.remove("show");
+
+    }
+);
+
+
+applyLanguage(
+    localStorage.getItem("citizenLanguage") || "en"
+);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Citizen Scheme Access</title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+
+    <style>
+
+        :root {
+
+            --blue: #315eea;
+            --purple: #7657ff;
+            --pink: #ff4fa3;
+            --cyan: #00bfe9;
+            --green: #08a878;
+            --orange: #f47b20;
+
+            --dark: #172033;
+            --dark2: #263653;
+            --muted: #52627a;
+
+            --white: #ffffff;
+
+            --border:
+                rgba(72,94,145,.15);
+        }
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            font-family:
+                "Poppins",
+                sans-serif;
+
+            background:
+
+                radial-gradient(
+                    circle at 5% 10%,
+                    rgba(49,94,234,.10),
+                    transparent 28%
+                ),
+
+                radial-gradient(
+                    circle at 95% 15%,
+                    rgba(255,79,163,.09),
+                    transparent 28%
+                ),
+
+                radial-gradient(
+                    circle at 50% 100%,
+                    rgba(0,191,233,.08),
+                    transparent 30%
+                ),
+
+                #f7faff;
+
+            color: var(--dark);
+
+            min-height: 100vh;
+        }
+
+
+        /* ================= NAVBAR ================= */
+
+        .topbar {
+
+            background:
+                rgba(255,255,255,.88);
+
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+
+            border-bottom:
+                1px solid rgba(72,94,145,.12);
+
+            padding:
+                16px 5%;
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+        }
+
+
+        .brand {
+
+            text-decoration: none;
+
+            color: var(--dark);
+
+            font-size: 20px;
+
+            font-weight: 800;
+        }
+
+
+        .brand span {
+            color: var(--blue);
+        }
+
+
+        .nav-right {
+
+            display: flex;
+
+            gap: 10px;
+
+            align-items: center;
+        }
+
+
+        .nav-btn,
+        .language-btn {
+
+            border:
+                1px solid var(--border);
+
+            background:
+                rgba(255,255,255,.95);
+
+            color: var(--blue);
+
+            padding:
+                10px 15px;
+
+            border-radius: 12px;
+
+            text-decoration: none;
+
+            font-family: inherit;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: .25s ease;
+        }
+
+
+        .nav-btn:hover,
+        .language-btn:hover {
+
+            color: white;
+
+            border-color: transparent;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--blue),
+                    var(--purple)
+                );
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 10px 25px
+                rgba(49,94,234,.22);
+        }
+
+
+        .language-selector {
+            position: relative;
+        }
+
+
+        .language-menu {
+
+            display: none;
+
+            position: absolute;
+
+            right: 0;
+
+            top: 50px;
+
+            background:
+                rgba(255,255,255,.98);
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 15px;
+
+            padding: 7px;
+
+            min-width: 140px;
+
+            box-shadow:
+                0 18px 45px
+                rgba(30,55,100,.16);
+
+            z-index: 2000;
+
+            animation:
+                menuDrop .2s ease;
+        }
+
+
+        @keyframes menuDrop {
+
+            from {
+                opacity: 0;
+                transform: translateY(-7px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        .language-menu.show {
+            display: block;
+        }
+
+
+        .language-menu button {
+
+            width: 100%;
+
+            padding: 10px;
+
+            border: 0;
+
+            background:
+                transparent;
+
+            text-align: left;
+
+            border-radius: 9px;
+
+            cursor: pointer;
+
+            font-family: inherit;
+
+            font-weight: 600;
+
+            transition: .2s;
+        }
+
+
+        .language-menu button:hover {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(49,94,234,.10),
+                    rgba(118,87,255,.10)
+                );
+
+            color: var(--blue);
+        }
+
+
+        /* ================= MAIN ================= */
+
+        .container {
+
+            width: 90%;
+
+            max-width: 1100px;
+
+            margin: auto;
+
+            padding:
+                48px 0 75px;
+        }
+
+
+        /* ================= HERO ================= */
+
+        .hero {
+
+            position: relative;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #315eea 0%,
+                    #7657ff 48%,
+                    #ff4fa3 100%
+                );
+
+            color: white;
+
+            border-radius: 27px;
+
+            padding: 43px;
+
+            margin-bottom: 28px;
+
+            box-shadow:
+                0 20px 55px
+                rgba(49,94,234,.22);
+        }
+
+
+        .hero::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 230px;
+            height: 230px;
+
+            border-radius: 50%;
+
+            right: -80px;
+            top: -90px;
+
+            background:
+                rgba(255,255,255,.12);
+        }
+
+
+        .hero::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 150px;
+            height: 150px;
+
+            border-radius: 50%;
+
+            left: -60px;
+            bottom: -70px;
+
+            background:
+                rgba(0,191,233,.18);
+        }
+
+
+        .hero small {
+
+            position: relative;
+
+            z-index: 2;
+
+            font-weight: 800;
+
+            letter-spacing: 1.5px;
+
+            font-size: 12px;
+        }
+
+
+        .hero h1 {
+
+            position: relative;
+
+            z-index: 2;
+
+            margin-top: 13px;
+
+            font-size: 39px;
+
+            line-height: 1.35;
+
+            font-weight: 800;
+
+            color: #ffffff;
+        }
+
+
+        .hero p {
+
+            position: relative;
+
+            z-index: 2;
+
+            margin-top: 13px;
+
+            line-height: 1.9;
+
+            font-size: 16px;
+
+            font-weight: 600;
+
+            color:
+                rgba(255,255,255,.96);
+
+            max-width: 900px;
+        }
+
+
+        /* ================= GRID ================= */
+
+        .grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 24px;
+        }
+
+
+        /* ================= CARDS ================= */
+
+        .card {
+
+            position: relative;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.99),
+                    rgba(250,252,255,.96)
+                );
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 22px;
+
+            padding: 28px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(45,65,110,.07);
+
+            transition:
+                transform .35s ease,
+                box-shadow .35s ease,
+                border-color .35s ease;
+        }
+
+
+        .card::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: 0;
+            right: 0;
+
+            height: 4px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--blue),
+                    var(--purple),
+                    var(--pink),
+                    var(--cyan)
+                );
+
+            background-size: 200% 100%;
+
+            animation:
+                gradientMove 4s linear infinite;
+        }
+
+
+        @keyframes gradientMove {
+
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 200% 50%;
+            }
+        }
+
+
+        .card::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 140px;
+            height: 140px;
+
+            right: -75px;
+            top: -75px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(118,87,255,.12),
+                    transparent 68%
+                );
+
+            pointer-events: none;
+        }
+
+
+        .card:hover {
+
+            transform:
+                translateY(-7px);
+
+            border-color:
+                rgba(49,94,234,.22);
+
+            box-shadow:
+                0 22px 50px
+                rgba(49,94,234,.12);
+        }
+
+
+        /* ================= HEADINGS ================= */
+
+        .card h2 {
+
+            position: relative;
+
+            z-index: 2;
+
+            font-size: 23px;
+
+            margin-bottom: 20px;
+
+            font-weight: 800;
+
+            color: #101a31;
+        }
+
+
+        .card h3 {
+
+            position: relative;
+
+            z-index: 2;
+
+            font-size: 17px;
+
+            margin: 20px 0 8px;
+
+            font-weight: 800;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--blue),
+                    var(--purple),
+                    var(--pink)
+                );
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color:
+                transparent;
+        }
+
+
+        /* ================= TEXT ================= */
+
+        .card p {
+
+            position: relative;
+
+            z-index: 2;
+
+            font-size: 15px;
+
+            line-height: 1.9;
+
+            color: var(--dark2);
+
+            font-weight: 600;
+        }
+
+
+        .documents,
+        .process {
+
+            white-space: pre-line;
+
+            font-size: 15px !important;
+
+            font-weight: 600 !important;
+
+            color:
+                #1d2b45 !important;
+        }
+
+
+        .department-text {
+
+            font-size: 15px !important;
+
+            font-weight: 700 !important;
+
+            color:
+                #1d2b45 !important;
+        }
+
+
+        /* ================= APPLY BUTTON ================= */
+
+        .apply-btn {
+
+            position: relative;
+
+            overflow: hidden;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            margin-top: 20px;
+
+            padding:
+                12px 19px;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--blue),
+                    var(--purple),
+                    var(--pink)
+                );
+
+            background-size: 180% 180%;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 800;
+
+            box-shadow:
+                0 10px 25px
+                rgba(49,94,234,.22);
+
+            transition:
+                transform .25s ease,
+                box-shadow .25s ease,
+                background-position .35s ease;
+        }
+
+
+        .apply-btn::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: -120%;
+
+            width: 80%;
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255,255,255,.35),
+                    transparent
+                );
+
+            transform:
+                skewX(-20deg);
+
+            transition: .55s;
+        }
+
+
+        .apply-btn:hover {
+
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 15px 32px
+                rgba(49,94,234,.30);
+
+            background-position:
+                100% 50%;
+        }
+
+
+        .apply-btn:hover::before {
+            left: 130%;
+        }
+
+
+        .apply-btn i {
+            transition: .25s;
+        }
+
+
+        .apply-btn:hover i {
+            transform:
+                translate(3px,-2px);
+        }
+
+
+        /* ================= OFFLINE ================= */
+
+        .offline-item {
+
+            position: relative;
+
+            z-index: 2;
+
+            padding:
+                15px 0;
+
+            border-bottom:
+                1px solid #e8edf5;
+        }
+
+
+        .offline-item:last-child {
+            border-bottom: 0;
+        }
+
+
+        .offline-item strong {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 16px;
+
+            font-weight: 800;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--green),
+                    var(--blue)
+                );
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color:
+                transparent;
+        }
+
+
+        .offline-item p {
+
+            font-size: 15px !important;
+
+            line-height: 1.8 !important;
+
+            font-weight: 700 !important;
+
+            color:
+                #1d2b45 !important;
+        }
+
+
+        /* ================= VOICE ================= */
+
+        .voice-btn {
+
+            position: fixed;
+
+            right: 24px;
+            bottom: 24px;
+
+            border: 0;
+
+            border-radius: 50px;
+
+            padding:
+                13px 19px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--blue),
+                    var(--purple)
+                );
+
+            color: white;
+
+            box-shadow:
+                0 12px 30px
+                rgba(49,94,234,.28);
+
+            font-family: inherit;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            z-index: 1500;
+
+            transition:
+                transform .25s ease,
+                box-shadow .25s ease;
+        }
+
+
+        .voice-btn:hover {
+
+            transform:
+                translateY(-4px)
+                scale(1.03);
+
+            box-shadow:
+                0 18px 38px
+                rgba(49,94,234,.34);
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media(max-width:750px) {
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .hero {
+                padding: 31px;
+                border-radius: 22px;
+            }
+
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+
+            .hero p {
+                font-size: 14px;
+            }
+
+
+            .container {
+                width: 92%;
+                padding-top: 32px;
+            }
+
+
+            .card {
+                padding: 23px;
+            }
+
+
+            .card h2 {
+                font-size: 21px;
+            }
+
+
+            .voice-btn {
+
+                right: 16px;
+                bottom: 16px;
+
+                padding:
+                    12px 16px;
+            }
+
+        }
+
+
+        @media(max-width:520px) {
+
+            .brand {
+                font-size: 17px;
+            }
+
+
+            .nav-btn {
+                display: none;
+            }
+
+
+            .hero h1 {
+                font-size: 25px;
+            }
+
+        }
+
+
+        @media(prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+
+                animation-duration:
+                    .01ms !important;
+
+                animation-iteration-count:
+                    1 !important;
+
+                transition-duration:
+                    .01ms !important;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<nav class="topbar">
+
+    <a href="{{ url_for('dashboard') }}"
+       class="brand">
+
+        Citizen Scheme <span>Access</span>
+
+    </a>
+
+
+    <div class="nav-right">
+
+        <div class="language-selector">
+
+            <button type="button"
+                    class="language-btn"
+                    id="languageBtn">
+
+                🌐
+
+                <span id="languageText">
+                    English
+                </span>
+
+            </button>
+
+
+            <div class="language-menu"
+                 id="languageMenu">
+
+                <button type="button"
+                        data-language="en">
+
+                    🇬🇧 English
+
+                </button>
+
+
+                <button type="button"
+                        data-language="ta">
+
+                    🇮🇳 தமிழ்
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <a href="{{ url_for('dashboard') }}"
+           class="nav-btn"
+           data-en="Dashboard"
+           data-ta="டாஷ்போர்டு">
+
+            Dashboard
+
+        </a>
+
+    </div>
+
+</nav>
+
+
+<main class="container">
+
+
+<section class="hero">
+
+    <small data-en="GOVERNMENT SERVICE"
+           data-ta="அரசு சேவை">
+
+        GOVERNMENT SERVICE
+
+    </small>
+
+
+    <h1 class="dynamic-language"
+        data-en="{{ service.service_name }}"
+        data-ta="{{ service.service_name_ta or '' }}">
+
+        {{ service.service_name }}
+
+    </h1>
+
+
+    {% if service.description %}
+
+    <p class="dynamic-language"
+       data-en="{{ service.description }}"
+       data-ta="{{ service.description_ta or '' }}">
+
+        {{ service.description }}
+
+    </p>
+
+    {% endif %}
+
+</section>
+
+
+<div class="grid">
+
+
+<section class="card">
+
+    <h2 data-en="Service Details"
+        data-ta="சேவை விவரங்கள்">
+
+        Service Details
+
+    </h2>
+
+
+    {% if service.eligibility %}
+
+    <h3 data-en="Eligibility"
+        data-ta="தகுதி">
+
+        Eligibility
+
+    </h3>
+
+
+    <p class="dynamic-language"
+       data-en="{{ service.eligibility }}"
+       data-ta="{{ service.eligibility_ta or '' }}">
+
+        {{ service.eligibility }}
+
+    </p>
+
+    {% endif %}
+
+
+    {% if service.required_documents %}
+
+    <h3 data-en="Required Documents"
+        data-ta="தேவையான ஆவணங்கள்">
+
+        Required Documents
+
+    </h3>
+
+
+    <p class="documents dynamic-language"
+       data-en="{{ service.required_documents }}"
+       data-ta="{{ service.required_documents_ta or '' }}">
+
+        {{ service.required_documents }}
+
+    </p>
+
+    {% endif %}
+
+
+    {% if service.department %}
+
+    <h3 data-en="Department"
+        data-ta="துறை">
+
+        Department
+
+    </h3>
+
+
+    <p class="department-text"
+       data-en="{{ service.department }}">
+
+        {{ service.department }}
+
+    </p>
+
+    {% endif %}
+
+</section>
+
+
+<section class="card">
+
+    <h2 data-en="Online Application"
+        data-ta="ஆன்லைன் விண்ணப்பம்">
+
+        Online Application
+
+    </h2>
+
+
+    {% if service.process %}
+
+    <h3 data-en="How to Apply"
+        data-ta="எப்படி விண்ணப்பிப்பது">
+
+        How to Apply
+
+    </h3>
+
+
+    <p class="process dynamic-language"
+       data-en="{{ service.process }}"
+       data-ta="{{ service.process_ta or '' }}">
+
+        {{ service.process }}
+
+    </p>
+
+    {% endif %}
+
+
+    {% if service.application_url %}
+
+    <a href="{{ service.application_url }}"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="apply-btn">
+
+        <span data-en="Apply Online"
+              data-ta="ஆன்லைனில் விண்ணப்பிக்க">
+
+            Apply Online
+
+        </span>
+
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+    </a>
+
+    {% endif %}
+
+</section>
+
+
+<section class="card">
+
+    <h2 data-en="Offline Application"
+        data-ta="நேரடி விண்ணப்பம்">
+
+        Offline Application
+
+    </h2>
+
+
+    <div class="offline-item">
+
+        <strong data-en="Where to Go"
+                data-ta="எங்கு செல்ல வேண்டும்">
+
+            Where to Go
+
+        </strong>
+
+
+        <p class="offline-text"
+           data-en="{{ service.offline_office or service.department or '' }}">
+
+            {{ service.offline_office or service.department or '' }}
+
+        </p>
+
+    </div>
+
+
+    <div class="offline-item">
+
+        <strong data-en="Whom to Contact"
+                data-ta="யாரை தொடர்பு கொள்ள வேண்டும்">
+
+            Whom to Contact
+
+        </strong>
+
+
+        <p class="offline-text"
+           data-en="{{ service.offline_officer or '' }}">
+
+            {{ service.offline_officer or '' }}
+
+        </p>
+
+    </div>
+
+</section>
+
+
+</div>
+
+</main>
+
+
+<button class="voice-btn"
+        id="voiceBtn">
+
+    🎤
+
+    <span data-en="Ask AI"
+          data-ta="AI-யிடம் கேள்">
+
+        Ask AI
+
+    </span>
+
+</button>
+
+
+<script>
+
+
+const departmentTamil = {
+
+    "Revenue Administration":
+        "வருவாய் நிர்வாகம்",
+
+    "Revenue Administration, Government of Tamil Nadu":
+        "தமிழ்நாடு அரசு, வருவாய் நிர்வாகம்",
+
+    "National Health Authority":
+        "தேசிய சுகாதார ஆணையம்",
+
+    "Ministry of Education":
+        "கல்வி அமைச்சகம்",
+
+    "Ministry of Health and Family Welfare":
+        "சுகாதாரம் மற்றும் குடும்ப நல அமைச்சகம்",
+
+    "Ministry of Women and Child Development":
+        "பெண்கள் மற்றும் குழந்தைகள் மேம்பாட்டு அமைச்சகம்",
+
+    "Ministry of Food Processing Industries":
+        "உணவு பதப்படுத்தும் தொழில்கள் அமைச்சகம்",
+
+    "Ministry of Agriculture and Farmers Welfare":
+        "வேளாண்மை மற்றும் விவசாயிகள் நல அமைச்சகம்",
+
+    "Ministry of Labour and Employment":
+        "தொழிலாளர் மற்றும் வேலைவாய்ப்பு அமைச்சகம்",
+
+    "Ministry of Social Justice and Empowerment":
+        "சமூக நீதி மற்றும் அதிகாரமளித்தல் அமைச்சகம்",
+
+    "Government of India":
+        "இந்திய அரசு",
+
+    "Government of Tamil Nadu":
+        "தமிழ்நாடு அரசு"
+
+};
+
+
+function applyLanguage(language) {
+
+
+    localStorage.setItem(
+        "citizenLanguage",
+        language
+    );
+
+
+    document.documentElement.lang =
+        language === "ta"
+            ? "ta"
+            : "en";
+
+
+    document.getElementById(
+        "languageText"
+    ).textContent =
+        language === "ta"
+            ? "தமிழ்"
+            : "English";
+
+
+    document.querySelectorAll(
+        "[data-en][data-ta]"
+    ).forEach(function(element) {
+
+        const english =
+            element.dataset.en || "";
+
+        const tamil =
+            element.dataset.ta || "";
+
+        element.textContent =
+            language === "ta"
+                ? (tamil || "தமிழ் தகவல் கிடைக்கவில்லை")
+                : english;
+
+    });
+
+
+    document.querySelectorAll(
+        ".dynamic-language"
+    ).forEach(function(element) {
+
+        const english =
+            element.dataset.en || "";
+
+        const tamil =
+            element.dataset.ta || "";
+
+        element.textContent =
+            language === "ta"
+                ? (tamil || "தமிழ் தகவல் கிடைக்கவில்லை")
+                : english;
+
+    });
+
+
+    document.querySelectorAll(
+        ".department-text"
+    ).forEach(function(element) {
+
+        const english =
+            element.dataset.en || "";
+
+        element.textContent =
+            language === "ta"
+                ? (
+                    departmentTamil[english]
+                    || "துறை விவரம்"
+                )
+                : english;
+
+    });
+
+
+    document.querySelectorAll(
+        ".offline-text"
+    ).forEach(function(element) {
+
+        const english =
+            element.dataset.en || "";
+
+        if (language === "ta") {
+
+            element.textContent =
+                "அரசு அலுவலக விவரம்";
+
+        } else {
+
+            element.textContent =
+                english;
+
+        }
+
+    });
+
+}
+
+
+const languageBtn =
+    document.getElementById(
+        "languageBtn"
+    );
+
+
+const languageMenu =
+    document.getElementById(
+        "languageMenu"
+    );
+
+
+languageBtn.addEventListener(
+    "click",
+    function(event) {
+
+        event.stopPropagation();
+
+        languageMenu.classList.toggle(
+            "show"
+        );
+
+    }
+);
+
+
+languageMenu
+    .querySelectorAll("button")
+    .forEach(function(button) {
+
+        button.addEventListener(
+            "click",
+            function() {
+
+                applyLanguage(
+                    button.dataset.language
+                );
+
+                languageMenu.classList.remove(
+                    "show"
+                );
+
+            }
+        );
+
+    });
+
+
+document.addEventListener(
+    "click",
+    function() {
+
+        languageMenu.classList.remove(
+            "show"
+        );
+
+    }
+);
+
+
+applyLanguage(
+    localStorage.getItem(
+        "citizenLanguage"
+    ) || "en"
+);
+
+
+document.getElementById(
+    "voiceBtn"
+).addEventListener(
+    "click",
+    function() {
+
+        const SpeechRecognition =
+            window.SpeechRecognition ||
+            window.webkitSpeechRecognition;
+
+
+        const language =
+            localStorage.getItem(
+                "citizenLanguage"
+            ) || "en";
+
+
+        if (!SpeechRecognition) {
+
+            alert(
+                language === "ta"
+                    ? "இந்த உலாவியில் குரல் வசதி இல்லை."
+                    : "Voice recognition is not supported."
+            );
+
+            return;
+
+        }
+
+
+        const recognition =
+            new SpeechRecognition();
+
+
+        recognition.lang =
+            language === "ta"
+                ? "ta-IN"
+                : "en-IN";
+
+
+        recognition.continuous = false;
+
+        recognition.interimResults = false;
+
+
+        recognition.onresult =
+            async function(event) {
+
+                const message =
+                    event.results[0][0]
+                        .transcript;
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "/api/chat",
+                            {
+
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body: JSON.stringify({
+
+                                    message:
+                                        message,
+
+                                    language:
+                                        language
+
+                                })
+
+                            }
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    if (data.reply) {
+
+                        alert(data.reply);
+
+
+                        const speech =
+                            new SpeechSynthesisUtterance(
+                                data.reply
+                            );
+
+
+                        speech.lang =
+                            language === "ta"
+                                ? "ta-IN"
+                                : "en-IN";
+
+
+                        speechSynthesis.speak(
+                            speech
+                        );
+
+                    }
+
+                }
+
+                catch (error) {
+
+                    alert(
+                        language === "ta"
+                            ? "AI சேவை தற்போது கிடைக்கவில்லை."
+                            : "AI service is currently unavailable."
+                    );
+
+                }
+
+            };
+
+
+        recognition.start();
+
+    }
+);
+
+</script>
+
+</body>
+</html>

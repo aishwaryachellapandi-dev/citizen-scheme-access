@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Citizen Scheme Access</title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --blue: #315eea;
+            --blue-dark: #2449c9;
+            --purple: #7657ff;
+            --pink: #ff4fa3;
+            --cyan: #00bfe9;
+            --green: #08a878;
+            --orange: #f47b20;
+
+            --dark: #172033;
+            --dark2: #263653;
+            --muted: #52627a;
+
+            --page: #f7faff;
+            --white: #ffffff;
+            --border: rgba(72,94,145,.15);
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 5% 10%,
+                    rgba(49,94,234,.10),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 95% 15%,
+                    rgba(255,79,163,.09),
+                    transparent 25%
+                ),
+                radial-gradient(
+                    circle at 50% 100%,
+                    rgba(0,191,233,.08),
+                    transparent 30%
+                ),
+                var(--page);
+
+            color: var(--dark);
+
+            min-height: 100vh;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .topbar {
+            background: rgba(255,255,255,.88);
+
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+
+            border-bottom: 1px solid rgba(72,94,145,.12);
+
+            padding: 16px 5%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            position: sticky;
+            top: 0;
+
+            z-index: 1000;
+
+            box-shadow:
+                0 8px 30px rgba(40,60,110,.06);
+        }
+
+        .brand {
+            text-decoration: none;
+
+            color: var(--dark);
+
+            font-size: 20px;
+
+            font-weight: 800;
+
+            transition: .3s ease;
+        }
+
+        .brand:hover {
+            transform: translateY(-2px);
+        }
+
+        .brand span {
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--blue),
+                    var(--purple),
+                    var(--pink)
+                );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-right {
+            display: flex;
+
+            gap: 10px;
+
+            align-items: center;
+        }
+
+        /* ================= NAV BUTTONS ================= */
+
+        .nav-btn,
+        .language-btn {
+            border: 1px solid var(--border);
+
+            background: rgba(255,255,255,.92);
+
+            color: var(--blue);
+
+            padding: 10px 15px;
+
+            border-radius: 11px;
+
+            text-decoration: none;
+
+            font-family: inherit;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: .3s ease;
+
+            box-shadow:
+                0 5px 15px rgba(40,70,120,.05);
+        }
+
+        .nav-btn:hover,
+        .language-btn:hover {
+            color: #fff;
+
+            border-color: transparent;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--blue),
+                    var(--purple)
+                );
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 10px 24px rgba(49,94,234,.22);
+        }
+
+        /* ================= LANGUAGE ================= */
+
+        .language-selector {
+            position: relative;
+        }
+
+        .language-menu {
+            display: none;
+
+            position: absolute;
+
+            right: 0;
+
+            top: 49px;
+
+            background: rgba(255,255,255,.97);
+
+            border: 1px solid var(--border);
+
+            border-radius: 13px;
+
+            padding: 6px;
+
+            min-width: 140px;
+
+            box-shadow:
+                0 18px 40px rgba(30,55,100,.16);
+
+            animation:
+                menuShow .2s ease;
+
+            z-index: 2000;
+        }
+
+        @keyframes menuShow {
+
+            from {
+                opacity: 0;
+                transform: translateY(-6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+        .language-menu.show {
+            display: block;
+        }
+
+        .language-menu button {
+            width: 100%;
+
+            padding: 10px;
+
+            border: 0;
+
+            background: transparent;
+
+            text-align: left;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-family: inherit;
+
+            font-weight: 600;
+
+            color: var(--dark2);
+
+            transition: .25s ease;
+        }
+
+        .language-menu button:hover {
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(49,94,234,.09),
+                    rgba(118,87,255,.08)
+                );
+
+            color: var(--blue);
+
+            transform: translateX(3px);
+        }
+
+        /* ================= CONTAINER ================= */
+
+        .container {
+            width: 90%;
+
+            max-width: 1100px;
+
+            margin: auto;
+
+            padding: 45px 0 75px;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            position: relative;
+
+            overflow: hidden;
+
+            color: #fff;
+
+            border-radius: 26px;
+
+            padding: 42px;
+
+            margin-bottom: 28px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #315eea 0%,
+                    #7657ff 48%,
+                    #d84cff 75%,
+                    #ff4fa3 100%
+                );
+
+            background-size: 180% 180%;
+
+            animation:
+                heroGradient 8s ease infinite;
+
+            box-shadow:
+                0 20px 50px rgba(49,94,234,.20);
+        }
+
+        @keyframes heroGradient {
+
+            0%,100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+        }
+
+        .hero::before {
+            content: "";
+
+            position: absolute;
+
+            width: 210px;
+            height: 210px;
+
+            right: -75px;
+            top: -80px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,.12);
+        }
+
+        .hero::after {
+            content: "";
+
+            position: absolute;
+
+            width: 150px;
+            height: 150px;
+
+            right: 110px;
+            bottom: -100px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,.09);
+        }
+
+        .hero small {
+            position: relative;
+
+            z-index: 2;
+
+            display: inline-block;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            letter-spacing: 1.5px;
+
+            opacity: .92;
+
+            padding: 7px 12px;
+
+            border-radius: 30px;
+
+            background:
+                rgba(255,255,255,.14);
+
+            border:
+                1px solid rgba(255,255,255,.20);
+        }
+
+        .hero h1 {
+            position: relative;
+
+            z-index: 2;
+
+            margin-top: 15px;
+
+            font-size: 38px;
+
+            line-height: 1.35;
+
+            font-weight: 800;
+
+            color: #fff;
+        }
+
+        .hero p {
+            position: relative;
+
+            z-index: 2;
+
+            margin-top: 13px;
+
+            line-height: 1.9;
+
+            font-size: 16px;
+
+            font-weight: 600;
+
+            color: rgba(255,255,255,.96);
+
+            max-width: 900px;
+        }
+
+        /* ================= GRID ================= */
+
+        .grid {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 23px;
+        }
+
+        /* ================= CARDS ================= */
+
+        .card {
+            position: relative;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.98),
+                    rgba(250,248,255,.98)
+                );
+
+            border: 1px solid var(--border);
+
+            border-radius: 22px;
+
+            padding: 28px;
+
+            box-shadow:
+                0 10px 30px rgba(40,70,120,.07);
+
+            transition:
+                transform .35s ease,
+                box-shadow .35s ease,
+                border-color .35s ease;
+        }
+
+        .card::before {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 4px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--blue),
+                    var(--purple),
+                    var(--pink),
+                    var(--cyan)
+                );
+
+            background-size: 200% 100%;
+
+            animation:
+                gradientMove 5s linear infinite;
+        }
+
+        @keyframes gradientMove {
+
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 200% 50%;
+            }
+
+        }
+
+        .card::after {
+            content: "";
+
+            position: absolute;
+
+            width: 150px;
+            height: 150px;
+
+            right: -80px;
+            top: -80px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(118,87,255,.14),
+                    transparent 70%
+                );
+
+            pointer-events: none;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+
+            border-color:
+                rgba(118,87,255,.25);
+
+            box-shadow:
+                0 20px 45px rgba(49,94,234,.12);
+        }
+
+        /* ================= HEADINGS ================= */
+
+        .card h2 {
+            position: relative;
+
+            z-index: 2;
+
+            font-size: 23px;
+
+            margin-bottom: 20px;
+
+            font-weight: 800;
+
+            color: #101a31;
+        }
+
+        .card h3 {
+            font-size: 17px;
+
+            margin: 20px 0 8px;
+
+            font-weight: 800;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--blue),
+                    var(--purple),
+                    var(--pink)
+                );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* ================= TEXT ================= */
+
+        .card p {
+            font-size: 15px;
+
+            line-height: 1.9;
+
+            color: var(--dark2);
+
+            font-weight: 600;
+        }
+
+        .special-text {
+            color: #1d2b45 !important;
+
+            font-size: 15px !important;
+
+            font-weight: 700 !important;
+        }
+
+        .documents,
+        .process {
+            white-space: pre-line;
+
+            color: #1d2b45 !important;
+
+            font-size: 15px !important;
+
+            font-weight: 600 !important;
+
+            line-height: 1.95 !important;
+        }
+
+        /* ================= OFFLINE ================= */
+
+        .offline-item {
+            padding: 16px 0;
+
+            border-bottom:
+                1px solid rgba(72,94,145,.10);
+        }
+
+        .offline-item:last-child {
+            border-bottom: 0;
+        }
+
+        .offline-item strong {
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 16px;
+
+            font-weight: 800;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--green),
+                    var(--blue),
+                    var(--purple)
+                );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .offline-text {
+            color: #1d2b45 !important;
+
+            font-size: 15px !important;
+
+            font-weight: 700 !important;
+
+            line-height: 1.8 !important;
+        }
+
+        /* ================= APPLY BUTTON ================= */
+
+        .apply-btn {
+            position: relative;
+
+            overflow: hidden;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            margin-top: 20px;
+
+            padding: 12px 18px;
+
+            border-radius: 11px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--blue),
+                    var(--purple),
+                    var(--pink)
+                );
+
+            background-size: 200% 200%;
+
+            color: #fff;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            box-shadow:
+                0 10px 23px rgba(49,94,234,.20);
+
+            transition: .35s ease;
+        }
+
+        .apply-btn::before {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: -120%;
+
+            width: 80%;
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255,255,255,.35),
+                    transparent
+                );
+
+            transform: skewX(-20deg);
+
+            transition: .55s ease;
+        }
+
+        .apply-btn:hover {
+            background-position: 100% 50%;
+
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 15px 30px rgba(49,94,234,.28);
+        }
+
+        .apply-btn:hover::before {
+            left: 130%;
+        }
+
+        .apply-btn i {
+            transition: .3s ease;
+        }
+
+        .apply-btn:hover i {
+            transform: translate(3px,-3px);
+        }
+
+        /* ================= VOICE BUTTON ================= */
+
+        .voice-btn {
+            position: fixed;
+
+            right: 24px;
+            bottom: 24px;
+
+            border: 0;
+
+            border-radius: 50px;
+
+            padding: 13px 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--blue),
+                    var(--purple),
+                    var(--pink)
+                );
+
+            color: #fff;
+
+            box-shadow:
+                0 12px 30px rgba(49,94,234,.28);
+
+            font-family: inherit;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            z-index: 1500;
+
+            transition: .3s ease;
+
+            animation:
+                voicePulse 2.5s ease-in-out infinite;
+        }
+
+        @keyframes voicePulse {
+
+            0%,100% {
+                box-shadow:
+                    0 12px 30px rgba(49,94,234,.25);
+            }
+
+            50% {
+                box-shadow:
+                    0 15px 38px rgba(118,87,255,.40);
+            }
+
+        }
+
+        .voice-btn:hover {
+            transform:
+                translateY(-4px)
+                scale(1.03);
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media(max-width: 750px) {
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding: 30px 25px;
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .hero p {
+                font-size: 14px;
+            }
+
+            .container {
+                width: 92%;
+            }
+
+            .card {
+                padding: 24px;
+            }
+
+        }
+
+        @media(max-width: 500px) {
+
+            .topbar {
+                padding: 13px 4%;
+            }
+
+            .brand {
+                font-size: 17px;
+            }
+
+            .nav-btn {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 25px;
+            }
+
+            .card h2 {
+                font-size: 21px;
+            }
+
+            .voice-btn {
+                right: 15px;
+                bottom: 15px;
+            }
+
+        }
+
+        @media(prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<nav class="topbar">
+
+    <a href="{{ url_for('dashboard') }}"
+       class="brand">
+
+        Citizen Scheme <span>Access</span>
+
+    </a>
+
+
+    <div class="nav-right">
+
+        <div class="language-selector">
+
+            <button type="button"
+                    class="language-btn"
+                    id="languageBtn">
+
+                🌐 <span id="languageText">English</span>
+
+            </button>
+
+
+            <div class="language-menu"
+                 id="languageMenu">
+
+                <button type="button"
+                        data-language="en">
+
+                    🇬🇧 English
+
+                </button>
+
+
+                <button type="button"
+                        data-language="ta">
+
+                    🇮🇳 தமிழ்
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <a href="{{ url_for('dashboard') }}"
+           class="nav-btn"
+           data-en="Dashboard"
+           data-ta="டாஷ்போர்டு">
+
+            Dashboard
+
+        </a>
+
+    </div>
+
+</nav>
+
+
+<main class="container">
+
+<section class="hero">
+
+    <small data-en="SCHOLARSHIP"
+           data-ta="உதவித்தொகை">
+
+        SCHOLARSHIP
+
+    </small>
+
+
+    <h1 class="dynamic-language"
+        data-en="{{ scholarship.scholarship_name }}"
+        data-ta="{{ scholarship.scholarship_name_ta or '' }}">
+
+        {{ scholarship.scholarship_name }}
+
+    </h1>
+
+
+    {% if scholarship.description %}
+
+    <p class="dynamic-language"
+       data-en="{{ scholarship.description }}"
+       data-ta="{{ scholarship.description_ta or '' }}">
+
+        {{ scholarship.description }}
+
+    </p>
+
+    {% endif %}
+
+</section>
+
+
+<div class="grid">
+
+
+<section class="card">
+
+    <h2 data-en="Scholarship Details"
+        data-ta="உதவித்தொகை விவரங்கள்">
+
+        Scholarship Details
+
+    </h2>
+
+
+    {% if scholarship.provider %}
+
+    <h3 data-en="Provider"
+        data-ta="வழங்குநர்">
+
+        Provider
+
+    </h3>
+
+    <p class="special-text"
+       data-en="{{ scholarship.provider }}">
+
+        {{ scholarship.provider }}
+
+    </p>
+
+    {% endif %}
+
+
+    {% if scholarship.education_level %}
+
+    <h3 data-en="Education Level"
+        data-ta="கல்வி நிலை">
+
+        Education Level
+
+    </h3>
+
+    <p class="special-text"
+       data-en="{{ scholarship.education_level }}">
+
+        {{ scholarship.education_level }}
+
+    </p>
+
+    {% endif %}
+
+
+    {% if scholarship.eligibility %}
+
+    <h3 data-en="Eligibility"
+        data-ta="தகுதி">
+
+        Eligibility
+
+    </h3>
+
+    <p class="dynamic-language"
+       data-en="{{ scholarship.eligibility }}"
+       data-ta="{{ scholarship.eligibility_ta or '' }}">
+
+        {{ scholarship.eligibility }}
+
+    </p>
+
+    {% endif %}
+
+
+    {% if scholarship.benefits %}
+
+    <h3 data-en="Benefits"
+        data-ta="நன்மைகள்">
+
+        Benefits
+
+    </h3>
+
+    <p class="dynamic-language"
+       data-en="{{ scholarship.benefits }}"
+       data-ta="{{ scholarship.benefits_ta or '' }}">
+
+        {{ scholarship.benefits }}
+
+    </p>
+
+    {% endif %}
+
+
+    {% if scholarship.required_documents %}
+
+    <h3 data-en="Required Documents"
+        data-ta="தேவையான ஆவணங்கள்">
+
+        Required Documents
+
+    </h3>
+
+    <p class="documents dynamic-language"
+       data-en="{{ scholarship.required_documents }}"
+       data-ta="{{ scholarship.required_documents_ta or '' }}">
+
+        {{ scholarship.required_documents }}
+
+    </p>
+
+    {% endif %}
+
+</section>
+
+
+<section class="card">
+
+    <h2 data-en="Online Application"
+        data-ta="ஆன்லைன் விண்ணப்பம்">
+
+        Online Application
+
+    </h2>
+
+
+    {% if scholarship.application_process %}
+
+    <h3 data-en="How to Apply"
+        data-ta="எப்படி விண்ணப்பிப்பது">
+
+        How to Apply
+
+    </h3>
+
+
+    <p class="process dynamic-language"
+       data-en="{{ scholarship.application_process }}"
+       data-ta="{{ scholarship.application_process_ta or '' }}">
+
+        {{ scholarship.application_process }}
+
+    </p>
+
+    {% endif %}
+
+
+    {% if scholarship.application_url %}
+
+    <a href="{{ scholarship.application_url }}"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="apply-btn">
+
+        <span data-en="Apply Online"
+              data-ta="ஆன்லைனில் விண்ணப்பிக்க">
+
+            Apply Online
+
+        </span>
+
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+    </a>
+
+    {% endif %}
+
+</section>
+
+
+<section class="card">
+
+    <h2 data-en="Offline Application"
+        data-ta="நேரடி விண்ணப்பம்">
+
+        Offline Application
+
+    </h2>
+
+
+    <div class="offline-item">
+
+        <strong data-en="Where to Go"
+                data-ta="எங்கு செல்ல வேண்டும்">
+
+            Where to Go
+
+        </strong>
+
+
+        <p class="offline-text"
+           data-en="{{ scholarship.offline_office or '' }}">
+
+            {{ scholarship.offline_office or '' }}
+
+        </p>
+
+    </div>
+
+
+    <div class="offline-item">
+
+        <strong data-en="Whom to Contact"
+                data-ta="யாரை தொடர்பு கொள்ள வேண்டும்">
+
+            Whom to Contact
+
+        </strong>
+
+
+        <p class="offline-text"
+           data-en="{{ scholarship.offline_officer or '' }}">
+
+            {{ scholarship.offline_officer or '' }}
+
+        </p>
+
+    </div>
+
+</section>
+
+
+</div>
+
+</main>
+
+
+<button class="voice-btn"
+        id="voiceBtn">
+
+    🎤
+
+    <span data-en="Ask AI"
+          data-ta="AI-யிடம் கேள்">
+
+        Ask AI
+
+    </span>
+
+</button>
+
+
+<script>
+
+function applyLanguage(language) {
+
+    localStorage.setItem(
+        "citizenLanguage",
+        language
+    );
+
+
+    document.documentElement.lang =
+        language === "ta" ? "ta" : "en";
+
+
+    document.getElementById(
+        "languageText"
+    ).textContent =
+        language === "ta"
+            ? "தமிழ்"
+            : "English";
+
+
+    document.querySelectorAll(
+        "[data-en][data-ta]"
+    ).forEach(function(element) {
+
+        const english =
+            element.dataset.en || "";
+
+        const tamil =
+            element.dataset.ta || "";
+
+        element.textContent =
+            language === "ta"
+                ? (tamil || "தமிழ் தகவல் கிடைக்கவில்லை")
+                : english;
+
+    });
+
+
+    document.querySelectorAll(
+        ".dynamic-language"
+    ).forEach(function(element) {
+
+        const english =
+            element.dataset.en || "";
+
+        const tamil =
+            element.dataset.ta || "";
+
+        element.textContent =
+            language === "ta"
+                ? (tamil || "தமிழ் தகவல் கிடைக்கவில்லை")
+                : english;
+
+    });
+
+
+    document.querySelectorAll(
+        ".special-text"
+    ).forEach(function(element) {
+
+        if (language === "ta") {
+
+            element.textContent =
+                "இந்த தகவல் தமிழில் கிடைக்கவில்லை";
+
+        }
+
+    });
+
+
+    document.querySelectorAll(
+        ".offline-text"
+    ).forEach(function(element) {
+
+        if (language === "ta") {
+
+            element.textContent =
+                "அரசு அலுவலக விவரம்";
+
+        }
+
+    });
+
+}
+
+
+const languageBtn =
+    document.getElementById("languageBtn");
+
+const languageMenu =
+    document.getElementById("languageMenu");
+
+
+languageBtn.addEventListener(
+    "click",
+    function(event) {
+
+        event.stopPropagation();
+
+        languageMenu.classList.toggle("show");
+
+    }
+);
+
+
+languageMenu
+    .querySelectorAll("button")
+    .forEach(function(button) {
+
+        button.addEventListener(
+            "click",
+            function() {
+
+                applyLanguage(
+                    button.dataset.language
+                );
+
+                languageMenu.classList.remove(
+                    "show"
+                );
+
+            }
+        );
+
+    });
+
+
+document.addEventListener(
+    "click",
+    function() {
+
+        languageMenu.classList.remove("show");
+
+    }
+);
+
+
+applyLanguage(
+    localStorage.getItem("citizenLanguage") || "en"
+);
+
+
+document.getElementById("voiceBtn")
+    .addEventListener("click", function() {
+
+        const SpeechRecognition =
+            window.SpeechRecognition ||
+            window.webkitSpeechRecognition;
+
+        const language =
+            localStorage.getItem("citizenLanguage") || "en";
+
+
+        if (!SpeechRecognition) {
+
+            alert(
+                language === "ta"
+                    ? "இந்த உலாவியில் குரல் வசதி இல்லை."
+                    : "Voice recognition is not supported."
+            );
+
+            return;
+
+        }
+
+
+        const recognition =
+            new SpeechRecognition();
+
+        recognition.lang =
+            language === "ta"
+                ? "ta-IN"
+                : "en-IN";
+
+        recognition.continuous = false;
+        recognition.interimResults = false;
+
+
+        recognition.onresult =
+            async function(event) {
+
+                const message =
+                    event.results[0][0].transcript;
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "/api/chat",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body: JSON.stringify({
+                                    message: message,
+                                    language: language
+                                })
+                            }
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    if (data.reply) {
+
+                        alert(data.reply);
+
+
+                        const speech =
+                            new SpeechSynthesisUtterance(
+                                data.reply
+                            );
+
+                        speech.lang =
+                            language === "ta"
+                                ? "ta-IN"
+                                : "en-IN";
+
+                        speechSynthesis.speak(
+                            speech
+                        );
+
+                    }
+
+                }
+                catch (error) {
+
+                    alert(
+                        language === "ta"
+                            ? "AI சேவை தற்போது கிடைக்கவில்லை."
+                            : "AI service is currently unavailable."
+                    );
+
+                }
+
+            };
+
+
+        recognition.start();
+
+    });
+
+</script>
+
+</body>
+</html>

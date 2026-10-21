@@ -1,0 +1,602 @@
+/* =========================================================
+   CITIZEN GUIDE AI
+   ALL DATA PAGES
+   Schemes | Scholarships | Services
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+.all-page {
+    min-height: 100vh;
+    background: #f7faff;
+    color: #172033;
+    font-family: "Poppins", sans-serif;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+.all-page-nav {
+    width: 100%;
+    min-height: 72px;
+    padding: 14px 6%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    background: rgba(255, 255, 255, 0.97);
+    border-bottom: 1px solid #e7edf7;
+    box-shadow: 0 6px 25px rgba(37, 99, 235, 0.07);
+
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.all-page-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #172033;
+}
+
+.all-page-brand-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 13px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: linear-gradient(135deg, #2563eb, #6366f1);
+    color: white;
+
+    font-size: 20px;
+    box-shadow: 0 8px 18px rgba(37, 99, 235, 0.22);
+}
+
+.all-page-brand-text {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.all-page-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 10px 17px;
+    border-radius: 12px;
+
+    background: #eef4ff;
+    color: #2563eb;
+
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+
+    transition: 0.25s ease;
+}
+
+.all-page-back:hover {
+    background: #2563eb;
+    color: white;
+    transform: translateX(-2px);
+}
+
+
+/* =========================
+   PAGE HEADER
+========================= */
+
+.all-page-header {
+    width: min(1180px, 90%);
+    margin: 0 auto;
+    padding: 55px 0 30px;
+    text-align: center;
+}
+
+.all-page-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 8px 15px;
+    border-radius: 30px;
+
+    background: #eaf2ff;
+    color: #2563eb;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    margin-bottom: 15px;
+}
+
+.all-page-title {
+    margin: 0;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.2;
+    font-weight: 800;
+    color: #172033;
+}
+
+.all-page-title span {
+    color: #2563eb;
+}
+
+.all-page-subtitle {
+    max-width: 680px;
+    margin: 14px auto 0;
+
+    color: #667085;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+
+/* =========================
+   SEARCH AREA
+========================= */
+
+.all-page-tools {
+    width: min(1180px, 90%);
+    margin: 0 auto 28px;
+
+    display: flex;
+    justify-content: center;
+}
+
+.all-page-search {
+    width: min(600px, 100%);
+    min-height: 52px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 0 18px;
+
+    background: white;
+    border: 1px solid #e1e8f3;
+    border-radius: 16px;
+
+    box-shadow: 0 10px 30px rgba(37, 99, 235, 0.07);
+
+    transition: 0.25s ease;
+}
+
+.all-page-search:focus-within {
+    border-color: #8bb3ff;
+    box-shadow: 0 12px 32px rgba(37, 99, 235, 0.13);
+}
+
+.all-page-search i {
+    color: #2563eb;
+    font-size: 16px;
+}
+
+.all-page-search input {
+    width: 100%;
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+    color: #172033;
+}
+
+.all-page-search input::placeholder {
+    color: #98a2b3;
+}
+
+
+/* =========================
+   DATA GRID
+========================= */
+
+.all-page-container {
+    width: min(1180px, 90%);
+    margin: 0 auto;
+    padding-bottom: 70px;
+}
+
+.all-page-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+
+/* =========================
+   DATA CARD
+========================= */
+
+.all-page-card {
+    position: relative;
+    overflow: hidden;
+
+    background: white;
+    border: 1px solid #e7edf6;
+    border-radius: 22px;
+
+    padding: 24px;
+
+    box-shadow: 0 10px 30px rgba(30, 64, 175, 0.06);
+
+    transition:
+        transform 0.28s ease,
+        box-shadow 0.28s ease,
+        border-color 0.28s ease;
+}
+
+.all-page-card::before {
+    content: "";
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 4px;
+
+    background: linear-gradient(
+        90deg,
+        #2563eb,
+        #6366f1,
+        #06b6d4
+    );
+
+    opacity: 0;
+    transition: 0.28s ease;
+}
+
+.all-page-card:hover {
+    transform: translateY(-7px);
+
+    border-color: #c9dbff;
+
+    box-shadow:
+        0 18px 42px rgba(37, 99, 235, 0.13);
+}
+
+.all-page-card:hover::before {
+    opacity: 1;
+}
+
+
+/* =========================
+   CARD ICON
+========================= */
+
+.all-page-card-icon {
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 15px;
+
+    background: #eef4ff;
+    color: #2563eb;
+
+    font-size: 20px;
+
+    margin-bottom: 18px;
+
+    transition: 0.28s ease;
+}
+
+.all-page-card:hover .all-page-card-icon {
+    transform: scale(1.08) rotate(-3deg);
+    background: #2563eb;
+    color: white;
+}
+
+
+/* =========================
+   CARD CONTENT
+========================= */
+
+.all-page-card h3 {
+    margin: 0 0 10px;
+
+    color: #172033;
+
+    font-size: 17px;
+    line-height: 1.45;
+    font-weight: 700;
+}
+
+.all-page-card p {
+    margin: 0 0 18px;
+
+    color: #667085;
+
+    font-size: 12.5px;
+    line-height: 1.75;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+
+/* =========================
+   META INFORMATION
+========================= */
+
+.all-page-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+
+    margin-bottom: 20px;
+}
+
+.all-page-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+
+    padding: 6px 9px;
+
+    border-radius: 8px;
+
+    background: #f3f6fb;
+    color: #667085;
+
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.all-page-tag i {
+    color: #2563eb;
+}
+
+
+/* =========================
+   CARD BUTTON
+========================= */
+
+.all-page-button {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    padding: 11px 15px;
+
+    border-radius: 11px;
+
+    background: #2563eb;
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    transition: 0.25s ease;
+}
+
+.all-page-button:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(37, 99, 235, 0.22);
+}
+
+.all-page-button i {
+    font-size: 11px;
+    transition: 0.2s ease;
+}
+
+.all-page-button:hover i {
+    transform: translateX(3px);
+}
+
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.all-page-empty {
+    grid-column: 1 / -1;
+
+    padding: 60px 25px;
+
+    text-align: center;
+
+    background: white;
+    border: 1px dashed #cbd7e8;
+    border-radius: 22px;
+}
+
+.all-page-empty-icon {
+    width: 65px;
+    height: 65px;
+
+    margin: 0 auto 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #eef4ff;
+    color: #2563eb;
+
+    font-size: 25px;
+}
+
+.all-page-empty h3 {
+    margin: 0 0 7px;
+
+    font-size: 18px;
+    color: #172033;
+}
+
+.all-page-empty p {
+    margin: 0;
+
+    color: #667085;
+    font-size: 12px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.all-page-footer {
+    padding: 22px 6%;
+
+    text-align: center;
+
+    background: white;
+    border-top: 1px solid #e7edf6;
+
+    color: #98a2b3;
+
+    font-size: 11px;
+}
+
+.all-page-footer span {
+    color: #2563eb;
+    font-weight: 600;
+}
+
+
+/* =========================
+   SCHEMES THEME
+========================= */
+
+.all-page-schemes .all-page-card-icon {
+    background: #eef4ff;
+    color: #2563eb;
+}
+
+.all-page-schemes .all-page-badge {
+    background: #eaf2ff;
+    color: #2563eb;
+}
+
+
+/* =========================
+   SCHOLARSHIPS THEME
+========================= */
+
+.all-page-scholarships .all-page-card-icon {
+    background: #f3efff;
+    color: #7c3aed;
+}
+
+.all-page-scholarships .all-page-badge {
+    background: #f3efff;
+    color: #7c3aed;
+}
+
+.all-page-scholarships .all-page-button {
+    background: #7c3aed;
+}
+
+.all-page-scholarships .all-page-button:hover {
+    background: #6d28d9;
+}
+
+
+/* =========================
+   SERVICES THEME
+========================= */
+
+.all-page-services .all-page-card-icon {
+    background: #e8fbf7;
+    color: #0f9f87;
+}
+
+.all-page-services .all-page-badge {
+    background: #e8fbf7;
+    color: #0f9f87;
+}
+
+.all-page-services .all-page-button {
+    background: #0f9f87;
+}
+
+.all-page-services .all-page-button:hover {
+    background: #087f6d;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1000px) {
+    .all-page-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 700px) {
+    .all-page-nav {
+        padding: 12px 5%;
+    }
+
+    .all-page-brand-text {
+        font-size: 15px;
+    }
+
+    .all-page-brand-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 17px;
+    }
+
+    .all-page-header {
+        padding-top: 40px;
+    }
+
+    .all-page-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .all-page-card {
+        padding: 21px;
+    }
+}
+
+@media (max-width: 480px) {
+    .all-page-back {
+        padding: 9px 11px;
+        font-size: 11px;
+    }
+
+    .all-page-title {
+        font-size: 28px;
+    }
+
+    .all-page-subtitle {
+        font-size: 12px;
+    }
+
+    .all-page-container,
+    .all-page-header,
+    .all-page-tools {
+        width: 92%;
+    }
+}

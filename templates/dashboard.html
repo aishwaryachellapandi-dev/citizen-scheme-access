@@ -1,0 +1,1658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citizen Scheme Access  - Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+
+<body>
+
+<nav class="dashboard-nav">
+
+    <a href="/" class="brand">
+
+        <span class="brand-icon">
+            <i class="fa-solid fa-robot"></i>
+        </span>
+
+        <span data-en="Citizen Scheme Access "
+              data-ta="குடிமக்கள் திட்ட அணுகல்">
+            Citizen Scheme<b>Access</b>
+        </span>
+
+    </a>
+
+
+    <div class="nav-right">
+
+        <div class="language-selector">
+
+            <button type="button"
+                    class="language-btn"
+                    id="languageBtn">
+
+                <i class="fa-solid fa-globe"></i>
+
+                <span id="languageText">English</span>
+
+                <i class="fa-solid fa-chevron-down"></i>
+
+            </button>
+
+            <div class="language-menu" id="languageMenu">
+
+                <button type="button" data-language="en">
+                    English
+                </button>
+
+                <button type="button" data-language="ta">
+                    தமிழ்
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="stage-badge">
+
+            <i class="fa-solid fa-user"></i>
+
+            <span id="currentStage">
+                My Dashboard
+            </span>
+
+        </div>
+
+
+        <a href="/" class="home-btn">
+
+            <i class="fa-solid fa-house"></i>
+
+            <span data-en="Home"
+                  data-ta="முகப்பு">
+                Home
+            </span>
+
+        </a>
+
+    </div>
+
+</nav>
+
+
+<main class="dashboard">
+
+    <section class="main-area">
+
+        <!-- WELCOME -->
+
+        <div class="welcome-box">
+
+            <div class="welcome-content">
+
+                <span class="small-label">
+
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+                    <span data-en="PERSONALIZED FOR YOU"
+                          data-ta="உங்களுக்காக தனிப்பயனாக்கப்பட்டது">
+                        PERSONALIZED FOR YOU
+                    </span>
+
+                </span>
+
+
+                <h1>
+
+                    <span class="title-normal"
+                          data-en="Your Smart"
+                          data-ta="உங்கள் ஸ்மார்ட்">
+                        Your Smart
+                    </span>
+
+                    <span data-en="Citizen Dashboard"
+                          data-ta="குடிமக்கள் டாஷ்போர்டு">
+                        Citizen Dashboard
+                    </span>
+
+                </h1>
+
+
+                <p data-en="Explore schemes, scholarships and services selected for your current stage."
+                   data-ta="உங்கள் தற்போதைய நிலைக்கு பொருத்தமான திட்டங்கள், உதவித்தொகைகள் மற்றும் சேவைகளை அறியுங்கள்.">
+                    Explore schemes, scholarships and services selected for your current stage.
+                </p>
+
+            </div>
+
+
+            <div class="ai-mini">
+
+                <div class="robot-orbit orbit-one"></div>
+                <div class="robot-orbit orbit-two"></div>
+                <div class="ai-glow"></div>
+
+                <div class="ai-robot">
+
+                    <div class="robot-antenna"></div>
+
+                    <div class="robot-head">
+
+                        <div class="robot-eye left"></div>
+                        <div class="robot-eye right"></div>
+                        <div class="robot-mouth"></div>
+
+                    </div>
+
+                    <div class="robot-body">
+
+                        <span>
+                            <i class="fa-solid fa-sparkles"></i>
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CURRENT STAGE -->
+
+        <div class="section-title">
+
+            <div>
+
+                <span class="section-label">
+
+                    <i class="fa-solid fa-bullseye"></i>
+
+                    <span data-en="YOUR CURRENT STAGE"
+                          data-ta="உங்கள் தற்போதைய நிலை">
+                        YOUR CURRENT STAGE
+                    </span>
+
+                </span>
+
+                <h2 id="stageTitle">
+                    Explore What Matches You
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <!-- RECOMMENDATIONS -->
+
+        <div class="recommendation-grid">
+
+
+            <!-- SCHEMES -->
+
+            <div class="recommend-card scheme-card">
+
+                <div class="card-icon">
+                    <i class="fa-solid fa-landmark"></i>
+                </div>
+
+                <div class="card-content">
+
+                    <span class="card-label"
+                          data-en="GOVERNMENT SUPPORT"
+                          data-ta="அரசு ஆதரவு">
+                        GOVERNMENT SUPPORT
+                    </span>
+
+                    <h3 data-en="Related Schemes"
+                        data-ta="தொடர்புடைய அரசு திட்டங்கள்">
+                        Related Schemes
+                    </h3>
+
+
+                    {% if schemes %}
+
+                    <div class="data-list">
+
+                        {% for scheme in schemes %}
+
+                        <article class="data-item">
+
+                            <div class="item-number">
+                                {{ loop.index }}
+                            </div>
+
+                            <div class="item-main">
+
+                                <h4 class="dynamic-language"
+                                    data-dynamic-en="{{ scheme.scheme_name }}"
+                                    data-dynamic-ta="{{ scheme.scheme_name_ta or scheme.scheme_name }}">
+                                    {{ scheme.scheme_name }}
+                                </h4>
+
+
+                                {% if scheme.description %}
+
+                                <p class="dynamic-language"
+                                   data-dynamic-en="{{ scheme.description }}"
+                                   data-dynamic-ta="{{ scheme.description_ta or scheme.description }}">
+                                    {{ scheme.description }}
+                                </p>
+
+                                {% endif %}
+
+
+                                {% if scheme.benefits %}
+
+                                <div class="benefit-line">
+
+                                    <i class="fa-solid fa-circle-check"></i>
+
+                                    <span>
+
+                                        <strong data-en="Benefits:"
+                                                data-ta="நன்மைகள்:">
+                                            Benefits:
+                                        </strong>
+
+                                        <span class="dynamic-language"
+                                              data-dynamic-en="{{ scheme.benefits }}"
+                                              data-dynamic-ta="{{ scheme.benefits_ta or scheme.benefits }}">
+                                            {{ scheme.benefits }}
+                                        </span>
+
+                                    </span>
+
+                                </div>
+
+                                {% endif %}
+
+
+                                <a href="{{ url_for('scheme_details',
+                                                    scheme_id=scheme.scheme_id) }}"
+                                   class="explore-btn">
+
+                                    <span data-en="Explore Scheme"
+                                          data-ta="திட்டத்தை பார்க்க">
+                                        Explore Scheme
+                                    </span>
+
+                                    <i class="fa-solid fa-arrow-right"></i>
+
+                                </a>
+
+                            </div>
+
+                        </article>
+
+                        {% endfor %}
+
+                    </div>
+
+                    {% else %}
+
+                    <div class="empty-state">
+
+                        <i class="fa-solid fa-circle-info"></i>
+
+                        <span data-en="No schemes found for your current stage yet."
+                              data-ta="உங்கள் தற்போதைய நிலைக்கு திட்டங்கள் இல்லை.">
+                            No schemes found for your current stage yet.
+                        </span>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <!-- SCHOLARSHIPS -->
+
+            <div class="recommend-card scholarship-card">
+
+                <div class="card-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+
+                <div class="card-content">
+
+                    <span class="card-label"
+                          data-en="EDUCATION SUPPORT"
+                          data-ta="கல்வி ஆதரவு">
+                        EDUCATION SUPPORT
+                    </span>
+
+                    <h3 data-en="Related Scholarships"
+                        data-ta="தொடர்புடைய உதவித்தொகைகள்">
+                        Related Scholarships
+                    </h3>
+
+
+                    {% if scholarships %}
+
+                    <div class="data-list">
+
+                        {% for scholarship in scholarships %}
+
+                        <article class="data-item">
+
+                            <div class="item-number">
+                                {{ loop.index }}
+                            </div>
+
+                            <div class="item-main">
+
+                                <h4 class="dynamic-language"
+                                    data-dynamic-en="{{ scholarship.scholarship_name }}"
+                                    data-dynamic-ta="{{ scholarship.scholarship_name_ta or scholarship.scholarship_name }}">
+                                    {{ scholarship.scholarship_name }}
+                                </h4>
+
+
+                                {% if scholarship.description %}
+
+                                <p class="dynamic-language"
+                                   data-dynamic-en="{{ scholarship.description }}"
+                                   data-dynamic-ta="{{ scholarship.description_ta or scholarship.description }}">
+                                    {{ scholarship.description }}
+                                </p>
+
+                                {% endif %}
+
+
+                                {% if scholarship.benefits %}
+
+                                <div class="benefit-line">
+
+                                    <i class="fa-solid fa-circle-check"></i>
+
+                                    <span>
+
+                                        <strong data-en="Benefits:"
+                                                data-ta="நன்மைகள்:">
+                                            Benefits:
+                                        </strong>
+
+                                        <span class="dynamic-language"
+                                              data-dynamic-en="{{ scholarship.benefits }}"
+                                              data-dynamic-ta="{{ scholarship.benefits_ta or scholarship.benefits }}">
+                                            {{ scholarship.benefits }}
+                                        </span>
+
+                                    </span>
+
+                                </div>
+
+                                {% endif %}
+
+
+                                <a href="{{ url_for('scholarship_details',
+                                                    scholarship_id=scholarship.scholarship_id) }}"
+                                   class="explore-btn scholarship-btn">
+
+                                    <span data-en="Explore Scholarship"
+                                          data-ta="உதவித்தொகையை பார்க்க">
+                                        Explore Scholarship
+                                    </span>
+
+                                    <i class="fa-solid fa-arrow-right"></i>
+
+                                </a>
+
+                            </div>
+
+                        </article>
+
+                        {% endfor %}
+
+                    </div>
+
+                    {% else %}
+
+                    <div class="empty-state">
+
+                        <i class="fa-solid fa-circle-info"></i>
+
+                        <span data-en="No scholarships found for your current stage yet."
+                              data-ta="உங்கள் தற்போதைய நிலைக்கு உதவித்தொகைகள் இல்லை.">
+                            No scholarships found for your current stage yet.
+                        </span>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <!-- SERVICES -->
+
+            <div class="recommend-card service-card">
+
+                <div class="card-icon">
+                    <i class="fa-solid fa-handshake"></i>
+                </div>
+
+                <div class="card-content">
+
+                    <span class="card-label"
+                          data-en="CITIZEN SERVICES"
+                          data-ta="குடிமக்கள் சேவைகள்">
+                        CITIZEN SERVICES
+                    </span>
+
+                    <h3 data-en="Related Services"
+                        data-ta="தொடர்புடைய சேவைகள்">
+                        Related Services
+                    </h3>
+
+
+                    {% if services %}
+
+                    <div class="data-list">
+
+                        {% for service in services %}
+
+                        <article class="data-item">
+
+                            <div class="item-number">
+                                {{ loop.index }}
+                            </div>
+
+                            <div class="item-main">
+
+                                <h4 class="dynamic-language"
+                                    data-dynamic-en="{{ service.service_name }}"
+                                    data-dynamic-ta="{{ service.service_name_ta or service.service_name }}">
+                                    {{ service.service_name }}
+                                </h4>
+
+
+                                {% if service.description %}
+
+                                <p class="dynamic-language"
+                                   data-dynamic-en="{{ service.description }}"
+                                   data-dynamic-ta="{{ service.description_ta or service.description }}">
+                                    {{ service.description }}
+                                </p>
+
+                                {% endif %}
+
+
+                                {% if service.department %}
+
+                                <div class="benefit-line">
+
+                                    <i class="fa-solid fa-building"></i>
+
+                                    <span>
+
+                                        <strong data-en="Department:"
+                                                data-ta="துறை:">
+                                            Department:
+                                        </strong>
+
+                                        <span class="dynamic-language"
+                                              data-dynamic-en="{{ service.department }}"
+                                              data-dynamic-ta="{% if service.department == 'Revenue Administration' %}வருவாய் நிர்வாகம்{% elif service.department == 'Revenue Administration, Government of Tamil Nadu' %}தமிழ்நாடு அரசு, வருவாய் நிர்வாகம்{% elif service.department == 'Government Department' %}அரசுத் துறை{% elif service.department == 'Tamil Nadu Government' %}தமிழ்நாடு அரசு{% elif service.department == 'Government of India' %}இந்திய அரசு{% elif service.department == 'All India Council for Technical Education' %}அகில இந்திய தொழில்நுட்பக் கல்விக் குழு{% else %}{{ service.department }}{% endif %}">
+                                            {{ service.department }}
+                                        </span>
+
+                                    </span>
+
+                                </div>
+
+                                {% endif %}
+
+
+                                <a href="{{ url_for('service_details',
+                                                    service_id=service.service_id) }}"
+                                   class="explore-btn service-btn">
+
+                                    <span data-en="Explore Service"
+                                          data-ta="சேவையை பார்க்க">
+                                        Explore Service
+                                    </span>
+
+                                    <i class="fa-solid fa-arrow-right"></i>
+
+                                </a>
+
+                            </div>
+
+                        </article>
+
+                        {% endfor %}
+
+                    </div>
+
+                    {% else %}
+
+                    <div class="empty-state">
+
+                        <i class="fa-solid fa-circle-info"></i>
+
+                        <span data-en="No services found for your current stage yet."
+                              data-ta="உங்கள் தற்போதைய நிலைக்கு சேவைகள் இல்லை.">
+                            No services found for your current stage yet.
+                        </span>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- AI GUIDE -->
+
+        <div class="ai-guide-box">
+
+            <div class="ai-guide-icon">
+                <i class="fa-solid fa-robot"></i>
+            </div>
+
+            <div class="ai-guide-text">
+
+                <span data-en="AI GUIDE"
+                      data-ta="AI வழிகாட்டி">
+                    AI GUIDE
+                </span>
+
+                <h3 data-en="Need help choosing what to explore?"
+                    data-ta="எதை பார்க்க வேண்டும் என்று உதவி வேண்டுமா?">
+                    Need help choosing what to explore?
+                </h3>
+
+                <p data-en="Ask Citizen Scheme Access and get simple, personalized guidance."
+                   data-ta="Citizen Scheme Access -யிடம் கேட்டு எளிய தனிப்பயனாக்கப்பட்ட வழிகாட்டுதலை பெறுங்கள்.">
+                    Ask Citizen Scheme Access  and get simple, personalized guidance.
+                </p>
+
+            </div>
+
+            <button class="ask-ai-btn"
+                    type="button"
+                    onclick="openAiGuide()">
+
+                <span data-en="Ask AI"
+                      data-ta="AI-யிடம் கேள்">
+                    Ask AI
+                </span>
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-heading">
+
+            <span>
+
+                <i class="fa-solid fa-compass"></i>
+
+                <span data-en="EXPLORE MORE"
+                      data-ta="மேலும் பார்க்க">
+                    EXPLORE MORE
+                </span>
+
+            </span>
+
+            <h2 data-en="Explore More"
+                data-ta="மேலும் பார்க்க">
+                Explore More
+            </h2>
+
+            <p data-en="Browse all available schemes, scholarships and services."
+               data-ta="கிடைக்கும் அனைத்து திட்டங்கள், உதவித்தொகைகள் மற்றும் சேவைகளை பார்க்கலாம்.">
+                Browse all available schemes, scholarships and services.
+            </p>
+
+        </div>
+
+
+        <div class="common-list">
+
+
+            <a href="{{ url_for('all_schemes') }}"
+               class="common-card">
+
+                <div class="common-icon blue">
+                    <i class="fa-solid fa-landmark"></i>
+                </div>
+
+                <div>
+
+                    <h3 data-en="All Government Schemes"
+                        data-ta="அனைத்து அரசு திட்டங்கள்">
+                        All Government Schemes
+                    </h3>
+
+                    <p data-en="Browse all available schemes"
+                       data-ta="அனைத்து கிடைக்கும் திட்டங்கள்">
+                        Browse all available schemes
+                    </p>
+
+                </div>
+
+                <i class="fa-solid fa-chevron-right arrow"></i>
+
+            </a>
+
+
+            <a href="{{ url_for('all_scholarships') }}"
+               class="common-card">
+
+                <div class="common-icon purple">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+
+                <div>
+
+                    <h3 data-en="All Scholarships"
+                        data-ta="அனைத்து உதவித்தொகைகள்">
+                        All Scholarships
+                    </h3>
+
+                    <p data-en="Explore all education support"
+                       data-ta="அனைத்து கல்வி உதவிகளை பார்க்க">
+                        Explore all education support
+                    </p>
+
+                </div>
+
+                <i class="fa-solid fa-chevron-right arrow"></i>
+
+            </a>
+
+
+            <a href="{{ url_for('all_services') }}"
+               class="common-card">
+
+                <div class="common-icon teal">
+                    <i class="fa-solid fa-handshake"></i>
+                </div>
+
+                <div>
+
+                    <h3 data-en="All Citizen Services"
+                        data-ta="அனைத்து குடிமக்கள் சேவைகள்">
+                        All Citizen Services
+                    </h3>
+
+                    <p data-en="Browse all government services"
+                       data-ta="அனைத்து அரசு சேவைகளை பார்க்க">
+                        Browse all government services
+                    </p>
+
+                </div>
+
+                <i class="fa-solid fa-chevron-right arrow"></i>
+
+            </a>
+
+
+            <a href="{{ url_for('stage') }}"
+               class="common-card">
+
+                <div class="common-icon orange">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                </div>
+
+                <div>
+
+                    <h3 data-en="Change Current Stage"
+                        data-ta="தற்போதைய நிலையை மாற்று">
+                        Change Current Stage
+                    </h3>
+
+                    <p data-en="Update your current stage"
+                       data-ta="உங்கள் தற்போதைய நிலையை மாற்றுங்கள்">
+                        Update your current stage
+                    </p>
+
+                </div>
+
+                <i class="fa-solid fa-chevron-right arrow"></i>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+</main>
+
+
+<!-- VOICE -->
+
+<button type="button"
+        class="voice-floating"
+        id="voiceFloating"
+        onclick="toggleVoice()"
+        aria-label="Voice Assistant">
+
+    <i class="fa-solid fa-microphone"></i>
+
+</button>
+
+
+<!-- AI CHAT -->
+
+<div class="ai-chat-overlay"
+     id="aiChatOverlay">
+
+    <div class="ai-chat-box">
+
+        <div class="ai-chat-header">
+
+            <div class="ai-chat-title">
+
+                <div class="chat-robot">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+
+                <div>
+
+                    <strong data-en="Citizen Scheme Access"
+                            data-ta="குடிமக்கள் திட்ட அணுகல்">
+                        Citizen Scheme Access
+                    </strong>
+
+                    <span data-en="AI Guide"
+                          data-ta="AI வழிகாட்டி">
+                        AI Guide
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <button type="button"
+                    class="close-chat"
+                    onclick="closeAiGuide()">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+
+        <div class="ai-chat-messages"
+             id="aiChatMessages">
+
+            <div class="ai-message">
+
+                <div class="message-icon">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+
+                <div class="message-content">
+
+                    <span class="message-name"
+                          data-en="AI Guide"
+                          data-ta="AI வழிகாட்டி">
+                        AI Guide
+                    </span>
+
+                    <p data-en="Hi! Ask me about schemes, scholarships or services."
+                       data-ta="வணக்கம்! திட்டங்கள், உதவித்தொகைகள் அல்லது சேவைகள் பற்றி என்னிடம் கேளுங்கள்.">
+                        Hi! Ask me about schemes, scholarships or services.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="ai-chat-input-area">
+
+            <input type="text"
+                   id="aiChatInput"
+                   data-placeholder-en="Ask something..."
+                   data-placeholder-ta="ஏதாவது கேளுங்கள்..."
+                   placeholder="Ask something..."
+                   autocomplete="off">
+
+            <button type="button"
+                    id="sendAiMessage"
+                    onclick="sendAiMessage()">
+
+                <i class="fa-solid fa-paper-plane"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- MESSAGE -->
+
+<div id="messageBox"
+     class="message-box">
+
+    <div class="message-icon">
+        <i class="fa-solid fa-sparkles"></i>
+    </div>
+
+    <div>
+
+        <strong id="messageTitle"
+                data-en="Coming Soon"
+                data-ta="விரைவில் வரும்">
+            Coming Soon
+        </strong>
+
+        <p data-en="This feature will be connected to the related page."
+           data-ta="இந்த வசதி தொடர்புடைய பக்கத்துடன் இணைக்கப்படும்.">
+            This feature will be connected to the related page.
+        </p>
+
+    </div>
+
+    <button type="button"
+            onclick="closeMessage()">
+
+        <i class="fa-solid fa-xmark"></i>
+
+    </button>
+
+</div>
+
+
+<script>
+
+const mysqlStage = "{{ selected_stage }}";
+
+
+const stageTranslations = {
+
+    "School Student": "பள்ளி மாணவர்",
+    "College Student": "கல்லூரி மாணவர்",
+    "Job Seeker": "வேலை தேடுபவர்",
+    "Working Professional": "பணிபுரியும் நபர்",
+    "Entrepreneur": "தொழில்முனைவோர்",
+    "Farmer": "விவசாயி",
+    "Homemaker": "குடும்பத் தலைவர்",
+    "Senior Citizen": "மூத்த குடிமகன்",
+    "Person with Disability": "மாற்றுத்திறனாளி",
+    "Parent / Family": "பெற்றோர் / குடும்பம்",
+    "Other": "மற்றவை"
+
+};
+
+
+function getStageText(language) {
+
+    if (language === "ta") {
+
+        return stageTranslations[mysqlStage]
+            || mysqlStage;
+
+    }
+
+    return mysqlStage;
+
+}
+
+
+function updateStageText() {
+
+    const stageElement =
+        document.getElementById("currentStage");
+
+    const titleElement =
+        document.getElementById("stageTitle");
+
+
+    if (
+        mysqlStage &&
+        mysqlStage !== "None"
+    ) {
+
+        const stageText =
+            getStageText(currentLanguage);
+
+        stageElement.textContent =
+            stageText;
+
+        titleElement.textContent =
+            currentLanguage === "ta"
+                ? stageText + " - உங்களுக்கான பரிந்துரைகள்"
+                : stageText + " - Recommended for You";
+
+    }
+
+}
+
+
+let currentLanguage =
+    localStorage.getItem("citizenLanguage") || "en";
+
+
+const languageBtn =
+    document.getElementById("languageBtn");
+
+const languageMenu =
+    document.getElementById("languageMenu");
+
+const languageText =
+    document.getElementById("languageText");
+
+
+/*
+    IMPORTANT:
+    Dynamic database content has separate English/Tamil values.
+    We NEVER translate it through Google or any external translator.
+*/
+
+function applyDynamicLanguageElements() {
+
+    document
+        .querySelectorAll(".dynamic-language")
+        .forEach(element => {
+
+            const englishText =
+                element.dataset.dynamicEn || "";
+
+            const tamilText =
+                element.dataset.dynamicTa || "";
+
+
+            if (currentLanguage === "ta") {
+
+                element.textContent =
+                    tamilText || englishText;
+
+            } else {
+
+                element.textContent =
+                    englishText;
+
+            }
+
+        });
+
+}
+
+
+function applyLanguage(language) {
+
+    currentLanguage =
+        language === "ta"
+            ? "ta"
+            : "en";
+
+
+    localStorage.setItem(
+        "citizenLanguage",
+        currentLanguage
+    );
+
+
+    document
+        .querySelectorAll("[data-en]")
+        .forEach(element => {
+
+            const text =
+                element.dataset[
+                    currentLanguage === "ta"
+                        ? "ta"
+                        : "en"
+                ];
+
+            if (text) {
+
+                element.textContent =
+                    text;
+
+            }
+
+        });
+
+
+    languageText.textContent =
+        currentLanguage === "ta"
+            ? "தமிழ்"
+            : "English";
+
+
+    document.documentElement.lang =
+        currentLanguage === "ta"
+            ? "ta"
+            : "en";
+
+
+    const input =
+        document.getElementById("aiChatInput");
+
+
+    if (input) {
+
+        input.placeholder =
+            currentLanguage === "ta"
+                ? input.dataset.placeholderTa
+                : input.dataset.placeholderEn;
+
+    }
+
+
+    updateStageText();
+
+    applyDynamicLanguageElements();
+
+}
+
+
+languageBtn.addEventListener(
+    "click",
+    function(event) {
+
+        event.stopPropagation();
+
+        languageMenu.classList.toggle("show");
+
+    }
+);
+
+
+document
+    .querySelectorAll(".language-menu button")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            function() {
+
+                applyLanguage(
+                    this.dataset.language
+                );
+
+                languageMenu.classList.remove("show");
+
+            }
+        );
+
+    });
+
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            !event.target.closest(".language-selector")
+        ) {
+
+            languageMenu.classList.remove("show");
+
+        }
+
+    }
+);
+
+
+applyLanguage(currentLanguage);
+
+
+/* =========================
+   AI CHAT
+========================= */
+
+const aiChatOverlay =
+    document.getElementById("aiChatOverlay");
+
+const aiChatInput =
+    document.getElementById("aiChatInput");
+
+const aiChatMessages =
+    document.getElementById("aiChatMessages");
+
+
+function openAiGuide() {
+
+    aiChatOverlay.classList.add("show");
+
+    setTimeout(
+        () => {
+            aiChatInput.focus();
+        },
+        200
+    );
+
+}
+
+
+function closeAiGuide() {
+
+    aiChatOverlay.classList.remove("show");
+
+}
+
+
+aiChatInput.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Enter") {
+
+            event.preventDefault();
+
+            sendAiMessage();
+
+        }
+
+    }
+);
+
+
+function addChatMessage(text, type) {
+
+    const wrapper =
+        document.createElement("div");
+
+
+    wrapper.className =
+        type === "user"
+            ? "user-message"
+            : "ai-message";
+
+
+    if (type === "user") {
+
+        wrapper.innerHTML = `
+
+            <div class="message-content">
+
+                <span class="message-name">
+                    ${
+                        currentLanguage === "ta"
+                            ? "நீங்கள்"
+                            : "You"
+                    }
+                </span>
+
+                <p></p>
+
+            </div>
+
+        `;
+
+    } else {
+
+        wrapper.innerHTML = `
+
+            <div class="message-icon">
+
+                <i class="fa-solid fa-robot"></i>
+
+            </div>
+
+            <div class="message-content">
+
+                <span class="message-name">
+                    ${
+                        currentLanguage === "ta"
+                            ? "AI வழிகாட்டி"
+                            : "AI Guide"
+                    }
+                </span>
+
+                <p></p>
+
+            </div>
+
+        `;
+
+    }
+
+
+    wrapper
+        .querySelector("p")
+        .textContent = text;
+
+
+    aiChatMessages.appendChild(wrapper);
+
+
+    aiChatMessages.scrollTop =
+        aiChatMessages.scrollHeight;
+
+}
+
+
+/* =========================
+   SEND AI MESSAGE
+========================= */
+
+async function sendAiMessage() {
+
+    const message =
+        aiChatInput.value.trim();
+
+
+    if (!message) {
+        return;
+    }
+
+
+    addChatMessage(
+        message,
+        "user"
+    );
+
+
+    aiChatInput.value = "";
+
+
+    const typing =
+        document.createElement("div");
+
+
+    typing.className =
+        "ai-message typing-message";
+
+
+    typing.innerHTML = `
+
+        <div class="message-icon">
+
+            <i class="fa-solid fa-robot"></i>
+
+        </div>
+
+        <div class="typing-dots">
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </div>
+
+    `;
+
+
+    aiChatMessages.appendChild(typing);
+
+
+    aiChatMessages.scrollTop =
+        aiChatMessages.scrollHeight;
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/chat",
+                {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        message:
+                            message,
+
+                        language:
+                            currentLanguage,
+
+                        stage:
+                            mysqlStage
+
+                    })
+
+                }
+            );
+
+
+        let data = {};
+
+
+        try {
+
+            data =
+                await response.json();
+
+        } catch (jsonError) {
+
+            data = {};
+
+        }
+
+
+        typing.remove();
+
+
+        /*
+            Handle Flask / Gemini errors properly.
+        */
+
+        if (!response.ok) {
+
+            const errorMessage =
+                currentLanguage === "ta"
+                    ? "AI சேவையில் ஒரு பிழை ஏற்பட்டுள்ளது. சிறிது நேரம் கழித்து மீண்டும் முயற்சிக்கவும்."
+                    : "There was a problem with the AI service. Please try again in a moment.";
+
+
+            addChatMessage(
+                errorMessage,
+                "ai"
+            );
+
+
+            return;
+
+        }
+
+
+        /*
+            Normal AI response.
+        */
+
+        if (data.reply) {
+
+            addChatMessage(
+                data.reply,
+                "ai"
+            );
+
+
+            speakText(
+                data.reply
+            );
+
+
+        } else {
+
+            addChatMessage(
+
+                currentLanguage === "ta"
+                    ? "AI பதில் கிடைக்கவில்லை. மீண்டும் முயற்சிக்கவும்."
+                    : "No AI response was received. Please try again.",
+
+                "ai"
+
+            );
+
+        }
+
+
+    } catch (error) {
+
+        /*
+            Network / Flask server error.
+        */
+
+        typing.remove();
+
+
+        addChatMessage(
+
+            currentLanguage === "ta"
+                ? "AI சேவையை அணுக முடியவில்லை. Internet connection மற்றும் Flask server-ஐ சரிபார்க்கவும்."
+                : "Unable to connect to the AI service. Please check your internet connection and Flask server.",
+
+            "ai"
+
+        );
+
+    }
+
+}
+
+
+/* =========================
+   VOICE INPUT
+========================= */
+
+let recognition = null;
+
+let isListening = false;
+
+
+function createRecognition() {
+
+    const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
+
+
+    if (!SpeechRecognition) {
+
+        return null;
+
+    }
+
+
+    const recognizer =
+        new SpeechRecognition();
+
+
+    recognizer.continuous = false;
+
+    recognizer.interimResults = false;
+
+
+    recognizer.lang =
+        currentLanguage === "ta"
+            ? "ta-IN"
+            : "en-IN";
+
+
+    recognizer.onstart =
+        function() {
+
+            isListening = true;
+
+
+            document
+                .getElementById("voiceFloating")
+                .classList.add("listening");
+
+        };
+
+
+    recognizer.onresult =
+        function(event) {
+
+            const text =
+                event.results[0][0].transcript;
+
+
+            aiChatInput.value = text;
+
+
+            openAiGuide();
+
+
+            sendAiMessage();
+
+        };
+
+
+    recognizer.onend =
+        function() {
+
+            isListening = false;
+
+
+            document
+                .getElementById("voiceFloating")
+                .classList.remove("listening");
+
+        };
+
+
+    recognizer.onerror =
+        function() {
+
+            isListening = false;
+
+
+            document
+                .getElementById("voiceFloating")
+                .classList.remove("listening");
+
+        };
+
+
+    return recognizer;
+
+}
+
+
+function toggleVoice() {
+
+    if (isListening) {
+
+        if (recognition) {
+
+            recognition.stop();
+
+        }
+
+        return;
+
+    }
+
+
+    recognition =
+        createRecognition();
+
+
+    if (!recognition) {
+
+        showMessage(
+
+            currentLanguage === "ta"
+                ? "உங்கள் browser voice support செய்யவில்லை."
+                : "Voice recognition is not supported by this browser."
+
+        );
+
+        return;
+
+    }
+
+
+    recognition.start();
+
+}
+
+
+/* =========================
+   SPEECH OUTPUT
+========================= */
+
+function speakText(text) {
+
+    if (!("speechSynthesis" in window)) {
+
+        return;
+
+    }
+
+
+    window.speechSynthesis.cancel();
+
+
+    const speech =
+        new SpeechSynthesisUtterance(text);
+
+
+    speech.lang =
+        currentLanguage === "ta"
+            ? "ta-IN"
+            : "en-IN";
+
+
+    speech.rate = 0.95;
+
+
+    window.speechSynthesis.speak(speech);
+
+}
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+function showMessage(feature) {
+
+    document.getElementById(
+        "messageTitle"
+    ).textContent = feature;
+
+
+    document.getElementById(
+        "messageBox"
+    ).classList.add("show");
+
+
+    setTimeout(
+        closeMessage,
+        2500
+    );
+
+}
+
+
+function closeMessage() {
+
+    document
+        .getElementById("messageBox")
+        .classList.remove("show");
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title id="pageTitle">Government Schemes - Citizen Scheme Access </title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <!-- Citizen Scheme Access - Government Schemes CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/all_schemes.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+<!-- =====================================================
+     TOP NAVBAR
+===================================================== -->
+
+<header class="top">
+
+    <a
+        href="{{ url_for('dashboard') }}"
+        class="brand"
+    >
+
+        <i class="fa-solid fa-robot"></i>
+
+        <span
+            data-en="Citizen Scheme Access"
+            data-ta=" குடிமக்கள் திட்ட அணுகல்"
+        >
+            Citizen Scheme Access
+        </span>
+
+    </a>
+
+
+    <div class="right">
+
+        <!-- Language Selector -->
+
+        <div class="language-selector">
+
+            <button
+                type="button"
+                class="language-btn"
+                id="languageBtn"
+            >
+
+                <i class="fa-solid fa-globe"></i>
+
+                <span id="languageText">
+                    English
+                </span>
+
+                <i class="fa-solid fa-chevron-down"></i>
+
+            </button>
+
+
+            <div
+                class="language-menu"
+                id="languageMenu"
+            >
+
+                <button
+                    type="button"
+                    data-language="en"
+                >
+                    English
+                </button>
+
+
+                <button
+                    type="button"
+                    data-language="ta"
+                >
+                    தமிழ்
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Dashboard -->
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="dashboard-btn"
+        >
+
+            <i class="fa-solid fa-house"></i>
+
+            <span
+                data-en="Dashboard"
+                data-ta="டாஷ்போர்டு"
+            >
+                Dashboard
+            </span>
+
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
+
+<main class="container">
+
+    <!-- Page Heading -->
+
+    <div class="heading">
+
+        <span
+            data-en="GOVERNMENT SUPPORT"
+            data-ta="அரசு ஆதரவு"
+        >
+            GOVERNMENT SUPPORT
+        </span>
+
+
+        <h1
+            data-en="Government Schemes"
+            data-ta="அரசு நலத்திட்டங்கள்"
+        >
+            Government Schemes
+        </h1>
+
+
+        <p
+            data-en="Explore government schemes and benefits available for citizens."
+            data-ta="குடிமக்களுக்குக் கிடைக்கும் அரசு நலத்திட்டங்கள் மற்றும் நலன்களைப் பாருங்கள்."
+        >
+            Explore government schemes and benefits available for citizens.
+        </p>
+
+    </div>
+
+
+    <!-- =================================================
+         SCHEMES AVAILABLE
+    ================================================= -->
+
+    {% if schemes %}
+
+    <div class="list">
+
+        {% for scheme in schemes %}
+
+        <article class="card">
+
+            <!-- Scheme Icon -->
+
+            <div class="icon">
+
+                <i class="fa-solid fa-landmark"></i>
+
+            </div>
+
+
+            <!-- Scheme Name -->
+
+            <h2
+                class="dynamic-db"
+                data-en="{{ scheme.scheme_name }}"
+                data-ta="{{ scheme.scheme_name_ta or 'தமிழ் தகவல் கிடைக்கவில்லை' }}"
+            >
+                {{ scheme.scheme_name }}
+            </h2>
+
+
+            <!-- Scheme Description -->
+
+            {% if scheme.description %}
+
+            <p
+                class="dynamic-db"
+                data-en="{{ scheme.description }}"
+                data-ta="{{ scheme.description_ta or 'தமிழ் விளக்கம் கிடைக்கவில்லை' }}"
+            >
+                {{ scheme.description }}
+            </p>
+
+            {% endif %}
+
+
+            <!-- Department -->
+
+            {% if scheme.department %}
+
+            <div class="department">
+
+                <i class="fa-solid fa-building"></i>
+
+                <strong
+                    data-en="Department:"
+                    data-ta="துறை:"
+                >
+                    Department:
+                </strong>
+
+
+                <span
+                    class="department-db"
+                    data-en="{{ scheme.department }}"
+                >
+                    {{ scheme.department }}
+                </span>
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- Explore Button -->
+
+            <a
+                href="{{ url_for(
+                    'scheme_details',
+                    scheme_id=scheme.scheme_id
+                ) }}"
+                class="btn"
+            >
+
+                <span
+                    data-en="Explore Scheme"
+                    data-ta="திட்டத்தைப் பார்க்க"
+                >
+                    Explore Scheme
+                </span>
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+            </a>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
+
+    <!-- =================================================
+         NO SCHEMES
+    ================================================= -->
+
+    {% else %}
+
+    <div class="empty">
+
+        <span
+            data-en="No government schemes are available right now."
+            data-ta="தற்போது அரசு நலத்திட்டங்கள் எதுவும் கிடைக்கவில்லை."
+        >
+            No government schemes are available right now.
+        </span>
+
+    </div>
+
+    {% endif %}
+
+</main>
+
+
+<!-- =====================================================
+     LANGUAGE JAVASCRIPT
+===================================================== -->
+
+<script>
+
+const departmentTamil = {
+
+    "Revenue Administration":
+        "வருவாய் நிர்வாகம்",
+
+    "Revenue Administration, Government of Tamil Nadu":
+        "தமிழ்நாடு அரசு, வருவாய் நிர்வாகம்",
+
+    "Government Department":
+        "அரசுத் துறை",
+
+    "Tamil Nadu Government":
+        "தமிழ்நாடு அரசு",
+
+    "Government of India":
+        "இந்திய அரசு",
+
+    "National Health Authority":
+        "தேசிய சுகாதார ஆணையம்",
+
+    "Pension Fund Regulatory and Development Authority":
+        "ஓய்வூதிய நிதி ஒழுங்குமுறை மற்றும் மேம்பாட்டு ஆணையம்",
+
+    "Ministry of Women and Child Development":
+        "பெண்கள் மற்றும் குழந்தைகள் மேம்பாட்டு அமைச்சகம்",
+
+    "Ministry of Health and Family Welfare":
+        "சுகாதாரம் மற்றும் குடும்ப நல அமைச்சகம்",
+
+    "Ministry of Education":
+        "கல்வி அமைச்சகம்",
+
+    "Ministry of Food Processing Industries":
+        "உணவு பதப்படுத்தும் தொழில்கள் அமைச்சகம்",
+
+    "Ministry of Agriculture and Farmers Welfare":
+        "வேளாண்மை மற்றும் விவசாயிகள் நல அமைச்சகம்",
+
+    "Ministry of Labour and Employment":
+        "தொழிலாளர் மற்றும் வேலைவாய்ப்பு அமைச்சகம்",
+
+    "Ministry of Social Justice and Empowerment":
+        "சமூக நீதி மற்றும் அதிகாரமளித்தல் அமைச்சகம்",
+
+    "All India Council for Technical Education":
+        "அகில இந்திய தொழில்நுட்பக் கல்விக் குழு"
+
+};
+
+
+function applyLanguage(language) {
+
+    localStorage.setItem(
+        "citizenLanguage",
+        language
+    );
+
+
+    document.documentElement.lang =
+        language === "ta"
+            ? "ta"
+            : "en";
+
+
+    /*
+       Static English/Tamil content
+    */
+
+    document
+        .querySelectorAll("[data-en][data-ta]")
+        .forEach(element => {
+
+            element.textContent =
+                language === "ta"
+                    ? element.dataset.ta
+                    : element.dataset.en;
+
+        });
+
+
+    /*
+       Database dynamic content
+    */
+
+    document
+        .querySelectorAll(".dynamic-db")
+        .forEach(element => {
+
+            element.textContent =
+                language === "ta"
+                    ? element.dataset.ta
+                    : element.dataset.en;
+
+        });
+
+
+    /*
+       Department translation
+    */
+
+    document
+        .querySelectorAll(".department-db")
+        .forEach(element => {
+
+            const english =
+                element.dataset.en || "";
+
+
+            element.textContent =
+                language === "ta"
+                    ? (
+                        departmentTamil[english]
+                        || "துறை"
+                    )
+                    : english;
+
+        });
+
+
+    /*
+       Language button text
+    */
+
+    document.getElementById(
+        "languageText"
+    ).textContent =
+        language === "ta"
+            ? "தமிழ்"
+            : "English";
+
+
+    /*
+       Browser tab title
+    */
+
+    document.getElementById(
+        "pageTitle"
+    ).textContent =
+        language === "ta"
+            ? "அரசு நலத்திட்டங்கள் - சிட்டிசன் கைடு"
+            : "Government Schemes - Citizen Scheme Access ";
+
+}
+
+
+/* =====================================================
+   LANGUAGE MENU
+===================================================== */
+
+const languageBtn =
+    document.getElementById("languageBtn");
+
+
+const languageMenu =
+    document.getElementById("languageMenu");
+
+
+languageBtn.addEventListener(
+    "click",
+    event => {
+
+        event.stopPropagation();
+
+        languageMenu.classList.toggle(
+            "show"
+        );
+
+    }
+);
+
+
+/* =====================================================
+   LANGUAGE OPTIONS
+===================================================== */
+
+document
+    .querySelectorAll(".language-menu button")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                applyLanguage(
+                    button.dataset.language
+                );
+
+
+                languageMenu.classList.remove(
+                    "show"
+                );
+
+            }
+        );
+
+    });
+
+
+/* =====================================================
+   CLOSE MENU
+===================================================== */
+
+document.addEventListener(
+    "click",
+    () => {
+
+        languageMenu.classList.remove(
+            "show"
+        );
+
+    }
+);
+
+
+/* =====================================================
+   LOAD SAVED LANGUAGE
+===================================================== */
+
+applyLanguage(
+    localStorage.getItem(
+        "citizenLanguage"
+    ) || "en"
+);
+
+</script>
+
+</body>
+
+</html>
