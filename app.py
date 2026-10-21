@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, j
 
 import mysql.connector
 
-from mysql.connector import Error
+from mysql.connector import ErrorDB_CONFIG
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -65,17 +65,13 @@ GROQ_MODEL = "openai/gpt-oss-20b"
 # ============================================================
 
 DB_CONFIG = {
-
-    "host": "localhost",
-
-    "user": "root",
-
-    "password": "CitizenGuide@123",
-
-    "database": "citizen_guide_ai"
-
+    "host": os.getenv("DB_HOST", "localhost"),
+    "user": os.getenv("DB_USER", "root"),
+    "password": os.getenv("DB_PASSWORD", ""),
+    "database": os.getenv("DB_NAME", "citizen_guide_ai"),
+    "port": int(os.getenv("DB_PORT", "3306")),
+    "connection_timeout": 10
 }
-
 
 
 # ============================================================
