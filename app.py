@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, j
 
 import mysql.connector
 
-from mysql.connector import ErrorDB_CONFIG
+from mysql.connector import Error
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
