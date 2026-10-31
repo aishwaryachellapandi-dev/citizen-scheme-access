@@ -1,0 +1,224 @@
+
+(function () {
+    if (window.voiceAssistantLoaded) return;
+    window.voiceAssistantLoaded = true;
+
+    const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    let recognition = null;
+    let stopped = false;
+    let busy = false;
+    let currentRequest = null;
+
+    const panel = document.createElement("div");
+
+    panel.id = "commonVoiceAssistant";
+    panel.innerHTML = `
+        <button id="voiceMicBtn" type="button">🎤 Voice</button>
+        <button id="voiceStopBtn" type="button">⏹ Stop</button>
+        <div id="voiceStatus">Click Voice to start</div>
+    `;
+
+    document.body.appendChild(panel);
+
+    const style = document.createElement("style");
+
+    style.textContent = `
+        #commonVoiceAssistant {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+        }
+
+        #commonVoiceAssistant button {
+            border: none;
+            border-radius: 25px;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+            background: #3157d5;
+        }
+
+        #commonVoiceAssistant #voiceStopBtn {
+            background: #d93636;
+        }
+
+        #voiceStatus {
+            background: white;
+            color: #222;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            box-shadow: 0 2px 10px #0002;
+        }
+    `;
+
+    document.head.appendChild(style);
+
+    const micBtn = document.getElementById("voiceMicBtn");
+    const stopBtn = document.getElementById("voiceStopBtn");
+    const status = document.getElementById("voiceStatus");
+
+    function speak(text, language) {
+        return new Promise((resolve) => {
+            if (stopped) {
+                resolve();
+                return;
+            }
+
+            speechSynthesis.cancel();
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = language;
+            utterance.rate = 1;
+
+            utterance.onend = resolve;
+            utterance.onerror = resolve;
+
+            speechSynthesis.speak(utterance);
+        });
+    }
+
+    function detectLanguage(text) {
+        return /[\u0B80-\u0BFF]/.test(text)
+            ? "ta-IN"
+            : "en-IN";
+    }
+
+    function startListening() {
+        if (stopped || busy) return;
+
+        if (!SpeechRecognition) {
+            status.textContent =
+                "Voice recognition is not supported. Use Chrome.";
+            return;
+        }
+
+        recognition = new SpeechRecognition();
+
+        // Recognize Tamil and English independently of page language.
+        recognition.lang = "ta-IN";
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        recognition.onstart = function () {
+            status.textContent = "Listening... Speak now";
+        };
+
+        recognition.onresult = async function (event) {
+            const question = event.results[0][0].transcript.trim();
+
+            if (!question || stopped) return;
+
+            const spokenLanguage = detectLanguage(question);
+
+            status.textContent = "Getting your answer...";
+            busy = true;
+
+            currentRequest = new AbortController();
+
+            try {
+                const response = await fetch("/api/chat", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        message: question,
+                        language: spokenLanguage
+                    }),
+                    signal: currentRequest.signal
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.reply || "Chat request failed");
+                }
+
+                if (stopped) return;
+
+                const answer = data.reply || "Sorry, I could not get an answer.";
+
+                status.textContent = "Speaking...";
+
+                await speak(answer, spokenLanguage);
+
+                if (!stopped) {
+                    status.textContent = "Click Voice to ask again";
+                }
+
+            } catch (error) {
+                if (error.name !== "AbortError" && !stopped) {
+                    console.error("Voice assistant error:", error);
+                    status.textContent = "Unable to get an answer. Try again.";
+                }
+            } finally {
+                busy = false;
+                currentRequest = null;
+            }
+        };
+
+        recognition.onerror = function (event) {
+            if (!stopped) {
+                status.textContent =
+                    event.error === "not-allowed"
+                        ? "Please allow microphone permission."
+                        : "Could not recognize. Click Voice again.";
+            }
+        };
+
+        recognition.onend = function () {
+            recognition = null;
+        };
+
+        try {
+            recognition.start();
+        } catch (error) {
+            recognition = null;
+            status.textContent = "Please click Voice again.";
+        }
+    }
+
+    micBtn.addEventListener("click", async function () {
+        if (busy) return;
+
+        stopped = false;
+
+        status.textContent = "Welcome!";
+
+        await speak("Welcome to Citizen Scheme Access", "en-IN");
+
+        if (!stopped) {
+            startListening();
+        }
+    });
+
+    stopBtn.addEventListener("click", function () {
+        stopped = true;
+        busy = false;
+
+        if (recognition) {
+            recognition.abort();
+            recognition = null;
+        }
+
+        if (currentRequest) {
+            currentRequest.abort();
+            currentRequest = null;
+        }
+
+        speechSynthesis.cancel();
+
+        status.textContent = "Voice assistant stopped";
+    });
+
+})();

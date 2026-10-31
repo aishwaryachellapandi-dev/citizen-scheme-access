@@ -74,6 +74,7 @@ DB_CONFIG = {
 }
 
 
+
 # ============================================================
 
 # DATABASE CONNECTION
@@ -240,7 +241,7 @@ def clean_voice_text(text):
 
     text = re.sub(
 
-        r"[**\\[\\]**{}<>]",
+        r"[\[\]{}<>]",
 
         " ",
 
@@ -3555,62 +3556,6 @@ def api_chat():
             })
 
         # ----------------------------------------------------
-        # SMART NAVIGATION: STAGE OVERVIEW -> DASHBOARD
-        # ----------------------------------------------------
-
-        detected_stage = detect_stage_from_question(message)
-        detected_stage_id = get_stage_id_by_keyword(detected_stage)
-
-        if is_stage_overview_question(message, intent):
-
-            # Generic "student" is ambiguous, so do not guess school/college.
-            if detected_stage == "student" or not detected_stage_id:
-                reply = stage_clarification_reply(language)
-
-                return jsonify({
-                    "reply": reply,
-                    "voice_reply": clean_voice_text(reply),
-                    "language": language,
-                    "intent": intent,
-                    "action": "ask_stage",
-                    "target_url": ""
-                })
-
-            reply = navigation_reply(language, "your stage dashboard")
-
-            # Keep the normal dashboard route intact. The selected stage is
-            # updated only when the user explicitly asks for that stage.
-            if session.get("user_id"):
-                connection = get_db_connection()
-                if connection:
-                    cursor = connection.cursor()
-                    try:
-                        cursor.execute("""
-                            UPDATE users
-                            SET stage_id = %s
-                            WHERE user_id = %s
-                        """, (
-                            detected_stage_id,
-                            session.get("user_id")
-                        ))
-                        connection.commit()
-                    except Error as e:
-                        print("Assistant stage update error:", e)
-                        connection.rollback()
-                    finally:
-                        cursor.close()
-                        connection.close()
-
-            return jsonify({
-                "reply": reply,
-                "voice_reply": clean_voice_text(reply),
-                "language": language,
-                "intent": intent,
-                "action": "open_dashboard",
-                "target_url": url_for("dashboard")
-            })
-
-        # ----------------------------------------------------
         # QUESTION CAN ASK ANY STAGE
         # ----------------------------------------------------
 
@@ -4121,6 +4066,45 @@ def logout():
 
 
 # ============================================================
+
+
+# ============================================================
+# VOICE AUDIO TRANSCRIPTION
+# ============================================================
+
+@app.route("/api/transcribe", methods=["POST"])
+def api_transcribe():
+    try:
+        if not groq_client:
+            return jsonify({"error": "Groq service is not configured."}), 503
+
+        audio = request.files.get("audio")
+
+        if not audio:
+            return jsonify({"error": "No audio received."}), 400
+
+        audio_bytes = audio.read()
+
+        if not audio_bytes:
+            return jsonify({"error": "Audio is empty."}), 400
+
+        if len(audio_bytes) > 25 * 1024 * 1024:
+            return jsonify({"error": "Audio file is too large."}), 413
+
+        transcription = groq_client.audio.transcriptions.create(
+            file=("voice.webm", audio_bytes),
+            model="whisper-large-v3-turbo",
+            response_format="json",
+            temperature=0.0
+        )
+
+        return jsonify({
+            "text": transcription.text.strip()
+        })
+
+    except Exception as e:
+        print("Voice transcription error:", e)
+        return jsonify({"error": "Unable to transcribe audio."}), 500
 
 # RUN APPLICATION
 
